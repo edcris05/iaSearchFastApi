@@ -150,13 +150,19 @@ Si. El lineamiento inicial se mantiene y esta mejor alineado ahora:
 - Correcciones con auditoria.
 - Metricas base y export.
 - Integracion Magento resiliente.
+- Validacion de unicidad logica para correcciones activas en API (respuesta HTTP 409 en duplicados).
 
 ## Fase 2 (siguiente recomendada)
-- Unicidad logica en corrections para evitar duplicados activos por clave:
-  platform + tenant_id + locale + attribute_code + raw_phrase + is_active=true
 - API key o auth para endpoints administrativos (corrections/metrics).
 - Catalogo de attributes permitidos por tenant para validacion estricta.
 - Endpoint de lectura de auditoria paginado.
+
+## 8.1 Deploy tecnico recomendado para unicidad en BD
+Para blindar concurrencia y evitar duplicados por carrera, aplicar en PostgreSQL:
+- [docs/sql/001_corrections_active_uniqueness.sql](sql/001_corrections_active_uniqueness.sql)
+
+Clave unica activa aplicada:
+- platform + tenant_id + locale + attribute_code + lower(trim(raw_phrase)) + is_active=true
 
 ## Fase 3 (escala multi-commerce)
 - Namespaces por comercio y versionado de reglas por tenant.

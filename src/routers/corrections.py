@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 
 from src.models.contracts import CorrectionCreate, CorrectionUpdate
-from src.models.corrections import CorrectionsRepository
+from src.models.corrections import CorrectionsRepository, DuplicateActiveCorrectionError
 
 
 corrections_router = APIRouter()
@@ -28,7 +28,16 @@ def list_corrections(
 @corrections_router.post("/", tags=["Corrections"])
 def create_correction(payload: CorrectionCreate):
     repo = CorrectionsRepository()
-    created = repo.create_correction(payload.model_dump())
+    try:
+        created = repo.create_correction(payload.model_dump())
+    except DuplicateActiveCorrectionError as exc:
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "code": "duplicate_active_correction",
+                "existing_id": exc.existing_id,
+            },
+        ) from exc
     return {"ok": True, "correction": created}
 
 
@@ -37,7 +46,16 @@ def update_correction(correction_id: int, payload: CorrectionUpdate):
     repo = CorrectionsRepository()
     body = payload.model_dump(exclude_none=True)
     changed_by = body.pop("changed_by", "system")
-    updated = repo.update_correction(correction_id=correction_id, payload=body, changed_by=changed_by)
+    try:
+        updated = repo.update_correction(correction_id=correction_id, payload=body, changed_by=changed_by)
+    except DuplicateActiveCorrectionError as exc:
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "code": "duplicate_active_correction",
+                "existing_id": exc.existing_id,
+            },
+        ) from exc
     if updated is None:
         raise HTTPException(status_code=404, detail="correction_not_found")
     return {"ok": True, "correction": updated}

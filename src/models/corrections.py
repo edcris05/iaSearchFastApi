@@ -3,6 +3,8 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+import psycopg
+
 from src.models.generic_postgresql import GenericPostgresql
 
 
@@ -17,6 +19,12 @@ class AppliedCorrection:
     new_value_number: Any
     rule_type: str
     priority: int
+
+
+class DuplicateActiveCorrectionError(Exception):
+    def __init__(self, existing_id: int | None = None):
+        super().__init__("duplicate_active_correction")
+        self.existing_id = existing_id
 
 
 class CorrectionsRepository(GenericPostgresql):
@@ -111,10 +119,62 @@ class CorrectionsRepository(GenericPostgresql):
         finally:
             conn.close()
 
+    def _find_active_duplicate_id(
+        self,
+        cursor,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        attribute_code: str,
+        raw_phrase: str,
+        exclude_id: int | None = None,
+    ) -> int | None:
+        query = """
+            SELECT id
+            FROM corrections
+            WHERE platform = %s
+              AND tenant_id = %s
+              AND locale = %s
+              AND attribute_code = %s
+              AND lower(btrim(raw_phrase)) = lower(btrim(%s))
+              AND is_active = true
+        """
+        params: list[Any] = [platform, tenant_id, locale, attribute_code, raw_phrase]
+
+        if exclude_id is not None:
+            query += " AND id <> %s"
+            params.append(exclude_id)
+
+        query += " LIMIT 1"
+        cursor.execute(query, tuple(params))
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        return int(row[0])
+
     def create_correction(self, payload: dict[str, Any]) -> dict[str, Any]:
         conn = self.get_connection()
         try:
             with conn.cursor() as cursor:
+                platform = payload["platform"]
+                tenant_id = payload["tenant_id"]
+                locale = payload.get("locale", "es_AR")
+                attribute_code = payload["attribute_code"]
+                raw_phrase = payload["raw_phrase"]
+                is_active = payload.get("is_active", True)
+
+                if is_active:
+                    duplicate_id = self._find_active_duplicate_id(
+                        cursor=cursor,
+                        platform=platform,
+                        tenant_id=tenant_id,
+                        locale=locale,
+                        attribute_code=attribute_code,
+                        raw_phrase=raw_phrase,
+                    )
+                    if duplicate_id is not None:
+                        raise DuplicateActiveCorrectionError(existing_id=duplicate_id)
+
                 cursor.execute(
                     """
                     INSERT INTO corrections (
@@ -127,16 +187,16 @@ class CorrectionsRepository(GenericPostgresql):
                               rule_type, priority, is_active, created_by, created_at, updated_at
                     """,
                     (
-                        payload["platform"],
-                        payload["tenant_id"],
-                        payload.get("locale", "es_AR"),
-                        payload["attribute_code"],
-                        payload["raw_phrase"],
+                        platform,
+                        tenant_id,
+                        locale,
+                        attribute_code,
+                        raw_phrase,
                         payload.get("corrected_value_string", ""),
                         payload.get("corrected_value_number"),
                         payload.get("rule_type", "exact"),
                         payload.get("priority", 100),
-                        payload.get("is_active", True),
+                        is_active,
                         payload.get("created_by", "system"),
                     ),
                 )
@@ -168,6 +228,9 @@ class CorrectionsRepository(GenericPostgresql):
                     changed_by=created["created_by"],
                 )
                 return created
+        except psycopg.errors.UniqueViolation:
+            conn.rollback()
+            raise DuplicateActiveCorrectionError()
         finally:
             conn.close()
 
@@ -205,6 +268,24 @@ class CorrectionsRepository(GenericPostgresql):
                     "created_at": old_row[12],
                     "updated_at": old_row[13],
                 }
+
+                effective_locale = payload.get("locale", old_data["locale"])
+                effective_attribute_code = payload.get("attribute_code", old_data["attribute_code"])
+                effective_raw_phrase = payload.get("raw_phrase", old_data["raw_phrase"])
+                effective_is_active = payload.get("is_active", old_data["is_active"])
+
+                if effective_is_active:
+                    duplicate_id = self._find_active_duplicate_id(
+                        cursor=cursor,
+                        platform=old_data["platform"],
+                        tenant_id=old_data["tenant_id"],
+                        locale=effective_locale,
+                        attribute_code=effective_attribute_code,
+                        raw_phrase=effective_raw_phrase,
+                        exclude_id=correction_id,
+                    )
+                    if duplicate_id is not None:
+                        raise DuplicateActiveCorrectionError(existing_id=duplicate_id)
 
                 cursor.execute(
                     """
@@ -263,6 +344,9 @@ class CorrectionsRepository(GenericPostgresql):
                     changed_by=changed_by,
                 )
                 return new_data
+        except psycopg.errors.UniqueViolation:
+            conn.rollback()
+            raise DuplicateActiveCorrectionError()
         finally:
             conn.close()
 
