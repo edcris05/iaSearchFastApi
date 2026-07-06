@@ -1,0 +1,156 @@
+Responde como experto en prompts.
+
+Estoy usando ResponseApi de OpenAI para que un usuario pueda escribir en un buscador (en lenguaje natural) las características de teléfono móvil que desea, puede escribir algo como:
+
+Quiero un celular con X de ram, Y de disco duro, color rojo y que cueste menos de 100 dólares.
+
+o
+
+Celular con mucha batería, cámara excelente para fotos nocturnas, y de color rojo o negro.
+
+Quiero un prompt que sea capaz de extraer características de dicha frase.
+
+---Ejemplos Inicio---
+
+Usuario:
+Quiero un celular con 100 de ram, 240 de disco duro, color rojo y que cueste menos de 100 dólares.
+
+Características esperadas:
+
+[
+    "100 de ram",
+    "240 de disco duro",
+    "color rojo",
+    "cueste menos de 100 dólares"
+]
+
+---
+
+Usuario:
+Quiero un celular con al menos 4 gigas de ram, 128 gb de disco duro, color rojo o negro y que cueste menos de 100 dólares
+
+Características esperadas:
+[
+    "Al menos 4 gigas de ram",
+    "128 gb de disco duro",
+    "color rojo",
+    "color negro",
+    "cueste menos de 100 dólares"
+]
+---Fin de Ejemplos.---
+
+
+
+Y que luego evalúe dichas características una a una para que en caso se pueda extraer datos cuantificables de la misma, las retorne en un formato que permita el filtrado, usando estos valores
+-para batería -> min_battery_mah
+-para precios -> price_min/price_max
+-para ram -> min_ram
+-para almacenamiento/memoria interna -> min_storage
+-si no es cuantificable, que retorne la característica como tal.
+
+
+Para ram y almacenamiento:
+- reconoce gb, giga, gigas, tb, tera, terabyte
+- Si usa GB → devuelve gigas
+- Si usa TB → convierte a gigas devuelve gigas
+- Si indica un rango de valores, elige el menor
+
+
+
+    
+Por lo que, el formato final esperado sería:
+
+response":{
+    "price_min":number|null,
+    "price_max":number|null,
+    "min_battery_mah":number|null,
+    "min_ram":string,
+    "min_storage":string,
+    "characteristics":[string]
+}
+
+
+
+Ejemplos 
+
+---Inicio de ejemplos---
+
+Usuario:
+Quiero un celular con 100 de ram, 240 de disco duro, color rojo y que cueste menos de 100 dólares.
+
+JSON esperado:
+
+response":{
+    "price_min":null,
+    "price_max":100,
+    "min_battery_mah":null,
+    "min_ram_gb":100,
+    "min_storage_gb":240,
+    "characteristics": [
+        "color rojo"
+    ]
+}
+
+---
+    
+Usuario:
+Quiero un celular con 100 de ram, 300 de disco duro, color rojo y que cueste entre 100 dólares y 300 dolares.
+
+JSON esperado:
+
+response":{
+    "price_min":100,
+    "price_max":300,
+    "min_battery_mah":null,
+    "min_ram_gb":100,
+    "min_storage_gb":300,
+    "characteristics": [
+        "color rojo"
+    ]
+}
+
+---
+    
+Usuario:
+Entre 100 y 500 de ram, max 240 de disco duro, color rojo y que cueste entre 100 dólares y 300 dolares.
+
+JSON esperado:
+
+response":{
+    "price_min":100,
+    "price_max":300,
+    "min_battery_mah":null,
+    "min_ram_gb": 100,
+    "min_storage_gb": 240,
+    "characteristics": [
+        "color rojo"
+    ]
+}
+
+
+---
+    
+Usuario:
+Celu con 6 de ram, min 240 de disco duro, color rojo,blanco o azul y que cueste máx 300 dolares.
+
+JSON esperado:
+
+response":{
+    "price_min":null,
+    "price_max":300,
+    "min_battery_mah":null,
+    "min_ram_gb": 6,
+    "min_storage_gb": 240,
+    "characteristics": [
+        "color rojo",
+        "color blanco",
+        "color azul"
+    ]
+}
+---Fin de ejemplos---
+
+
+
+    
+Dame el prompt listo para poder ser usado en Python, y que esté optimizado para usar la menor cantidad de tokens. Se puntual
+
