@@ -107,6 +107,7 @@ Campos de contexto recomendados en embedded_phrase:
 
 Nota operativa:
 - Para habilitar este aislamiento, aplicar la migracion [docs/sql/002_embedded_phrase_multitenant.sql](sql/002_embedded_phrase_multitenant.sql).
+- Para datos historicos ya cargados antes del refactor, ejecutar un backfill de scope. Ejemplo Movistar base: [docs/sql/003_embedded_phrase_backfill_movistar_base.sql](sql/003_embedded_phrase_backfill_movistar_base.sql).
 
 ## 5) Endpoints relevantes
 ## 5.1 IA principal
@@ -179,9 +180,14 @@ Clave unica activa aplicada:
 ## 8.2 Deploy tecnico recomendado para embeddings multi-tenant
 Para evitar mezcla de frases y option_ids entre tiendas/comercios que comparten infraestructura:
 - [docs/sql/002_embedded_phrase_multitenant.sql](sql/002_embedded_phrase_multitenant.sql)
+- [docs/sql/003_embedded_phrase_backfill_movistar_base.sql](sql/003_embedded_phrase_backfill_movistar_base.sql)
 
 Contexto de consulta/carga aplicado:
 - platform + tenant_id + locale + store_code
+
+Requisito de rollout correcto:
+- No dejar fallback a scope legacy en codigo.
+- Migrar o reimportar datos historicos al scope real del tenant/store.
 
 ## Fase 3 (escala multi-commerce)
 - Namespaces por comercio y versionado de reglas por tenant.
