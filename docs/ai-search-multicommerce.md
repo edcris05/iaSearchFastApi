@@ -93,9 +93,20 @@ Mejoras aplicadas:
 - umbral minimo de similitud
 - deduplicacion
 - preferencia de candidatos numericos
+- scoping multi-tenant por platform + tenant_id + locale + store_code
 
 Objetivo:
 - Mejorar precision y estabilidad de filtros candidatos antes de correcciones.
+- Evitar contaminacion semantica entre tiendas/comercios que comparten la misma base.
+
+Campos de contexto recomendados en embedded_phrase:
+- platform
+- tenant_id
+- locale
+- store_code
+
+Nota operativa:
+- Para habilitar este aislamiento, aplicar la migracion [docs/sql/002_embedded_phrase_multitenant.sql](sql/002_embedded_phrase_multitenant.sql).
 
 ## 5) Endpoints relevantes
 ## 5.1 IA principal
@@ -132,6 +143,7 @@ Entrega:
 - Provider con timeout/retry/min_similarity configurables.
 - Validacion de contrato de API.
 - Manejo explicito de source/fallback_reason.
+- Envio de contexto multi-tenant desde Magento a FastAPI: platform=magento, tenant_id=website_code, locale=store locale, store_code=store code.
 
 ## 6.2 UX de transparencia
 - Badge visible en resultados para indicar origen IA/fallback.
@@ -163,6 +175,13 @@ Para blindar concurrencia y evitar duplicados por carrera, aplicar en PostgreSQL
 
 Clave unica activa aplicada:
 - platform + tenant_id + locale + attribute_code + lower(trim(raw_phrase)) + is_active=true
+
+## 8.2 Deploy tecnico recomendado para embeddings multi-tenant
+Para evitar mezcla de frases y option_ids entre tiendas/comercios que comparten infraestructura:
+- [docs/sql/002_embedded_phrase_multitenant.sql](sql/002_embedded_phrase_multitenant.sql)
+
+Contexto de consulta/carga aplicado:
+- platform + tenant_id + locale + store_code
 
 ## Fase 3 (escala multi-commerce)
 - Namespaces por comercio y versionado de reglas por tenant.

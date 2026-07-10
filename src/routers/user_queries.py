@@ -95,6 +95,7 @@ def get_response(
     platform: str = "magento",
     tenant_id: str = "default",
     locale: str = "es_AR",
+    store_code: str = "default",
     session_id: str | None = None,
 ):
     request_id = str(uuid.uuid4())
@@ -112,6 +113,10 @@ def get_response(
 
         raw_filters = consult_class.get_embedding_filter_by_attributes(
             attributes=attributes,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
             min_similarity=0.30,
             top_k=2
         )
@@ -166,6 +171,7 @@ def get_response(
         "platform": platform,
         "tenant_id": tenant_id,
         "locale": locale,
+        "store_code": store_code,
     }
 
     try:

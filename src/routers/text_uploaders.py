@@ -12,12 +12,20 @@ text_uploader = APIRouter()
 @text_uploader.post('/phrase', tags=['Uploaders'])
 def upload_phrase(embedded_phrase_data: EmbeddedPhraseUploadBase) -> bool:
     print(embedded_phrase_data)
+    platform = embedded_phrase_data.platform
+    tenant_id = embedded_phrase_data.tenant_id
+    locale = embedded_phrase_data.locale
+    store_code = embedded_phrase_data.store_code
     attribute_code = embedded_phrase_data.attribute_code
     attribute_value_string = embedded_phrase_data.attribute_value_string
     attribute_value_number = embedded_phrase_data.attribute_value_number
     phrase = embedded_phrase_data.phrase
 
     obj = EmbeddedPhrase(
+        platform=platform,
+        tenant_id=tenant_id,
+        locale=locale,
+        store_code=store_code,
         attribute_code=attribute_code,
         attribute_value_string=attribute_value_string,
         attribute_value_number=attribute_value_number,
@@ -32,6 +40,10 @@ def upload_phrase(embedded_phrase_data: EmbeddedPhraseUploadBase) -> bool:
     print(text_used, ' |||||| ', embedding_array)
 
     insertion_result = obj.insert_row(
+        platform=platform,
+        tenant_id=tenant_id,
+        locale=locale,
+        store_code=store_code,
         attribute_code=attribute_code,
         phrase=phrase,
         embedding=embedding_array,

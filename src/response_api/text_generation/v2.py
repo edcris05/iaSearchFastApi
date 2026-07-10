@@ -134,7 +134,16 @@ class GeneratorV2:
                          response_text.strip(), flags=re.MULTILINE).strip()
         return json.loads(cleaned)
 
-    def get_embedding_filter_by_attributes(self, attributes: List, min_similarity: float = 0.30, top_k: int = 2):
+    def get_embedding_filter_by_attributes(
+        self,
+        attributes: List,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+        min_similarity: float = 0.30,
+        top_k: int = 2,
+    ):
         # Si no hay characteristics, no debemos llamar embeddings (OpenAI 400: empty array).
         if not attributes:
             return []
@@ -162,6 +171,10 @@ class GeneratorV2:
         print("RESULTs")
         results = embedded_phrase.select_row(
             embeddings=embedded_texts,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
             min_similarity=min_similarity,
             top_k=top_k
         )

@@ -9,6 +9,10 @@ class EmbeddedPhrase(GenericPostgresql):
     # table columns:
     TABLE_NAME = "embedded_phrase"
     COL_ID = 'id'
+    COL_PLATFORM = 'platform'
+    COL_TENANT_ID = 'tenant_id'
+    COL_LOCALE = 'locale'
+    COL_STORE_CODE = 'store_code'
     COL_ATTRIBUTE_CODE = 'attribute_code'
     COL_ATTRIBUTE_VALUE_STRING = 'attribute_value_string'
     COL_ATTRIBUTE_VALUE_NUMBER = 'attribute_value_number'
@@ -18,6 +22,10 @@ class EmbeddedPhrase(GenericPostgresql):
     def __init__(
         self,
         id: int = 0,
+        platform: str = 'magento',
+        tenant_id: str = 'default',
+        locale: str = 'es_AR',
+        store_code: str = 'default',
         attribute_code: str = '',
         attribute_value_string: str = '',
         attribute_value_number: int | float | None = None,
@@ -25,6 +33,10 @@ class EmbeddedPhrase(GenericPostgresql):
         embedding: List = []
     ):
         self.id = id
+        self.platform = platform
+        self.tenant_id = tenant_id
+        self.locale = locale
+        self.store_code = store_code
         self.attribute_code = attribute_code
         self.attribute_value_string = attribute_value_string
         self.attribute_value_number = attribute_value_number
@@ -34,6 +46,10 @@ class EmbeddedPhrase(GenericPostgresql):
     # TODO: this function may change, and use the class properties instead of receiving new params
     def insert_row(
             self,
+            platform: str,
+            tenant_id: str,
+            locale: str,
+            store_code: str,
             attribute_code: str,
             phrase: str,
             embedding: List,
@@ -43,16 +59,32 @@ class EmbeddedPhrase(GenericPostgresql):
         if attribute_value_string != '':
             attribute_value_number = None
 
-        insert_query = f"insert into {self.TABLE_NAME} ({self.COL_ATTRIBUTE_CODE}, {self.COL_ATTRIBUTE_VALUE_STRING}, {self.COL_ATTRIBUTE_VALUE_NUMBER}, {self.COL_PHRASE},{self.COL_EMBEDDING}) values(%s, %s, %s, %s, %s)"
-        return self.insert_single_row(sql_query=insert_query, data=(attribute_code, attribute_value_string, attribute_value_number, phrase, embedding))
+        insert_query = f"insert into {self.TABLE_NAME} ({self.COL_PLATFORM}, {self.COL_TENANT_ID}, {self.COL_LOCALE}, {self.COL_STORE_CODE}, {self.COL_ATTRIBUTE_CODE}, {self.COL_ATTRIBUTE_VALUE_STRING}, {self.COL_ATTRIBUTE_VALUE_NUMBER}, {self.COL_PHRASE}, {self.COL_EMBEDDING}) values(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        return self.insert_single_row(
+            sql_query=insert_query,
+            data=(platform, tenant_id, locale, store_code, attribute_code, attribute_value_string, attribute_value_number, phrase, embedding)
+        )
 
-    def select_row(self, embeddings: List[float], min_similarity: float = 0.30, top_k: int = 2) -> List:
+    def select_row(
+        self,
+        embeddings: List[float],
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+        min_similarity: float = 0.30,
+        top_k: int = 2,
+    ) -> List:
         best_by_key = {}
         top_k = max(1, min(5, int(top_k)))
 
         dynamic_query = sql.SQL("""
             SELECT attribute_code, attribute_value_string, attribute_value_number, phrase, 1 - (embedding <=> %s::vector) AS similitud
             FROM {tabla}
+            WHERE platform = %s
+              AND tenant_id = %s
+              AND locale = %s
+              AND store_code = %s
             ORDER BY embedding <=> %s::vector
             LIMIT %s;
             """).format(tabla=sql.Identifier(self.TABLE_NAME))
@@ -60,7 +92,7 @@ class EmbeddedPhrase(GenericPostgresql):
         for item in embeddings:
             rows = self.execute_select(
                 sql_query=dynamic_query,
-                data=(item.tolist(), item.tolist(), top_k)
+                data=(item.tolist(), platform, tenant_id, locale, store_code, item.tolist(), top_k)
             )
 
             for row in rows:
