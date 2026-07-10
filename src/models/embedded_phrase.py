@@ -75,6 +75,41 @@ class EmbeddedPhrase(GenericPostgresql):
         min_similarity: float = 0.30,
         top_k: int = 2,
     ) -> List:
+        candidates = self._select_row_for_scope(
+            embeddings=embeddings,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+            min_similarity=min_similarity,
+            top_k=top_k,
+        )
+
+        # Compatibility fallback for pre-migration rows that were backfilled as
+        # default/default before the tenant-aware uploader started sending scope.
+        if candidates or (tenant_id == 'default' and store_code == 'default'):
+            return candidates
+
+        return self._select_row_for_scope(
+            embeddings=embeddings,
+            platform=platform,
+            tenant_id='default',
+            locale=locale,
+            store_code='default',
+            min_similarity=min_similarity,
+            top_k=top_k,
+        )
+
+    def _select_row_for_scope(
+        self,
+        embeddings: List[float],
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+        min_similarity: float,
+        top_k: int,
+    ) -> List:
         best_by_key = {}
         top_k = max(1, min(5, int(top_k)))
 
