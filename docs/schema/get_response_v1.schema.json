@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "get_response_v1.schema.json",
+  "title": "Get Response V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "response",
+    "input_tokens",
+    "output_tokens",
+    "total_tokens",
+    "filters",
+    "applied_corrections",
+    "meta"
+  ],
+  "properties": {
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "price_min",
+        "price_max",
+        "min_battery_mah",
+        "min_ram_gb",
+        "min_storage_gb",
+        "characteristics"
+      ],
+      "properties": {
+        "price_min": { "type": ["integer", "number", "null"] },
+        "price_max": { "type": ["integer", "number", "null"] },
+        "min_battery_mah": { "type": ["integer", "number", "null"] },
+        "min_ram_gb": { "type": ["integer", "number", "null"] },
+        "min_storage_gb": { "type": ["integer", "number", "null"] },
+        "characteristics": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "input_tokens": { "type": "integer" },
+    "output_tokens": { "type": "integer" },
+    "total_tokens": { "type": "integer" },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "prefixItems": [
+            { "type": "string" },
+            { "type": "string" },
+            { "type": ["integer", "number", "null"] },
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "minItems": 5,
+          "maxItems": 5,
+          "items": false
+        }
+      }
+    },
+    "applied_corrections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "correction_id",
+          "attribute_code",
+          "raw_phrase",
+          "old_value_string",
+          "old_value_number",
+          "new_value_string",
+          "new_value_number",
+          "rule_type",
+          "priority"
+        ],
+        "properties": {
+          "correction_id": { "type": "integer" },
+          "attribute_code": { "type": "string" },
+          "raw_phrase": { "type": "string" },
+          "old_value_string": { "type": "string" },
+          "old_value_number": { "type": ["integer", "number", "null"] },
+          "new_value_string": { "type": "string" },
+          "new_value_number": { "type": ["integer", "number", "null"] },
+          "rule_type": { "type": "string" },
+          "priority": { "type": "integer" }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "api_version",
+        "request_id",
+        "source",
+        "fallback_reason",
+        "latency_ms",
+        "platform",
+        "tenant_id",
+        "locale",
+        "store_code"
+      ],
+      "properties": {
+        "api_version": { "type": "string" },
+        "request_id": { "type": "string" },
+        "source": { "type": "string" },
+        "fallback_reason": { "type": ["string", "null"] },
+        "latency_ms": { "type": "integer" },
+        "platform": { "type": "string" },
+        "tenant_id": { "type": "string" },
+        "locale": { "type": "string" },
+        "store_code": { "type": "string" }
+      }
+    }
+  }
+}

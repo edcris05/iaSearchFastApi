@@ -1,8 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any
 
 
-class CorrectionCreate(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class CorrectionCreate(StrictBaseModel):
     platform: str = Field(..., min_length=1)
     tenant_id: str = Field(..., min_length=1)
     locale: str = Field(default="es_AR", min_length=2)
@@ -16,7 +20,7 @@ class CorrectionCreate(BaseModel):
     created_by: str = "system"
 
 
-class CorrectionUpdate(BaseModel):
+class CorrectionUpdate(StrictBaseModel):
     locale: str | None = None
     attribute_code: str | None = None
     raw_phrase: str | None = None
@@ -28,7 +32,7 @@ class CorrectionUpdate(BaseModel):
     changed_by: str = "system"
 
 
-class SearchEventIn(BaseModel):
+class SearchEventIn(StrictBaseModel):
     request_id: str
     platform: str
     tenant_id: str
@@ -42,3 +46,46 @@ class SearchEventIn(BaseModel):
     filters: list[Any] = []
     product_id: str | None = None
     position: int | None = None
+
+
+class SearchIntentResponse(StrictBaseModel):
+    price_min: int | float | None = None
+    price_max: int | float | None = None
+    min_battery_mah: int | float | None = None
+    min_ram_gb: int | float | None = None
+    min_storage_gb: int | float | None = None
+    characteristics: list[str] = []
+
+
+class AppliedCorrectionOut(StrictBaseModel):
+    correction_id: int
+    attribute_code: str
+    raw_phrase: str
+    old_value_string: str
+    old_value_number: int | float | None = None
+    new_value_string: str
+    new_value_number: int | float | None = None
+    rule_type: str
+    priority: int
+
+
+class SearchResponseMeta(StrictBaseModel):
+    api_version: str
+    request_id: str
+    source: str
+    fallback_reason: str | None = None
+    latency_ms: int
+    platform: str
+    tenant_id: str
+    locale: str
+    store_code: str
+
+
+class SearchResponseOut(StrictBaseModel):
+    response: SearchIntentResponse
+    input_tokens: int
+    output_tokens: int
+    total_tokens: int
+    filters: list[list[tuple[str, str, int | float | None, str, float]]] = []
+    applied_corrections: list[AppliedCorrectionOut] = []
+    meta: SearchResponseMeta

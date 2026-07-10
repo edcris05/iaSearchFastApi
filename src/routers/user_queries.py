@@ -5,6 +5,7 @@ from typing import Any
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from src.models.contracts import SearchResponseOut
 from src.response_api.text_generation.v2 import GeneratorV2
 from src.models.corrections import CorrectionsRepository
 from src.models.search_event import SearchEventRepository
@@ -97,7 +98,7 @@ def get_response(
     locale: str = "es_AR",
     store_code: str = "default",
     session_id: str | None = None,
-):
+) -> SearchResponseOut:
     request_id = str(uuid.uuid4())
     started_at = time.time()
     source = "ia"
@@ -158,7 +159,8 @@ def get_response(
             "input_tokens": 0,
             "output_tokens": 0,
             "total_tokens": 0,
-            "filters": []
+            "filters": [],
+            "applied_corrections": [],
         }
 
     latency_ms = int((time.time() - started_at) * 1000)
@@ -196,7 +198,8 @@ def get_response(
     except Exception:
         pass
 
-    ia_response = JSONResponse(content=jsonable_encoder(content))
+    response_payload = SearchResponseOut.model_validate(content)
+    ia_response = JSONResponse(content=jsonable_encoder(response_payload.model_dump()))
     return ia_response
 
 # # With v1

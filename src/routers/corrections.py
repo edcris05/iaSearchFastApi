@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from src.models.contracts import CorrectionCreate, CorrectionUpdate
 from src.models.corrections import CorrectionsRepository, DuplicateActiveCorrectionError
+from src.utils.auth import require_admin_api_key
 
 
-corrections_router = APIRouter()
+corrections_router = APIRouter(dependencies=[Depends(require_admin_api_key)])
 
 
 @corrections_router.get("/", tags=["Corrections"])

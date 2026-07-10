@@ -119,6 +119,9 @@ Entrega:
 - applied_corrections
 - meta (api_version, request_id, source, fallback_reason, latency_ms, contexto)
 
+Schema versionado:
+- [docs/schema/get_response_v1.schema.json](schema/get_response_v1.schema.json)
+
 ## 5.2 Correcciones
 - GET /corrections/
 - POST /corrections/
@@ -169,6 +172,10 @@ Si. El lineamiento inicial se mantiene y esta mejor alineado ahora:
 - API key o auth para endpoints administrativos (corrections/metrics).
 - Catalogo de attributes permitidos por tenant para validacion estricta.
 - Endpoint de lectura de auditoria paginado.
+
+Estado actual:
+- `corrections` y `metrics` soportan proteccion por header `X-API-Key` si se define `ADMIN_API_KEY` en entorno.
+- El rollout es backward-compatible mientras `ADMIN_API_KEY` no este configurado.
 
 ## 8.1 Deploy tecnico recomendado para unicidad en BD
 Para blindar concurrencia y evitar duplicados por carrera, aplicar en PostgreSQL:

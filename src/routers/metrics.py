@@ -1,13 +1,14 @@
 from datetime import datetime
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import PlainTextResponse
 
 from src.models.contracts import SearchEventIn
 from src.models.search_event import SearchEventRepository
+from src.utils.auth import require_admin_api_key
 
 
-metrics_router = APIRouter()
+metrics_router = APIRouter(dependencies=[Depends(require_admin_api_key)])
 
 
 def _parse_iso_dt(value: str) -> datetime:
