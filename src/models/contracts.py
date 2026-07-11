@@ -63,6 +63,8 @@ class RetrievalCandidateOut(StrictBaseModel):
     attribute_value_number: int | float | None = None
     phrase: str = ""
     similarity: float
+    final_score: float | None = None
+    business_boost: float | None = None
 
 
 class RetrievalConfidenceOut(StrictBaseModel):
@@ -72,11 +74,25 @@ class RetrievalConfidenceOut(StrictBaseModel):
     confidence_band: str
 
 
+class RetrievalRerankWeightsOut(StrictBaseModel):
+    semantic: float
+    margin: float
+    business: float
+
+
+class RetrievalRerankOut(StrictBaseModel):
+    version: str
+    selected_score: float
+    selected_reason: str
+    weights: RetrievalRerankWeightsOut
+
+
 class RetrievalAttributeOut(StrictBaseModel):
     attribute_code: str
     selected: RetrievalCandidateOut
     top_k: list[RetrievalCandidateOut] = []
     confidence: RetrievalConfidenceOut
+    rerank: RetrievalRerankOut
 
 
 class RetrievalOut(StrictBaseModel):

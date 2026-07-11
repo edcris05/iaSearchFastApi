@@ -11,3 +11,13 @@ Retrieval tuning:
 - Per-attribute threshold override is controlled by env var `EMBEDDING_MIN_SIMILARITY_BY_ATTRIBUTE` as JSON.
 - Example: `{\"color\":0.5,\"movistar_screentechnology\":0.42}`.
 - Keep tenant/provider-specific attribute codes out of source defaults; define them per environment.
+
+Rerank tuning (retrieval):
+- `RETRIEVAL_RERANK_VERSION` (default: `rerank_v1`).
+- `RETRIEVAL_RERANK_WEIGHTS` as JSON (default semantic/margin/business = `0.80/0.10/0.10`).
+- `RETRIEVAL_BUSINESS_BOOSTS` as JSON map.
+- Boost key formats supported:
+	- `attribute_code::attribute_value_number` (e.g. `color::133`)
+	- `attribute_code::attribute_value_string` (e.g. `brand::samsung`)
+	- `phrase::phrase text`
+	- `attr::attribute_code`

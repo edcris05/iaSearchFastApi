@@ -1,3 +1,5 @@
+import json
+import os
 from typing import List
 
 from psycopg import sql
@@ -18,6 +20,12 @@ class EmbeddedPhrase(GenericPostgresql):
     COL_ATTRIBUTE_VALUE_NUMBER = 'attribute_value_number'
     COL_PHRASE = 'phrase'
     COL_EMBEDDING = 'embedding'
+    DEFAULT_RERANK_VERSION = 'rerank_v1'
+    DEFAULT_RERANK_WEIGHTS = {
+        'semantic': 0.80,
+        'margin': 0.10,
+        'business': 0.10,
+    }
 
     def __init__(
         self,
@@ -123,6 +131,7 @@ class EmbeddedPhrase(GenericPostgresql):
     ) -> dict:
         best_by_key = {}
         top_k = max(1, min(5, int(top_k)))
+        rerank_cfg = self._load_rerank_config()
 
         dynamic_query = sql.SQL("""
             SELECT attribute_code, attribute_value_string, attribute_value_number, phrase, 1 - (embedding <=> %s::vector) AS similitud
@@ -187,11 +196,42 @@ class EmbeddedPhrase(GenericPostgresql):
             if not top_rows:
                 continue
 
-            selected = top_rows[0]
+            second_similarity = float(top_rows[1][4]) if len(top_rows) > 1 else None
+            margin_component = (
+                max(float(top_rows[0][4]) - second_similarity, 0.0)
+                if second_similarity is not None
+                else 0.0
+            )
+
+            scored_rows = []
+            for row in top_rows:
+                business_boost = self._resolve_business_boost(
+                    attribute_code=str(row[0]),
+                    attribute_value_string=str(row[1] if row[1] is not None else ""),
+                    attribute_value_number=row[2],
+                    phrase=str(row[3] if row[3] is not None else ""),
+                    boosts=rerank_cfg['business_boosts'],
+                )
+
+                final_score = (
+                    rerank_cfg['weights']['semantic'] * float(row[4])
+                    + rerank_cfg['weights']['margin'] * margin_component
+                    + rerank_cfg['weights']['business'] * business_boost
+                )
+
+                scored_rows.append({
+                    'row': row,
+                    'business_boost': float(business_boost),
+                    'final_score': float(final_score),
+                })
+
+            scored_rows.sort(key=lambda x: x['final_score'], reverse=True)
+
+            selected_entry = scored_rows[0]
+            selected = selected_entry['row']
             selected_filters.append([[selected[0], selected[1], selected[2], selected[3], selected[4]]])
 
             top_similarity = float(top_rows[0][4])
-            second_similarity = float(top_rows[1][4]) if len(top_rows) > 1 else None
             margin = (top_similarity - second_similarity) if second_similarity is not None else None
 
             if top_similarity >= 0.85 and (margin is None or margin >= 0.08):
@@ -210,22 +250,40 @@ class EmbeddedPhrase(GenericPostgresql):
                         "attribute_value_number": selected[2],
                         "phrase": selected[3],
                         "similarity": float(selected[4]),
+                        "final_score": float(selected_entry['final_score']),
+                        "business_boost": float(selected_entry['business_boost']),
                     },
                     "top_k": [
                         {
-                            "attribute_code": row[0],
-                            "attribute_value_string": row[1],
-                            "attribute_value_number": row[2],
-                            "phrase": row[3],
-                            "similarity": float(row[4]),
+                            "attribute_code": item['row'][0],
+                            "attribute_value_string": item['row'][1],
+                            "attribute_value_number": item['row'][2],
+                            "phrase": item['row'][3],
+                            "similarity": float(item['row'][4]),
+                            "final_score": float(item['final_score']),
+                            "business_boost": float(item['business_boost']),
                         }
-                        for row in top_rows
+                        for item in scored_rows
                     ],
                     "confidence": {
                         "top_similarity": top_similarity,
                         "second_similarity": second_similarity,
                         "margin": margin,
                         "confidence_band": confidence_band,
+                    },
+                    "rerank": {
+                        "version": rerank_cfg['version'],
+                        "selected_score": float(selected_entry['final_score']),
+                        "selected_reason": (
+                            f"semantic={float(selected[4]):.4f};"
+                            f"margin={margin_component:.4f};"
+                            f"business={float(selected_entry['business_boost']):.4f}"
+                        ),
+                        "weights": {
+                            "semantic": float(rerank_cfg['weights']['semantic']),
+                            "margin": float(rerank_cfg['weights']['margin']),
+                            "business": float(rerank_cfg['weights']['business']),
+                        },
                     },
                 }
             )
@@ -239,6 +297,73 @@ class EmbeddedPhrase(GenericPostgresql):
                 "attributes": retrieval_attributes,
             },
         }
+
+    def _load_rerank_config(self) -> dict:
+        version = os.getenv('RETRIEVAL_RERANK_VERSION', self.DEFAULT_RERANK_VERSION).strip() or self.DEFAULT_RERANK_VERSION
+
+        weights = dict(self.DEFAULT_RERANK_WEIGHTS)
+        raw_weights = os.getenv('RETRIEVAL_RERANK_WEIGHTS', '').strip()
+        if raw_weights != '':
+            try:
+                parsed = json.loads(raw_weights)
+                if isinstance(parsed, dict):
+                    for key in ('semantic', 'margin', 'business'):
+                        if key in parsed:
+                            weights[key] = float(parsed[key])
+            except Exception:
+                pass
+
+        total = sum(max(v, 0.0) for v in weights.values())
+        if total <= 0:
+            weights = dict(self.DEFAULT_RERANK_WEIGHTS)
+            total = sum(weights.values())
+        weights = {k: max(v, 0.0) / total for k, v in weights.items()}
+
+        boosts = {}
+        raw_boosts = os.getenv('RETRIEVAL_BUSINESS_BOOSTS', '').strip()
+        if raw_boosts != '':
+            try:
+                parsed = json.loads(raw_boosts)
+                if isinstance(parsed, dict):
+                    for key, value in parsed.items():
+                        boosts[str(key).strip().lower()] = float(value)
+            except Exception:
+                pass
+
+        return {
+            'version': version,
+            'weights': weights,
+            'business_boosts': boosts,
+        }
+
+    def _resolve_business_boost(
+        self,
+        attribute_code: str,
+        attribute_value_string: str,
+        attribute_value_number,
+        phrase: str,
+        boosts: dict,
+    ) -> float:
+        if not boosts:
+            return 0.0
+
+        attr = attribute_code.strip().lower()
+        value_string = attribute_value_string.strip().lower()
+        value_number = '' if attribute_value_number is None else str(attribute_value_number).strip().lower()
+        phrase_l = phrase.strip().lower()
+
+        keys = [
+            f'{attr}::{value_number}' if value_number != '' else '',
+            f'{attr}::{value_string}' if value_string != '' else '',
+            f'phrase::{phrase_l}' if phrase_l != '' else '',
+            f'attr::{attr}' if attr != '' else '',
+        ]
+
+        for key in keys:
+            if key and key in boosts:
+                return float(boosts[key])
+
+        return 0.0
         # print("EMBEDDING1 type")
         # print(type(embedding1))
         # dynamic_query = sql.SQL("""

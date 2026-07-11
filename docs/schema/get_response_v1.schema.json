@@ -73,7 +73,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["attribute_code", "selected", "top_k", "confidence"],
+            "required": ["attribute_code", "selected", "top_k", "confidence", "rerank"],
             "properties": {
               "attribute_code": { "type": "string" },
               "selected": {
@@ -92,6 +92,26 @@
                   "second_similarity": { "type": ["number", "null"] },
                   "margin": { "type": ["number", "null"] },
                   "confidence_band": { "type": "string", "enum": ["high", "medium", "low"] }
+                }
+              },
+              "rerank": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["version", "selected_score", "selected_reason", "weights"],
+                "properties": {
+                  "version": { "type": "string" },
+                  "selected_score": { "type": "number" },
+                  "selected_reason": { "type": "string" },
+                  "weights": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["semantic", "margin", "business"],
+                    "properties": {
+                      "semantic": { "type": "number" },
+                      "margin": { "type": "number" },
+                      "business": { "type": "number" }
+                    }
+                  }
                 }
               }
             }
@@ -171,7 +191,9 @@
         "attribute_value_string": { "type": "string" },
         "attribute_value_number": { "type": ["integer", "number", "null"] },
         "phrase": { "type": "string" },
-        "similarity": { "type": "number" }
+        "similarity": { "type": "number" },
+        "final_score": { "type": ["number", "null"] },
+        "business_boost": { "type": ["number", "null"] }
       }
     }
   }
