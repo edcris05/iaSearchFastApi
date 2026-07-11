@@ -1,18 +1,35 @@
+from pathlib import Path
+
 from dotenv import load_dotenv
 import os
 import psycopg
 
-load_dotenv()
+
+def _load_project_env() -> None:
+    # Resolve .env from repository root even when process cwd differs.
+    env_path = Path(__file__).resolve().parents[3] / ".env"
+    load_dotenv(dotenv_path=env_path, override=False)
+
+
+def _env(name: str, default: str | None = None) -> str | None:
+    value = os.getenv(name, default)
+    if value is None:
+        return None
+    return str(value).strip().strip('"').strip("'")
+
+
+_load_project_env()
 
 
 class PostgreSqlConnector:
     def __init__(self):
+        password = _env("PSQL_DB_PASSWORD") or _env("PSQL_PASSWORD")
         self.connection = psycopg.connect(
-            host=os.getenv("PSQL_HOST"),
-            port=os.getenv("PSQL_PORT"),
-            dbname=os.getenv("PSQL_DBNAME"),
-            user=os.getenv("PSQL_DB_USER"),
-            password=os.getenv("PSQL_DB_PASSWORD"),
+            host=_env("PSQL_HOST"),
+            port=_env("PSQL_PORT"),
+            dbname=_env("PSQL_DBNAME"),
+            user=_env("PSQL_DB_USER"),
+            password=password,
         )
 
     def get_connection(self):
