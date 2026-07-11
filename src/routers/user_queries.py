@@ -112,17 +112,23 @@ def _load_attribute_min_similarity(global_min_similarity: float) -> dict[str, fl
         for key, value in DEFAULT_ATTRIBUTE_MIN_SIMILARITY.items()
     }
 
+    def enforce_global_min(values: dict[str, float]) -> dict[str, float]:
+        for key, value in list(values.items()):
+            if value < global_min_similarity:
+                values[key] = global_min_similarity
+        return values
+
     raw = os.getenv("EMBEDDING_MIN_SIMILARITY_BY_ATTRIBUTE", "").strip()
     if raw == "":
-        return thresholds
+        return enforce_global_min(thresholds)
 
     try:
         parsed = json.loads(raw)
     except Exception:
-        return thresholds
+        return enforce_global_min(thresholds)
 
     if not isinstance(parsed, dict):
-        return thresholds
+        return enforce_global_min(thresholds)
 
     for key, value in parsed.items():
         attr = str(key).strip()
@@ -135,11 +141,7 @@ def _load_attribute_min_similarity(global_min_similarity: float) -> dict[str, fl
         thresholds[attr] = max(0.0, min(1.0, numeric))
 
     # Nunca usar un umbral por atributo menor al umbral global.
-    for key, value in list(thresholds.items()):
-        if value < global_min_similarity:
-            thresholds[key] = global_min_similarity
-
-    return thresholds
+    return enforce_global_min(thresholds)
 
 
 @user_queries_router.get('/', tags=['User Queries'])
