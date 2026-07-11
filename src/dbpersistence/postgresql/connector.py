@@ -8,7 +8,8 @@ import psycopg
 def _load_project_env() -> None:
     # Resolve .env from repository root even when process cwd differs.
     env_path = Path(__file__).resolve().parents[3] / ".env"
-    load_dotenv(dotenv_path=env_path, override=False)
+    # Override is required because some runtimes inject empty vars that shadow .env.
+    load_dotenv(dotenv_path=env_path, override=True)
 
 
 def _env(name: str, default: str | None = None) -> str | None:
