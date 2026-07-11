@@ -143,6 +143,7 @@ class GeneratorV2:
         store_code: str,
         min_similarity: float = 0.30,
         top_k: int = 2,
+        attribute_min_similarity: dict[str, float] | None = None,
     ):
         # Si no hay characteristics, no debemos llamar embeddings (OpenAI 400: empty array).
         if not attributes:
@@ -169,14 +170,15 @@ class GeneratorV2:
         print(embedded_texts)
         print("SelectedFromPostgreSql:")
         print("RESULTs")
-        results = embedded_phrase.select_row(
+        results = embedded_phrase.select_row_with_diagnostics(
             embeddings=embedded_texts,
             platform=platform,
             tenant_id=tenant_id,
             locale=locale,
             store_code=store_code,
             min_similarity=min_similarity,
-            top_k=top_k
+            top_k=top_k,
+            attribute_min_similarity=attribute_min_similarity,
         )
         print("RESULTs2")
         print(results)

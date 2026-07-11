@@ -10,6 +10,7 @@
     "output_tokens",
     "total_tokens",
     "filters",
+    "retrieval",
     "applied_corrections",
     "meta"
   ],
@@ -56,6 +57,45 @@
           "minItems": 5,
           "maxItems": 5,
           "items": false
+        }
+      }
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "top_k", "min_similarity", "attributes"],
+      "properties": {
+        "strategy": { "type": "string" },
+        "top_k": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "min_similarity": { "type": "number" },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["attribute_code", "selected", "top_k", "confidence"],
+            "properties": {
+              "attribute_code": { "type": "string" },
+              "selected": {
+                "$ref": "#/$defs/retrievalCandidate"
+              },
+              "top_k": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/retrievalCandidate" }
+              },
+              "confidence": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["top_similarity", "second_similarity", "margin", "confidence_band"],
+                "properties": {
+                  "top_similarity": { "type": "number" },
+                  "second_similarity": { "type": ["number", "null"] },
+                  "margin": { "type": ["number", "null"] },
+                  "confidence_band": { "type": "string", "enum": ["high", "medium", "low"] }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -112,6 +152,26 @@
         "tenant_id": { "type": "string" },
         "locale": { "type": "string" },
         "store_code": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "retrievalCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attribute_code",
+        "attribute_value_string",
+        "attribute_value_number",
+        "phrase",
+        "similarity"
+      ],
+      "properties": {
+        "attribute_code": { "type": "string" },
+        "attribute_value_string": { "type": "string" },
+        "attribute_value_number": { "type": ["integer", "number", "null"] },
+        "phrase": { "type": "string" },
+        "similarity": { "type": "number" }
       }
     }
   }

@@ -1,3 +1,5 @@
+import json
+import os
 import time
 import uuid
 from typing import Any
@@ -13,6 +15,12 @@ from src.models.search_event import SearchEventRepository
 user_queries_router = APIRouter()
 
 SUPPORTED_API_VERSION = "v1"
+# Baseline global defaults should remain provider-agnostic.
+# Project/tenant-specific attribute codes must be configured via env var
+# EMBEDDING_MIN_SIMILARITY_BY_ATTRIBUTE in each deployment.
+DEFAULT_ATTRIBUTE_MIN_SIMILARITY = {
+    "color": 0.45,
+}
 
 
 def _to_number_or_none(value: Any):
@@ -89,6 +97,51 @@ def _to_int(value: Any) -> int:
         return 0
 
 
+def _empty_retrieval(top_k: int, min_similarity: float) -> dict:
+    return {
+        "strategy": "top_k_per_attribute",
+        "top_k": max(1, min(5, int(top_k))),
+        "min_similarity": float(min_similarity),
+        "attributes": [],
+    }
+
+
+def _load_attribute_min_similarity(global_min_similarity: float) -> dict[str, float]:
+    thresholds = {
+        key: float(max(0.0, min(1.0, value)))
+        for key, value in DEFAULT_ATTRIBUTE_MIN_SIMILARITY.items()
+    }
+
+    raw = os.getenv("EMBEDDING_MIN_SIMILARITY_BY_ATTRIBUTE", "").strip()
+    if raw == "":
+        return thresholds
+
+    try:
+        parsed = json.loads(raw)
+    except Exception:
+        return thresholds
+
+    if not isinstance(parsed, dict):
+        return thresholds
+
+    for key, value in parsed.items():
+        attr = str(key).strip()
+        if attr == "":
+            continue
+        try:
+            numeric = float(value)
+        except Exception:
+            continue
+        thresholds[attr] = max(0.0, min(1.0, numeric))
+
+    # Nunca usar un umbral por atributo menor al umbral global.
+    for key, value in list(thresholds.items()):
+        if value < global_min_similarity:
+            thresholds[key] = global_min_similarity
+
+    return thresholds
+
+
 @user_queries_router.get('/', tags=['User Queries'])
 @user_queries_router.get('/v1', tags=['User Queries'])
 def get_response(
@@ -98,11 +151,18 @@ def get_response(
     locale: str = "es_AR",
     store_code: str = "default",
     session_id: str | None = None,
+    min_similarity: float = 0.30,
+    top_k: int = 3,
 ) -> SearchResponseOut:
     request_id = str(uuid.uuid4())
     started_at = time.time()
     source = "ia"
     fallback_reason = None
+
+    top_k = max(1, min(5, int(top_k)))
+    if min_similarity < 0.0 or min_similarity > 1.0:
+        min_similarity = 0.30
+    attribute_min_similarity = _load_attribute_min_similarity(min_similarity)
 
     try:
         consult_class = GeneratorV2()
@@ -112,15 +172,23 @@ def get_response(
         )
         attributes = response_payload.get('characteristics', [])
 
-        raw_filters = consult_class.get_embedding_filter_by_attributes(
+        retrieval_payload = consult_class.get_embedding_filter_by_attributes(
             attributes=attributes,
             platform=platform,
             tenant_id=tenant_id,
             locale=locale,
             store_code=store_code,
-            min_similarity=0.30,
-            top_k=2
+            min_similarity=min_similarity,
+            top_k=top_k,
+            attribute_min_similarity=attribute_min_similarity,
         )
+        if isinstance(retrieval_payload, dict):
+            raw_filters = retrieval_payload.get("selected_filters", [])
+            retrieval = retrieval_payload.get("retrieval", _empty_retrieval(top_k=top_k, min_similarity=min_similarity))
+        else:
+            raw_filters = retrieval_payload
+            retrieval = _empty_retrieval(top_k=top_k, min_similarity=min_similarity)
+
         filters = _normalize_filters(raw_filters)
 
         corrections_repo = CorrectionsRepository()
@@ -132,9 +200,14 @@ def get_response(
             locale=locale,
         )
 
-        if not filters:
+        if filters:
+            source = "semantic"
+        elif attributes:
             source = "fallback"
             fallback_reason = "empty_embedding_matches"
+        else:
+            source = "ia"
+            fallback_reason = None
 
         content = {
             "response": response_payload,
@@ -142,6 +215,7 @@ def get_response(
             "output_tokens": _to_int(raw_content.get("output_tokens", 0) if isinstance(raw_content, dict) else 0),
             "total_tokens": _to_int(raw_content.get("total_tokens", 0) if isinstance(raw_content, dict) else 0),
             "filters": filters,
+            "retrieval": retrieval,
             "applied_corrections": applied_corrections,
         }
     except Exception:
@@ -160,6 +234,7 @@ def get_response(
             "output_tokens": 0,
             "total_tokens": 0,
             "filters": [],
+            "retrieval": _empty_retrieval(top_k=top_k, min_similarity=min_similarity),
             "applied_corrections": [],
         }
 

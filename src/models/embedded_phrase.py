@@ -74,7 +74,31 @@ class EmbeddedPhrase(GenericPostgresql):
         store_code: str,
         min_similarity: float = 0.30,
         top_k: int = 2,
+        attribute_min_similarity: dict[str, float] | None = None,
     ) -> List:
+        result = self.select_row_with_diagnostics(
+            embeddings=embeddings,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+            min_similarity=min_similarity,
+            top_k=top_k,
+            attribute_min_similarity=attribute_min_similarity,
+        )
+        return result["selected_filters"]
+
+    def select_row_with_diagnostics(
+        self,
+        embeddings: List[float],
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+        min_similarity: float = 0.30,
+        top_k: int = 2,
+        attribute_min_similarity: dict[str, float] | None = None,
+    ) -> dict:
         return self._select_row_for_scope(
             embeddings=embeddings,
             platform=platform,
@@ -83,6 +107,7 @@ class EmbeddedPhrase(GenericPostgresql):
             store_code=store_code,
             min_similarity=min_similarity,
             top_k=top_k,
+            attribute_min_similarity=attribute_min_similarity,
         )
 
     def _select_row_for_scope(
@@ -94,7 +119,8 @@ class EmbeddedPhrase(GenericPostgresql):
         store_code: str,
         min_similarity: float,
         top_k: int,
-    ) -> List:
+        attribute_min_similarity: dict[str, float] | None,
+    ) -> dict:
         best_by_key = {}
         top_k = max(1, min(5, int(top_k)))
 
@@ -122,7 +148,11 @@ class EmbeddedPhrase(GenericPostgresql):
                 phrase = row[3] if row[3] is not None else ""
                 similarity = float(row[4]) if row[4] is not None else 0.0
 
-                if similarity < min_similarity:
+                threshold = min_similarity
+                if isinstance(attribute_min_similarity, dict):
+                    threshold = float(attribute_min_similarity.get(attribute_code, min_similarity))
+
+                if similarity < threshold:
                     continue
 
                 key = f"{attribute_code}::{attribute_value_string}::{attribute_value_number}"
@@ -138,25 +168,77 @@ class EmbeddedPhrase(GenericPostgresql):
 
         candidates = list(best_by_key.values())
 
-        # Si existe candidate numérico para un atributo, descartamos candidates string-only
-        # para reducir ruido por frases duplicadas sin option_id.
         by_attr = {}
         for row in candidates:
             attr = row[0]
             by_attr.setdefault(attr, []).append(row)
 
-        filtered = []
-        for attr_rows in by_attr.values():
+        selected_filters = []
+        retrieval_attributes = []
+
+        for attr, attr_rows in by_attr.items():
             has_numeric = any(r[2] is not None and str(r[2]) != "" for r in attr_rows)
             rows = attr_rows
             if has_numeric:
                 rows = [r for r in attr_rows if r[2] is not None and str(r[2]) != ""]
 
             rows.sort(key=lambda r: float(r[4]), reverse=True)
-            filtered.extend(rows)
+            top_rows = rows[:top_k]
+            if not top_rows:
+                continue
 
-        # Formato esperado por Magento: [[field, value_string, value_number, phrase, similarity], ...] por grupo.
-        return [[[row[0], row[1], row[2], row[3], row[4]]] for row in filtered]
+            selected = top_rows[0]
+            selected_filters.append([[selected[0], selected[1], selected[2], selected[3], selected[4]]])
+
+            top_similarity = float(top_rows[0][4])
+            second_similarity = float(top_rows[1][4]) if len(top_rows) > 1 else None
+            margin = (top_similarity - second_similarity) if second_similarity is not None else None
+
+            if top_similarity >= 0.85 and (margin is None or margin >= 0.08):
+                confidence_band = "high"
+            elif top_similarity >= 0.65:
+                confidence_band = "medium"
+            else:
+                confidence_band = "low"
+
+            retrieval_attributes.append(
+                {
+                    "attribute_code": attr,
+                    "selected": {
+                        "attribute_code": selected[0],
+                        "attribute_value_string": selected[1],
+                        "attribute_value_number": selected[2],
+                        "phrase": selected[3],
+                        "similarity": float(selected[4]),
+                    },
+                    "top_k": [
+                        {
+                            "attribute_code": row[0],
+                            "attribute_value_string": row[1],
+                            "attribute_value_number": row[2],
+                            "phrase": row[3],
+                            "similarity": float(row[4]),
+                        }
+                        for row in top_rows
+                    ],
+                    "confidence": {
+                        "top_similarity": top_similarity,
+                        "second_similarity": second_similarity,
+                        "margin": margin,
+                        "confidence_band": confidence_band,
+                    },
+                }
+            )
+
+        return {
+            "selected_filters": selected_filters,
+            "retrieval": {
+                "strategy": "top_k_per_attribute",
+                "top_k": top_k,
+                "min_similarity": float(min_similarity),
+                "attributes": retrieval_attributes,
+            },
+        }
         # print("EMBEDDING1 type")
         # print(type(embedding1))
         # dynamic_query = sql.SQL("""

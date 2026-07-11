@@ -57,6 +57,35 @@ class SearchIntentResponse(StrictBaseModel):
     characteristics: list[str] = []
 
 
+class RetrievalCandidateOut(StrictBaseModel):
+    attribute_code: str
+    attribute_value_string: str = ""
+    attribute_value_number: int | float | None = None
+    phrase: str = ""
+    similarity: float
+
+
+class RetrievalConfidenceOut(StrictBaseModel):
+    top_similarity: float
+    second_similarity: float | None = None
+    margin: float | None = None
+    confidence_band: str
+
+
+class RetrievalAttributeOut(StrictBaseModel):
+    attribute_code: str
+    selected: RetrievalCandidateOut
+    top_k: list[RetrievalCandidateOut] = []
+    confidence: RetrievalConfidenceOut
+
+
+class RetrievalOut(StrictBaseModel):
+    strategy: str = "top_k_per_attribute"
+    top_k: int
+    min_similarity: float
+    attributes: list[RetrievalAttributeOut] = []
+
+
 class AppliedCorrectionOut(StrictBaseModel):
     correction_id: int
     attribute_code: str
@@ -87,5 +116,6 @@ class SearchResponseOut(StrictBaseModel):
     output_tokens: int
     total_tokens: int
     filters: list[list[tuple[str, str, int | float | None, str, float]]] = []
+    retrieval: RetrievalOut
     applied_corrections: list[AppliedCorrectionOut] = []
     meta: SearchResponseMeta
