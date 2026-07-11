@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import traceback
 from textwrap import dedent
 from typing import List
 
@@ -170,16 +171,21 @@ class GeneratorV2:
         print(embedded_texts)
         print("SelectedFromPostgreSql:")
         print("RESULTs")
-        results = embedded_phrase.select_row_with_diagnostics(
-            embeddings=embedded_texts,
-            platform=platform,
-            tenant_id=tenant_id,
-            locale=locale,
-            store_code=store_code,
-            min_similarity=min_similarity,
-            top_k=top_k,
-            attribute_min_similarity=attribute_min_similarity,
-        )
+        try:
+            results = embedded_phrase.select_row_with_diagnostics(
+                embeddings=embedded_texts,
+                platform=platform,
+                tenant_id=tenant_id,
+                locale=locale,
+                store_code=store_code,
+                min_similarity=min_similarity,
+                top_k=top_k,
+                attribute_min_similarity=attribute_min_similarity,
+            )
+        except Exception:
+            print("ERROR in select_row_with_diagnostics")
+            traceback.print_exc()
+            raise
         print("RESULTs2")
         print(results)
         return results

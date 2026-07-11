@@ -1,6 +1,8 @@
 import json
+import logging
 import os
 import time
+import traceback
 import uuid
 from typing import Any
 
@@ -13,6 +15,7 @@ from src.models.corrections import CorrectionsRepository
 from src.models.search_event import SearchEventRepository
 
 user_queries_router = APIRouter()
+logger = logging.getLogger(__name__)
 
 SUPPORTED_API_VERSION = "v1"
 # Baseline global defaults should remain provider-agnostic.
@@ -220,7 +223,9 @@ def get_response(
             "retrieval": retrieval,
             "applied_corrections": applied_corrections,
         }
-    except Exception:
+    except Exception as exc:
+        logger.error("query processing failed request_id=%s error=%s", request_id, str(exc))
+        traceback.print_exc()
         source = "fallback"
         fallback_reason = "query_processing_error"
         content = {
