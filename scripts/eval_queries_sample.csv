@@ -1,0 +1,21 @@
+query,notes
+celu color negro,color exacto base
+celular rojo barato,color + price intent
+smartphone con buena bateria,bateria minima
+celu 256gb barato,storage + price
+iphone color azul,marca + color
+samsung negro 128gb,marca + atributos
+celular con mucho ram,ram minima
+celu con envio gratis,promo phrase
+equipo premium premium,premium phrase
+celular 5g negro,caracteristica + color
+motorola azul,motorola + color
+xiaomi barato,xiaomi + price
+celu con pantalla amoled,screen technology
+telefono para gaming,consulta abierta
+celu de oferta negro,oferta + color
+celular con 8gb ram y 256gb,ram + storage
+smartphone bateria 5000,battery value
+equipo con promo,promo generic
+celular negro absoluto,match alternativo color
+mejor celu economico,query ambigua

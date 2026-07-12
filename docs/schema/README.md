@@ -27,3 +27,16 @@ Rerank tuning (retrieval):
 	- `RETRIEVAL_BUSINESS_BOOSTS__<PLATFORM>__<TENANT>__<LOCALE>__<STORE>`
 	- Broad to specific fallback is applied: `PLATFORM` -> `PLATFORM+TENANT` -> `PLATFORM+TENANT+LOCALE` -> full scope.
 	- Example: `RETRIEVAL_RERANK_WEIGHTS__MAGENTO__BASE__ES_AR__DEFAULT={"semantic":0.82,"margin":0.08,"business":0.10}`
+
+Operational runbook (multi-clone env hygiene):
+- Keep real secrets only in local `.env` files, never in git-tracked files.
+- Use `.env.example` as the canonical template and copy it per runtime clone.
+- For each clone (for example `/home/edgar/...` and `/home/magento/...`), run:
+	1. `cp .env.example .env` (first time only)
+	2. Set real values for `OPENAI_API_KEY` and DB credentials.
+	3. Keep rerank defaults identical unless intentionally testing scope variants.
+- After rotating keys, update both clones in the same maintenance window.
+- Validate startup before traffic:
+	- DB connector initializes without auth errors.
+	- `GET /get_response/v1` returns `source=semantic` for a known semantic query.
+- If one clone degrades to fallback while the other is healthy, first compare `.env` values between clones.

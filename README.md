@@ -3,6 +3,7 @@
 ## Documentacion
 
 - [AI Search Multi-Commerce](docs/ai-search-multicommerce.md)
+- [Offline Eval: top_k 1 vs 3](docs/evaluation/offline-topk-eval.md)
 - [SQL: Active Correction Uniqueness](docs/sql/001_corrections_active_uniqueness.sql)
 - [SQL: Embedded Phrase Multi-Tenant](docs/sql/002_embedded_phrase_multitenant.sql)
 - [SQL: Embedded Phrase Backfill Movistar Base](docs/sql/003_embedded_phrase_backfill_movistar_base.sql)
