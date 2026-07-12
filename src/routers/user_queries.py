@@ -2,7 +2,6 @@ import json
 import logging
 import os
 import time
-import traceback
 import uuid
 from typing import Any
 
@@ -223,9 +222,8 @@ def get_response(
             "retrieval": retrieval,
             "applied_corrections": applied_corrections,
         }
-    except Exception as exc:
-        logger.error("query processing failed request_id=%s error=%s", request_id, str(exc))
-        traceback.print_exc()
+    except Exception:
+        logger.exception("query processing failed request_id=%s", request_id)
         source = "fallback"
         fallback_reason = "query_processing_error"
         content = {

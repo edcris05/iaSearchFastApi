@@ -1,7 +1,7 @@
 import json
+import logging
 import os
 import re
-import traceback
 from textwrap import dedent
 from typing import List
 
@@ -10,6 +10,12 @@ from openai import OpenAI
 
 from src.models.embedded_phrase import EmbeddedPhrase
 from src.response_api.openai_embedder import OpenAIEmbedder
+
+logger = logging.getLogger(__name__)
+
+
+def _debug_enabled() -> bool:
+    return os.getenv("AI_SEARCH_DEBUG", "0").strip() == "1"
 
 
 class GeneratorV2:
@@ -118,10 +124,11 @@ class GeneratorV2:
             ],
             temperature=0
         )
-        print("FROM EXTRACT SEARCH INTENT")
-        print(response)
-        print(response.output[0].content[0].text)
-        print(response.output_text)
+        logger.info("extract_search_intent completed")
+        if _debug_enabled():
+            logger.debug("extract_search_intent raw response: %s", response)
+            logger.debug("extract_search_intent output_text: %s", response.output_text)
+
         return {
             "response": self.clear_model_response(response.output_text),
             "input_tokens": response.usage.input_tokens,
@@ -153,24 +160,18 @@ class GeneratorV2:
         embedding = OpenAIEmbedder()
         embedded_phrase = EmbeddedPhrase()
         embedded_response = embedding.get_embedding(attributes)
-        print("EMBEDDED_RESPONSE")
-        print(embedded_response)
-        for emb in embedded_response["embeddings"]:
-            print("\n")
-            print("\n")
-            print(emb.tolist())
-            print("\n")
-            print("\n")
-        # embedding_array1 = embedded_response['embeddings'][0].tolist()
+        logger.info(
+            "embedding generated texts=%s vectors=%s model=%s",
+            len(embedded_response.get("texts", [])),
+            len(embedded_response.get("embeddings", [])),
+            embedded_response.get("model", "unknown"),
+        )
+        if _debug_enabled():
+            logger.debug("embedded_response usage=%s", embedded_response.get("usage", {}))
+
         texts_used = embedded_response["texts"]
         embedded_texts = embedded_response["embeddings"]
-        print("TextsUsed:")
-        print(type(texts_used))
-        print("EmbeddedTexts:")
-        print(type(embedded_texts))
-        print(embedded_texts)
-        print("SelectedFromPostgreSql:")
-        print("RESULTs")
+        logger.info("selecting from postgres for %s embedded text(s)", len(texts_used))
         try:
             results = embedded_phrase.select_row_with_diagnostics(
                 embeddings=embedded_texts,
@@ -183,11 +184,10 @@ class GeneratorV2:
                 attribute_min_similarity=attribute_min_similarity,
             )
         except Exception:
-            print("ERROR in select_row_with_diagnostics")
-            traceback.print_exc()
+            logger.exception("select_row_with_diagnostics failed")
             raise
-        print("RESULTs2")
-        print(results)
+        if _debug_enabled():
+            logger.debug("select_row_with_diagnostics results: %s", results)
         return results
         # # busqueda:
         # celu de 500 pesos, con batería de larga duración de al menos 5000 mili amperios

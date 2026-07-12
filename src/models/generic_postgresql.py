@@ -23,7 +23,17 @@ _load_project_env()
 
 class GenericPostgresql:
     def __init__(self):
-        password = _env("PSQL_DB_PASSWORD") or _env("PSQL_PASSWORD")
+        password = (
+            _env("PSQL_DB_PASSWORD")
+            or _env("PSQL_PASSWORD")
+            or _env("PGPASSWORD")
+            or _env("POSTGRES_PASSWORD")
+        )
+        if not password:
+            raise ValueError(
+                "Missing PostgreSQL password. Set PSQL_DB_PASSWORD (or PSQL_PASSWORD/PGPASSWORD) in .env"
+            )
+
         self.connection = psycopg.connect(
             host=_env("PSQL_HOST"),
             port=_env("PSQL_PORT"),
