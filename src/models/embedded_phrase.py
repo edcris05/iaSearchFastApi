@@ -131,7 +131,12 @@ class EmbeddedPhrase(GenericPostgresql):
     ) -> dict:
         best_by_key = {}
         top_k = max(1, min(5, int(top_k)))
-        rerank_cfg = self._load_rerank_config()
+        rerank_cfg = self._load_rerank_config(
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
 
         dynamic_query = sql.SQL("""
             SELECT attribute_code, attribute_value_string, attribute_value_number, phrase, 1 - (embedding <=> %s::vector) AS similitud
@@ -196,15 +201,17 @@ class EmbeddedPhrase(GenericPostgresql):
             if not top_rows:
                 continue
 
+            top_similarity = float(top_rows[0][4])
             second_similarity = float(top_rows[1][4]) if len(top_rows) > 1 else None
-            margin_component = (
-                max(float(top_rows[0][4]) - second_similarity, 0.0)
-                if second_similarity is not None
-                else 0.0
-            )
 
             scored_rows = []
             for row in top_rows:
+                margin_component = (
+                    max(float(row[4]) - second_similarity, 0.0)
+                    if second_similarity is not None
+                    else 0.0
+                )
+
                 business_boost = self._resolve_business_boost(
                     attribute_code=str(row[0]),
                     attribute_value_string=str(row[1] if row[1] is not None else ""),
@@ -221,6 +228,7 @@ class EmbeddedPhrase(GenericPostgresql):
 
                 scored_rows.append({
                     'row': row,
+                    'margin_component': float(margin_component),
                     'business_boost': float(business_boost),
                     'final_score': float(final_score),
                 })
@@ -231,7 +239,6 @@ class EmbeddedPhrase(GenericPostgresql):
             selected = selected_entry['row']
             selected_filters.append([[selected[0], selected[1], selected[2], selected[3], selected[4]]])
 
-            top_similarity = float(top_rows[0][4])
             margin = (top_similarity - second_similarity) if second_similarity is not None else None
 
             if top_similarity >= 0.85 and (margin is None or margin >= 0.08):
@@ -276,7 +283,7 @@ class EmbeddedPhrase(GenericPostgresql):
                         "selected_score": float(selected_entry['final_score']),
                         "selected_reason": (
                             f"semantic={float(selected[4]):.4f};"
-                            f"margin={margin_component:.4f};"
+                            f"margin={float(selected_entry['margin_component']):.4f};"
                             f"business={float(selected_entry['business_boost']):.4f}"
                         ),
                         "weights": {
@@ -298,14 +305,80 @@ class EmbeddedPhrase(GenericPostgresql):
             },
         }
 
-    def _load_rerank_config(self) -> dict:
+    def _scope_part(self, value: str | None) -> str:
+        text = "" if value is None else str(value).strip().lower()
+        if text == "":
+            return "DEFAULT"
+        normalized = ''.join(ch if ch.isalnum() else '_' for ch in text)
+        while '__' in normalized:
+            normalized = normalized.replace('__', '_')
+        normalized = normalized.strip('_')
+        return normalized.upper() if normalized != "" else "DEFAULT"
+
+    def _scoped_env_names(
+        self,
+        base: str,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+    ) -> list[str]:
+        p = self._scope_part(platform)
+        t = self._scope_part(tenant_id)
+        l = self._scope_part(locale)
+        s = self._scope_part(store_code)
+
+        # Broad -> specific, where later keys override earlier ones.
+        return [
+            f"{base}__{p}",
+            f"{base}__{p}__{t}",
+            f"{base}__{p}__{t}__{l}",
+            f"{base}__{p}__{t}__{l}__{s}",
+        ]
+
+    def _load_rerank_config(
+        self,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+    ) -> dict:
         version = os.getenv('RETRIEVAL_RERANK_VERSION', self.DEFAULT_RERANK_VERSION).strip() or self.DEFAULT_RERANK_VERSION
+        for env_name in self._scoped_env_names(
+            base='RETRIEVAL_RERANK_VERSION',
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        ):
+            scoped_version = os.getenv(env_name, '').strip()
+            if scoped_version != '':
+                version = scoped_version
 
         weights = dict(self.DEFAULT_RERANK_WEIGHTS)
         raw_weights = os.getenv('RETRIEVAL_RERANK_WEIGHTS', '').strip()
         if raw_weights != '':
             try:
                 parsed = json.loads(raw_weights)
+                if isinstance(parsed, dict):
+                    for key in ('semantic', 'margin', 'business'):
+                        if key in parsed:
+                            weights[key] = float(parsed[key])
+            except Exception:
+                pass
+
+        for env_name in self._scoped_env_names(
+            base='RETRIEVAL_RERANK_WEIGHTS',
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        ):
+            raw_scoped_weights = os.getenv(env_name, '').strip()
+            if raw_scoped_weights == '':
+                continue
+            try:
+                parsed = json.loads(raw_scoped_weights)
                 if isinstance(parsed, dict):
                     for key in ('semantic', 'margin', 'business'):
                         if key in parsed:
@@ -324,6 +397,24 @@ class EmbeddedPhrase(GenericPostgresql):
         if raw_boosts != '':
             try:
                 parsed = json.loads(raw_boosts)
+                if isinstance(parsed, dict):
+                    for key, value in parsed.items():
+                        boosts[str(key).strip().lower()] = float(value)
+            except Exception:
+                pass
+
+        for env_name in self._scoped_env_names(
+            base='RETRIEVAL_BUSINESS_BOOSTS',
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        ):
+            raw_scoped_boosts = os.getenv(env_name, '').strip()
+            if raw_scoped_boosts == '':
+                continue
+            try:
+                parsed = json.loads(raw_scoped_boosts)
                 if isinstance(parsed, dict):
                     for key, value in parsed.items():
                         boosts[str(key).strip().lower()] = float(value)

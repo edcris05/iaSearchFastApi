@@ -21,3 +21,9 @@ Rerank tuning (retrieval):
 	- `attribute_code::attribute_value_string` (e.g. `brand::samsung`)
 	- `phrase::phrase text`
 	- `attr::attribute_code`
+- Scoped overrides are supported per deployment scope:
+	- `RETRIEVAL_RERANK_VERSION__<PLATFORM>__<TENANT>__<LOCALE>__<STORE>`
+	- `RETRIEVAL_RERANK_WEIGHTS__<PLATFORM>__<TENANT>__<LOCALE>__<STORE>`
+	- `RETRIEVAL_BUSINESS_BOOSTS__<PLATFORM>__<TENANT>__<LOCALE>__<STORE>`
+	- Broad to specific fallback is applied: `PLATFORM` -> `PLATFORM+TENANT` -> `PLATFORM+TENANT+LOCALE` -> full scope.
+	- Example: `RETRIEVAL_RERANK_WEIGHTS__MAGENTO__BASE__ES_AR__DEFAULT={"semantic":0.82,"margin":0.08,"business":0.10}`
