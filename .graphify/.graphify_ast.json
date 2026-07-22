@@ -1,0 +1,3779 @@
+{
+  "nodes": [
+    {
+      "id": "scripts_eval_topk",
+      "label": "eval_topk.py",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_eval_topk_evalrow",
+      "label": "EvalRow",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L28"
+    },
+    {
+      "id": "scripts_eval_topk_parse_args",
+      "label": "parse_args()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L46"
+    },
+    {
+      "id": "scripts_eval_topk_as_number_or_none",
+      "label": "_as_number_or_none()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L63"
+    },
+    {
+      "id": "scripts_eval_topk_load_queries",
+      "label": "load_queries()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L77"
+    },
+    {
+      "id": "scripts_eval_topk_fetch_json",
+      "label": "fetch_json()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L92"
+    },
+    {
+      "id": "scripts_eval_topk_parse_eval_row",
+      "label": "parse_eval_row()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L114"
+    },
+    {
+      "id": "scripts_eval_topk_build_call_url",
+      "label": "build_call_url()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L163"
+    },
+    {
+      "id": "scripts_eval_topk_aggregate",
+      "label": "aggregate()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L176"
+    },
+    {
+      "id": "scripts_eval_topk_percentile",
+      "label": "percentile()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L214"
+    },
+    {
+      "id": "scripts_eval_topk_compare_to_baseline",
+      "label": "compare_to_baseline()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L227"
+    },
+    {
+      "id": "scripts_eval_topk_write_raw_csv",
+      "label": "write_raw_csv()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L277"
+    },
+    {
+      "id": "scripts_eval_topk_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L318"
+    },
+    {
+      "id": "dbpersistence_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "postgresql_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "postgresql_connector",
+      "label": "connector.py",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "postgresql_connector_load_project_env",
+      "label": "_load_project_env()",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L8"
+    },
+    {
+      "id": "postgresql_connector_env",
+      "label": "_env()",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L15"
+    },
+    {
+      "id": "postgresql_connector_postgresqlconnector",
+      "label": "PostgreSqlConnector",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L25"
+    },
+    {
+      "id": "postgresql_connector_postgresqlconnector_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L26"
+    },
+    {
+      "id": "postgresql_connector_postgresqlconnector_get_connection",
+      "label": ".get_connection()",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L46"
+    },
+    {
+      "id": "postgresql_connector_postgresqlconnector_close_connection",
+      "label": ".close_connection()",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L50"
+    },
+    {
+      "id": "postgresql_connector_postgresqlconnector_insert_single_row",
+      "label": ".insert_single_row()",
+      "file_type": "code",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L54"
+    },
+    {
+      "id": "src_main",
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "src/main.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_main_home",
+      "label": "home()",
+      "file_type": "code",
+      "source_file": "src/main.py",
+      "source_location": "L15"
+    },
+    {
+      "id": "models_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "src/models/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_contracts",
+      "label": "contracts.py",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_contracts_strictbasemodel",
+      "label": "StrictBaseModel",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L5"
+    },
+    {
+      "id": "basemodel",
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "models_contracts_correctioncreate",
+      "label": "CorrectionCreate",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L9"
+    },
+    {
+      "id": "models_contracts_correctionupdate",
+      "label": "CorrectionUpdate",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L23"
+    },
+    {
+      "id": "models_contracts_searcheventin",
+      "label": "SearchEventIn",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L35"
+    },
+    {
+      "id": "models_contracts_searchintentresponse",
+      "label": "SearchIntentResponse",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L51"
+    },
+    {
+      "id": "models_contracts_retrievalcandidateout",
+      "label": "RetrievalCandidateOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L60"
+    },
+    {
+      "id": "models_contracts_retrievalconfidenceout",
+      "label": "RetrievalConfidenceOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L70"
+    },
+    {
+      "id": "models_contracts_retrievalrerankweightsout",
+      "label": "RetrievalRerankWeightsOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L77"
+    },
+    {
+      "id": "models_contracts_retrievalrerankout",
+      "label": "RetrievalRerankOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L83"
+    },
+    {
+      "id": "models_contracts_retrievalattributeout",
+      "label": "RetrievalAttributeOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L90"
+    },
+    {
+      "id": "models_contracts_retrievalout",
+      "label": "RetrievalOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L98"
+    },
+    {
+      "id": "models_contracts_appliedcorrectionout",
+      "label": "AppliedCorrectionOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L105"
+    },
+    {
+      "id": "models_contracts_searchresponsemeta",
+      "label": "SearchResponseMeta",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L117"
+    },
+    {
+      "id": "models_contracts_searchresponseout",
+      "label": "SearchResponseOut",
+      "file_type": "code",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L129"
+    },
+    {
+      "id": "models_corrections",
+      "label": "corrections.py",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_corrections_appliedcorrection",
+      "label": "AppliedCorrection",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L12"
+    },
+    {
+      "id": "models_corrections_duplicateactivecorrectionerror",
+      "label": "DuplicateActiveCorrectionError",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L24"
+    },
+    {
+      "id": "exception",
+      "label": "Exception",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "models_corrections_duplicateactivecorrectionerror_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L25"
+    },
+    {
+      "id": "models_corrections_correctionsrepository",
+      "label": "CorrectionsRepository",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L30"
+    },
+    {
+      "id": "genericpostgresql",
+      "label": "GenericPostgresql",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "models_corrections_correctionsrepository_normalize",
+      "label": "._normalize()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L31"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_list_corrections",
+      "label": ".list_corrections()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L36"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_write_audit",
+      "label": "._write_audit()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L94"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_find_active_duplicate_id",
+      "label": "._find_active_duplicate_id()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L122"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_create_correction",
+      "label": ".create_correction()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L155"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_update_correction",
+      "label": ".update_correction()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L237"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_deactivate_correction",
+      "label": ".deactivate_correction()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L353"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_matches",
+      "label": "._matches()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L366"
+    },
+    {
+      "id": "models_corrections_correctionsrepository_apply_corrections",
+      "label": ".apply_corrections()",
+      "file_type": "code",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L391"
+    },
+    {
+      "id": "models_embedded_phrase",
+      "label": "embedded_phrase.py",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase",
+      "label": "EmbeddedPhrase",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L10"
+    },
+    {
+      "id": "genericpostgresql",
+      "label": "GenericPostgresql",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L30"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_insert_row",
+      "label": ".insert_row()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L55"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_select_row",
+      "label": ".select_row()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L76"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_select_row_with_diagnostics",
+      "label": ".select_row_with_diagnostics()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L99"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_select_row_for_scope",
+      "label": "._select_row_for_scope()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L121"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_scope_part",
+      "label": "._scope_part()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L308"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_scoped_env_names",
+      "label": "._scoped_env_names()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L318"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_load_rerank_config",
+      "label": "._load_rerank_config()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L339"
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase_resolve_business_boost",
+      "label": "._resolve_business_boost()",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L430"
+    },
+    {
+      "id": "models_embedded_phrase_rationale_54",
+      "label": "# TODO: this function may change, and use the class properties instead of receiv",
+      "file_type": "rationale",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L54"
+    },
+    {
+      "id": "models_embedded_phrase_base",
+      "label": "embedded_phrase_base.py",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase_base.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_embedded_phrase_base_embeddedphraseuploadbase",
+      "label": "EmbeddedPhraseUploadBase",
+      "file_type": "code",
+      "source_file": "src/models/embedded_phrase_base.py",
+      "source_location": "L4"
+    },
+    {
+      "id": "basemodel",
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "models_generic_postgresql",
+      "label": "generic_postgresql.py",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_generic_postgresql_load_project_env",
+      "label": "_load_project_env()",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L8"
+    },
+    {
+      "id": "models_generic_postgresql_env",
+      "label": "_env()",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L14"
+    },
+    {
+      "id": "models_generic_postgresql_genericpostgresql",
+      "label": "GenericPostgresql",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L24"
+    },
+    {
+      "id": "models_generic_postgresql_genericpostgresql_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L25"
+    },
+    {
+      "id": "models_generic_postgresql_genericpostgresql_get_connection",
+      "label": ".get_connection()",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L45"
+    },
+    {
+      "id": "models_generic_postgresql_genericpostgresql_insert_single_row",
+      "label": ".insert_single_row()",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L50"
+    },
+    {
+      "id": "models_generic_postgresql_genericpostgresql_execute_select",
+      "label": ".execute_select()",
+      "file_type": "code",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L65"
+    },
+    {
+      "id": "models_search_event",
+      "label": "search_event.py",
+      "file_type": "code",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "models_search_event_searcheventrepository",
+      "label": "SearchEventRepository",
+      "file_type": "code",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L10"
+    },
+    {
+      "id": "genericpostgresql",
+      "label": "GenericPostgresql",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "models_search_event_searcheventrepository_log_event",
+      "label": ".log_event()",
+      "file_type": "code",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L11"
+    },
+    {
+      "id": "models_search_event_searcheventrepository_build_where",
+      "label": "._build_where()",
+      "file_type": "code",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L48"
+    },
+    {
+      "id": "models_search_event_searcheventrepository_export_metrics_summary",
+      "label": ".export_metrics_summary()",
+      "file_type": "code",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L54"
+    },
+    {
+      "id": "models_search_event_searcheventrepository_export_events_csv",
+      "label": ".export_events_csv()",
+      "file_type": "code",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L128"
+    },
+    {
+      "id": "response_api_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "src/response_api/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "response_api_openai_embedder",
+      "label": "openai_embedder.py",
+      "file_type": "code",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "response_api_openai_embedder_openaiembedder",
+      "label": "OpenAIEmbedder",
+      "file_type": "code",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L25"
+    },
+    {
+      "id": "response_api_openai_embedder_openaiembedder_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L26"
+    },
+    {
+      "id": "response_api_openai_embedder_openaiembedder_get_embedding",
+      "label": ".get_embedding()",
+      "file_type": "code",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L39"
+    },
+    {
+      "id": "response_api_openai_embedder_openaiembedder_repr",
+      "label": ".__repr__()",
+      "file_type": "code",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L56"
+    },
+    {
+      "id": "text_generation_v1",
+      "label": "v1.py",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "text_generation_v1_v1",
+      "label": "V1",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L8"
+    },
+    {
+      "id": "text_generation_v1_v1_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L9"
+    },
+    {
+      "id": "text_generation_v1_v1_extract_search_intent",
+      "label": ".extract_search_intent()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L12"
+    },
+    {
+      "id": "text_generation_v2",
+      "label": "v2.py",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "text_generation_v2_debug_enabled",
+      "label": "_debug_enabled()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L17"
+    },
+    {
+      "id": "text_generation_v2_generatorv2",
+      "label": "GeneratorV2",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L21"
+    },
+    {
+      "id": "text_generation_v2_generatorv2_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L22"
+    },
+    {
+      "id": "text_generation_v2_generatorv2_extract_search_intent",
+      "label": ".extract_search_intent()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L36"
+    },
+    {
+      "id": "text_generation_v2_generatorv2_clear_model_response",
+      "label": ".clear_model_response()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L140"
+    },
+    {
+      "id": "text_generation_v2_generatorv2_get_embedding_filter_by_attributes",
+      "label": ".get_embedding_filter_by_attributes()",
+      "file_type": "code",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L145"
+    },
+    {
+      "id": "routers_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "src/routers/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_corrections",
+      "label": "corrections.py",
+      "file_type": "code",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_corrections_list_corrections",
+      "label": "list_corrections()",
+      "file_type": "code",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L12"
+    },
+    {
+      "id": "routers_corrections_create_correction",
+      "label": "create_correction()",
+      "file_type": "code",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L30"
+    },
+    {
+      "id": "routers_corrections_update_correction",
+      "label": "update_correction()",
+      "file_type": "code",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L46"
+    },
+    {
+      "id": "routers_corrections_delete_correction",
+      "label": "delete_correction()",
+      "file_type": "code",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L66"
+    },
+    {
+      "id": "routers_metrics",
+      "label": "metrics.py",
+      "file_type": "code",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_metrics_parse_iso_dt",
+      "label": "_parse_iso_dt()",
+      "file_type": "code",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L14"
+    },
+    {
+      "id": "routers_metrics_log_event",
+      "label": "log_event()",
+      "file_type": "code",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L22"
+    },
+    {
+      "id": "routers_metrics_summary",
+      "label": "summary()",
+      "file_type": "code",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L29"
+    },
+    {
+      "id": "routers_metrics_export_csv",
+      "label": "export_csv()",
+      "file_type": "code",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L45"
+    },
+    {
+      "id": "routers_text_uploaders_copy_2",
+      "label": "text_uploaders copy 2.py",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_text_uploaders_copy_2_upload_phrase",
+      "label": "upload_phrase()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L15"
+    },
+    {
+      "id": "routers_text_uploaders_copy_2_get_response",
+      "label": "get_response()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L47"
+    },
+    {
+      "id": "routers_text_uploaders_copy_2_upload_csv",
+      "label": "upload_csv()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L59"
+    },
+    {
+      "id": "routers_text_uploaders_copy",
+      "label": "text_uploaders copy.py",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_text_uploaders_copy_upload_phrase",
+      "label": "upload_phrase()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L13"
+    },
+    {
+      "id": "routers_text_uploaders_copy_get_response",
+      "label": "get_response()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L45"
+    },
+    {
+      "id": "routers_text_uploaders",
+      "label": "text_uploaders.py",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_text_uploaders_upload_phrase",
+      "label": "upload_phrase()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L13"
+    },
+    {
+      "id": "routers_text_uploaders_get_response",
+      "label": "get_response()",
+      "file_type": "code",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L57"
+    },
+    {
+      "id": "routers_user_queries",
+      "label": "user_queries.py",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "routers_user_queries_to_number_or_none",
+      "label": "_to_number_or_none()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L28"
+    },
+    {
+      "id": "routers_user_queries_normalize_response_block",
+      "label": "_normalize_response_block()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L41"
+    },
+    {
+      "id": "routers_user_queries_normalize_filters",
+      "label": "_normalize_filters()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L57"
+    },
+    {
+      "id": "routers_user_queries_to_int",
+      "label": "_to_int()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L95"
+    },
+    {
+      "id": "routers_user_queries_empty_retrieval",
+      "label": "_empty_retrieval()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L102"
+    },
+    {
+      "id": "routers_user_queries_load_attribute_min_similarity",
+      "label": "_load_attribute_min_similarity()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L111"
+    },
+    {
+      "id": "routers_user_queries_get_response",
+      "label": "get_response()",
+      "file_type": "code",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L151"
+    },
+    {
+      "id": "utils_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "src/utils/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "utils_auth",
+      "label": "auth.py",
+      "file_type": "code",
+      "source_file": "src/utils/auth.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "utils_auth_require_admin_api_key",
+      "label": "require_admin_api_key()",
+      "file_type": "code",
+      "source_file": "src/utils/auth.py",
+      "source_location": "L6"
+    },
+    {
+      "id": "utils_config",
+      "label": "config.py",
+      "file_type": "code",
+      "source_file": "src/utils/config.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "utils_config_get_openai_key",
+      "label": "get_openai_key()",
+      "file_type": "code",
+      "source_file": "src/utils/config.py",
+      "source_location": "L4"
+    }
+  ],
+  "edges": [
+    {
+      "source": "scripts_eval_topk",
+      "target": "argparse",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L12",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "csv",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L13",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L14",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L15",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "statistics",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L16",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "sys",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L17",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "time",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L18",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "dataclasses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L19",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "datetime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L20",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L21",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "urllib_error",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L22",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "urllib_parse",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L23",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "urllib_request",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L24",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_evalrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L28",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_parse_args",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L46",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_as_number_or_none",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L63",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_load_queries",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L77",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_fetch_json",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L92",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_parse_eval_row",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L114",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_build_call_url",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L163",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_aggregate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L176",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_percentile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L214",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_compare_to_baseline",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L227",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_write_raw_csv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L277",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk",
+      "target": "scripts_eval_topk_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L318",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_parse_eval_row",
+      "target": "scripts_eval_topk_evalrow",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L116",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_parse_eval_row",
+      "target": "scripts_eval_topk_as_number_or_none",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L150",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_aggregate",
+      "target": "scripts_eval_topk_percentile",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L205",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_parse_args",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L319",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_load_queries",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L336",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_build_call_url",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L351",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_fetch_json",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L352",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_parse_eval_row",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L353",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_aggregate",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L382",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_compare_to_baseline",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L383",
+      "weight": 1
+    },
+    {
+      "source": "scripts_eval_topk_main",
+      "target": "scripts_eval_topk_write_raw_csv",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/eval_topk.py",
+      "source_location": "L389",
+      "weight": 1
+    },
+    {
+      "source": "dbpersistence_init",
+      "target": "postgresql",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/__init__.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_init",
+      "target": "connector",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/__init__.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "dotenv",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "psycopg",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "postgresql_connector_load_project_env",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "postgresql_connector_env",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L15",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector",
+      "target": "postgresql_connector_postgresqlconnector",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L25",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector_postgresqlconnector",
+      "target": "postgresql_connector_postgresqlconnector_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L26",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector_postgresqlconnector",
+      "target": "postgresql_connector_postgresqlconnector_get_connection",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L46",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector_postgresqlconnector",
+      "target": "postgresql_connector_postgresqlconnector_close_connection",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L50",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector_postgresqlconnector",
+      "target": "postgresql_connector_postgresqlconnector_insert_single_row",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L54",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector_postgresqlconnector_init",
+      "target": "postgresql_connector_env",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L28",
+      "weight": 1
+    },
+    {
+      "source": "postgresql_connector_postgresqlconnector_insert_single_row",
+      "target": "postgresql_connector_postgresqlconnector_get_connection",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/dbpersistence/postgresql/connector.py",
+      "source_location": "L55",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "dotenv",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "src_dbpersistence_postgresql",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "src_routers_text_uploaders",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "src_routers_user_queries",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "src_routers_corrections",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "src_routers_metrics",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "src_main",
+      "target": "src_main_home",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L15",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "pydantic",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_strictbasemodel",
+      "target": "basemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_correctioncreate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L9",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_correctioncreate",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L9",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_correctionupdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L23",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_correctionupdate",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L23",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_searcheventin",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L35",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_searcheventin",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L35",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_searchintentresponse",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L51",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_searchintentresponse",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L51",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_retrievalcandidateout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L60",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_retrievalcandidateout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L60",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_retrievalconfidenceout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L70",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_retrievalconfidenceout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L70",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_retrievalrerankweightsout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L77",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_retrievalrerankweightsout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L77",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_retrievalrerankout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L83",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_retrievalrerankout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L83",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_retrievalattributeout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L90",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_retrievalattributeout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L90",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_retrievalout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L98",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_retrievalout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L98",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_appliedcorrectionout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L105",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_appliedcorrectionout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L105",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_searchresponsemeta",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L117",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_searchresponsemeta",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L117",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts",
+      "target": "models_contracts_searchresponseout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L129",
+      "weight": 1
+    },
+    {
+      "source": "models_contracts_searchresponseout",
+      "target": "models_contracts_strictbasemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/contracts.py",
+      "source_location": "L129",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "re",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "dataclasses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "psycopg",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "src_models_generic_postgresql",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "models_corrections_appliedcorrection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L12",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "models_corrections_duplicateactivecorrectionerror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L24",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_duplicateactivecorrectionerror",
+      "target": "exception",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L24",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_duplicateactivecorrectionerror",
+      "target": "models_corrections_duplicateactivecorrectionerror_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L25",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections",
+      "target": "models_corrections_correctionsrepository",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L30",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "genericpostgresql",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L30",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_normalize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L31",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_list_corrections",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L36",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_write_audit",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L94",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_find_active_duplicate_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L122",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_create_correction",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L155",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_update_correction",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L237",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_deactivate_correction",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L353",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_matches",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L366",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_corrections_correctionsrepository_apply_corrections",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L391",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_create_correction",
+      "target": "models_corrections_correctionsrepository_find_active_duplicate_id",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L167",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_create_correction",
+      "target": "models_corrections_duplicateactivecorrectionerror",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L176",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_create_correction",
+      "target": "models_corrections_correctionsrepository_write_audit",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L223",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_update_correction",
+      "target": "models_corrections_correctionsrepository_find_active_duplicate_id",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L278",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_update_correction",
+      "target": "models_corrections_duplicateactivecorrectionerror",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L288",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_update_correction",
+      "target": "models_corrections_correctionsrepository_write_audit",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L339",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_deactivate_correction",
+      "target": "models_corrections_correctionsrepository_update_correction",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L354",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_deactivate_correction",
+      "target": "models_corrections_correctionsrepository_write_audit",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L357",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_matches",
+      "target": "models_corrections_correctionsrepository_normalize",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L367",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_apply_corrections",
+      "target": "models_corrections_correctionsrepository_list_corrections",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L402",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_correctionsrepository_apply_corrections",
+      "target": "models_corrections_correctionsrepository_matches",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L442",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase",
+      "target": "psycopg",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase",
+      "target": "src_models_generic_postgresql",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase",
+      "target": "models_embedded_phrase_embeddedphrase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L10",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "genericpostgresql",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L10",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L30",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_insert_row",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L55",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_select_row",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L76",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_select_row_with_diagnostics",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L99",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_select_row_for_scope",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L121",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_scope_part",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L308",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_scoped_env_names",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L318",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_load_rerank_config",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L339",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_embedded_phrase_embeddedphrase_resolve_business_boost",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L430",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase_select_row",
+      "target": "models_embedded_phrase_embeddedphrase_select_row_with_diagnostics",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L87",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase_select_row_with_diagnostics",
+      "target": "models_embedded_phrase_embeddedphrase_select_row_for_scope",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L110",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase_select_row_for_scope",
+      "target": "models_embedded_phrase_embeddedphrase_load_rerank_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L134",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase_select_row_for_scope",
+      "target": "models_embedded_phrase_embeddedphrase_resolve_business_boost",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L215",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase_scoped_env_names",
+      "target": "models_embedded_phrase_embeddedphrase_scope_part",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L326",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase_load_rerank_config",
+      "target": "models_embedded_phrase_embeddedphrase_scoped_env_names",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L347",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_rationale_54",
+      "target": "models_embedded_phrase",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L54",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_base",
+      "target": "pydantic",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase_base.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_base",
+      "target": "models_embedded_phrase_base_embeddedphraseuploadbase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase_base.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "models_embedded_phrase_base_embeddedphraseuploadbase",
+      "target": "basemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/embedded_phrase_base.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "src_dbpersistence_postgresql_connector",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "dotenv",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "psycopg",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "models_generic_postgresql_load_project_env",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "models_generic_postgresql_env",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L14",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L24",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql",
+      "target": "models_generic_postgresql_genericpostgresql_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L25",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql",
+      "target": "models_generic_postgresql_genericpostgresql_get_connection",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L45",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql",
+      "target": "models_generic_postgresql_genericpostgresql_insert_single_row",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L50",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql",
+      "target": "models_generic_postgresql_genericpostgresql_execute_select",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L65",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql_init",
+      "target": "models_generic_postgresql_env",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L27",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql_insert_single_row",
+      "target": "models_generic_postgresql_genericpostgresql_get_connection",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L51",
+      "weight": 1
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql_execute_select",
+      "target": "models_generic_postgresql_genericpostgresql_get_connection",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L66",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "csv",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "io",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "datetime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "src_models_generic_postgresql",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event",
+      "target": "models_search_event_searcheventrepository",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L10",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository",
+      "target": "genericpostgresql",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L10",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository",
+      "target": "models_search_event_searcheventrepository_log_event",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L11",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository",
+      "target": "models_search_event_searcheventrepository_build_where",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L48",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository",
+      "target": "models_search_event_searcheventrepository_export_metrics_summary",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L54",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository",
+      "target": "models_search_event_searcheventrepository_export_events_csv",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L128",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository_export_metrics_summary",
+      "target": "models_search_event_searcheventrepository_build_where",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L58",
+      "weight": 1
+    },
+    {
+      "source": "models_search_event_searcheventrepository_export_events_csv",
+      "target": "models_search_event_searcheventrepository_build_where",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L132",
+      "weight": 1
+    },
+    {
+      "source": "response_api_init",
+      "target": "openai_embedder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/__init__.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder",
+      "target": "httpx",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder",
+      "target": "numpy",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder",
+      "target": "openai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder",
+      "target": "src_utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder",
+      "target": "response_api_openai_embedder_openaiembedder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L25",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder_openaiembedder",
+      "target": "response_api_openai_embedder_openaiembedder_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L26",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder_openaiembedder",
+      "target": "response_api_openai_embedder_openaiembedder_get_embedding",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L39",
+      "weight": 1
+    },
+    {
+      "source": "response_api_openai_embedder_openaiembedder",
+      "target": "response_api_openai_embedder_openaiembedder_repr",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/openai_embedder.py",
+      "source_location": "L56",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1",
+      "target": "textwrap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1",
+      "target": "openai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1",
+      "target": "text_generation_v1_v1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1_v1",
+      "target": "text_generation_v1_v1_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L9",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v1_v1",
+      "target": "text_generation_v1_v1_extract_search_intent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v1.py",
+      "source_location": "L12",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "logging",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "re",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "textwrap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "httpx",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "openai",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L9",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "src_models_embedded_phrase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L11",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "src_response_api_openai_embedder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L12",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "text_generation_v2_debug_enabled",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L17",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2",
+      "target": "text_generation_v2_generatorv2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L21",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2",
+      "target": "text_generation_v2_generatorv2_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L22",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2",
+      "target": "text_generation_v2_generatorv2_extract_search_intent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L36",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2",
+      "target": "text_generation_v2_generatorv2_clear_model_response",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L140",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2",
+      "target": "text_generation_v2_generatorv2_get_embedding_filter_by_attributes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L145",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2_extract_search_intent",
+      "target": "text_generation_v2_debug_enabled",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L128",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2_extract_search_intent",
+      "target": "text_generation_v2_generatorv2_clear_model_response",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L133",
+      "weight": 1
+    },
+    {
+      "source": "text_generation_v2_generatorv2_get_embedding_filter_by_attributes",
+      "target": "text_generation_v2_debug_enabled",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L169",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "src_models_contracts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "src_models_corrections",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "src_utils_auth",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "routers_corrections_list_corrections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L12",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "routers_corrections_create_correction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L30",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "routers_corrections_update_correction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L46",
+      "weight": 1
+    },
+    {
+      "source": "routers_corrections",
+      "target": "routers_corrections_delete_correction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/corrections.py",
+      "source_location": "L66",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "datetime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "fastapi_responses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "src_models_contracts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "src_models_search_event",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "src_utils_auth",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "routers_metrics_parse_iso_dt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L14",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "routers_metrics_log_event",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L22",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "routers_metrics_summary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L29",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics",
+      "target": "routers_metrics_export_csv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L45",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics_summary",
+      "target": "routers_metrics_parse_iso_dt",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L39",
+      "weight": 1
+    },
+    {
+      "source": "routers_metrics_export_csv",
+      "target": "routers_metrics_parse_iso_dt",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/metrics.py",
+      "source_location": "L55",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "csv",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "io",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "fastapi_responses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "src_models_embedded_phrase_base",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "src_models_embedded_phrase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "src_response_api_openai_embedder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "src_response_api_text_generation_v1",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L9",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "src_response_api_text_generation_v2",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L10",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "routers_text_uploaders_copy_2_upload_phrase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L15",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "routers_text_uploaders_copy_2_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L47",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "routers_text_uploaders_copy_2_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L53",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy_2",
+      "target": "routers_text_uploaders_copy_2_upload_csv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy 2.py",
+      "source_location": "L59",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "fastapi_responses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "src_models_embedded_phrase_base",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "src_models_embedded_phrase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "src_response_api_openai_embedder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "src_response_api_text_generation_v1",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "src_response_api_text_generation_v2",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "routers_text_uploaders_copy_upload_phrase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L13",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "routers_text_uploaders_copy_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L45",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders_copy",
+      "target": "routers_text_uploaders_copy_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders copy.py",
+      "source_location": "L51",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "fastapi_responses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "src_models_embedded_phrase_base",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "src_models_embedded_phrase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "src_response_api_openai_embedder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "src_response_api_text_generation_v1",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L7",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "src_response_api_text_generation_v2",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "routers_text_uploaders_upload_phrase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L13",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "routers_text_uploaders_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L57",
+      "weight": 1
+    },
+    {
+      "source": "routers_text_uploaders",
+      "target": "routers_text_uploaders_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/text_uploaders.py",
+      "source_location": "L63",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "logging",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L2",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "time",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "uuid",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L5",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "typing",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L8",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "fastapi_responses",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L9",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "fastapi_encoders",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L10",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "src_models_contracts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L11",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "src_response_api_text_generation_v2",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L12",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "src_models_corrections",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L13",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "src_models_search_event",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L14",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_to_number_or_none",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L28",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_normalize_response_block",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L41",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_normalize_filters",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L57",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_to_int",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L95",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_empty_retrieval",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L102",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_load_attribute_min_similarity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L111",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries",
+      "target": "routers_user_queries_get_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L151",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_normalize_response_block",
+      "target": "routers_user_queries_to_number_or_none",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L48",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_normalize_filters",
+      "target": "routers_user_queries_to_number_or_none",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L76",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_get_response",
+      "target": "routers_user_queries_load_attribute_min_similarity",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L169",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_get_response",
+      "target": "routers_user_queries_normalize_response_block",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L174",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_get_response",
+      "target": "routers_user_queries_empty_retrieval",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L191",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_get_response",
+      "target": "routers_user_queries_normalize_filters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L196",
+      "weight": 1
+    },
+    {
+      "source": "routers_user_queries_get_response",
+      "target": "routers_user_queries_to_int",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routers/user_queries.py",
+      "source_location": "L218",
+      "weight": 1
+    },
+    {
+      "source": "utils_init",
+      "target": "config",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/__init__.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "utils_auth",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/auth.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "utils_auth",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/auth.py",
+      "source_location": "L3",
+      "weight": 1
+    },
+    {
+      "source": "utils_auth",
+      "target": "utils_auth_require_admin_api_key",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/auth.py",
+      "source_location": "L6",
+      "weight": 1
+    },
+    {
+      "source": "utils_config",
+      "target": "os",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/config.py",
+      "source_location": "L1",
+      "weight": 1
+    },
+    {
+      "source": "utils_config",
+      "target": "utils_config_get_openai_key",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/config.py",
+      "source_location": "L4",
+      "weight": 1
+    },
+    {
+      "source": "models_corrections_appliedcorrection",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L8",
+      "weight": 0.8
+    },
+    {
+      "source": "models_corrections_duplicateactivecorrectionerror",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L8",
+      "weight": 0.8
+    },
+    {
+      "source": "models_corrections_correctionsrepository",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/corrections.py",
+      "source_location": "L8",
+      "weight": 0.8
+    },
+    {
+      "source": "models_embedded_phrase_embeddedphrase",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L7",
+      "weight": 0.8
+    },
+    {
+      "source": "models_embedded_phrase_rationale_54",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/embedded_phrase.py",
+      "source_location": "L7",
+      "weight": 0.8
+    },
+    {
+      "source": "models_generic_postgresql_genericpostgresql",
+      "target": "postgresql_connector_postgresqlconnector",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/generic_postgresql.py",
+      "source_location": "L1",
+      "weight": 0.8
+    },
+    {
+      "source": "models_search_event_searcheventrepository",
+      "target": "models_generic_postgresql_genericpostgresql",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/models/search_event.py",
+      "source_location": "L7",
+      "weight": 0.8
+    },
+    {
+      "source": "text_generation_v2_generatorv2",
+      "target": "models_embedded_phrase_embeddedphrase",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L11",
+      "weight": 0.8
+    },
+    {
+      "source": "text_generation_v2_generatorv2",
+      "target": "response_api_openai_embedder_openaiembedder",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/response_api/text_generation/v2.py",
+      "source_location": "L12",
+      "weight": 0.8
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "hyperedges": []
+}

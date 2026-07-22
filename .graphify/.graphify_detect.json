@@ -1,0 +1,67 @@
+{
+  "files": {
+    "code": [
+      "scripts/eval_topk.py",
+      "src/dbpersistence/__init__.py",
+      "src/dbpersistence/postgresql/__init__.py",
+      "src/dbpersistence/postgresql/connector.py",
+      "src/main.py",
+      "src/models/__init__.py",
+      "src/models/contracts.py",
+      "src/models/corrections.py",
+      "src/models/embedded_phrase.py",
+      "src/models/embedded_phrase_base.py",
+      "src/models/generic_postgresql.py",
+      "src/models/search_event.py",
+      "src/response_api/__init__.py",
+      "src/response_api/openai_embedder.py",
+      "src/response_api/text_generation/v1.py",
+      "src/response_api/text_generation/v2.py",
+      "src/routers/__init__.py",
+      "src/routers/corrections.py",
+      "src/routers/metrics.py",
+      "src/routers/text_uploaders copy 2.py",
+      "src/routers/text_uploaders copy.py",
+      "src/routers/text_uploaders.py",
+      "src/routers/user_queries.py",
+      "src/utils/__init__.py",
+      "src/utils/auth.py",
+      "src/utils/config.py"
+    ],
+    "document": [],
+    "paper": [],
+    "image": [],
+    "video": []
+  },
+  "total_files": 26,
+  "total_words": 9407,
+  "needs_graph": false,
+  "warning": "Corpus is ~9,407 words - fits in a single context window. You may not need a graph.",
+  "skipped_sensitive": [],
+  "graphifyignore_patterns": 26,
+  "git": {
+    "source_owner": "git",
+    "source_hash": "ac8404a18ccec5125ce23ecddf3a6a5ee8d511e5",
+    "branches": [
+      "main"
+    ],
+    "max_commits": 200,
+    "active_within_days": 30
+  },
+  "scope": {
+    "requested_mode": "all",
+    "resolved_mode": "all",
+    "source": "configured-default",
+    "root": ".",
+    "git_root": ".",
+    "head": "ac8404a18ccec5125ce23ecddf3a6a5ee8d511e5",
+    "candidate_count": null,
+    "included_count": 26,
+    "excluded_untracked_count": 0,
+    "excluded_ignored_count": 0,
+    "excluded_sensitive_count": 0,
+    "missing_committed_count": 0,
+    "warnings": [],
+    "recommendation": null
+  }
+}

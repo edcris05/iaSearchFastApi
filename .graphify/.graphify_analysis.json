@@ -1,0 +1,391 @@
+{
+  "communities": {
+    "0": [
+      "basemodel",
+      "models_contracts",
+      "models_contracts_appliedcorrectionout",
+      "models_contracts_correctioncreate",
+      "models_contracts_correctionupdate",
+      "models_contracts_retrievalattributeout",
+      "models_contracts_retrievalcandidateout",
+      "models_contracts_retrievalconfidenceout",
+      "models_contracts_retrievalout",
+      "models_contracts_retrievalrerankout",
+      "models_contracts_retrievalrerankweightsout",
+      "models_contracts_searcheventin",
+      "models_contracts_searchintentresponse",
+      "models_contracts_searchresponsemeta",
+      "models_contracts_searchresponseout",
+      "models_contracts_strictbasemodel",
+      "models_embedded_phrase_base",
+      "models_embedded_phrase_base_embeddedphraseuploadbase"
+    ],
+    "1": [
+      "exception",
+      "models_corrections",
+      "models_corrections_appliedcorrection",
+      "models_corrections_correctionsrepository",
+      "models_corrections_correctionsrepository_apply_corrections",
+      "models_corrections_correctionsrepository_create_correction",
+      "models_corrections_correctionsrepository_deactivate_correction",
+      "models_corrections_correctionsrepository_find_active_duplicate_id",
+      "models_corrections_correctionsrepository_list_corrections",
+      "models_corrections_correctionsrepository_matches",
+      "models_corrections_correctionsrepository_normalize",
+      "models_corrections_correctionsrepository_update_correction",
+      "models_corrections_correctionsrepository_write_audit",
+      "models_corrections_duplicateactivecorrectionerror",
+      "models_corrections_duplicateactivecorrectionerror_init"
+    ],
+    "2": [
+      "scripts_eval_topk",
+      "scripts_eval_topk_aggregate",
+      "scripts_eval_topk_as_number_or_none",
+      "scripts_eval_topk_build_call_url",
+      "scripts_eval_topk_compare_to_baseline",
+      "scripts_eval_topk_evalrow",
+      "scripts_eval_topk_fetch_json",
+      "scripts_eval_topk_load_queries",
+      "scripts_eval_topk_main",
+      "scripts_eval_topk_parse_args",
+      "scripts_eval_topk_parse_eval_row",
+      "scripts_eval_topk_percentile",
+      "scripts_eval_topk_write_raw_csv"
+    ],
+    "3": [
+      "models_embedded_phrase",
+      "models_embedded_phrase_embeddedphrase",
+      "models_embedded_phrase_embeddedphrase_init",
+      "models_embedded_phrase_embeddedphrase_insert_row",
+      "models_embedded_phrase_embeddedphrase_load_rerank_config",
+      "models_embedded_phrase_embeddedphrase_resolve_business_boost",
+      "models_embedded_phrase_embeddedphrase_scope_part",
+      "models_embedded_phrase_embeddedphrase_scoped_env_names",
+      "models_embedded_phrase_embeddedphrase_select_row",
+      "models_embedded_phrase_embeddedphrase_select_row_for_scope",
+      "models_embedded_phrase_embeddedphrase_select_row_with_diagnostics",
+      "models_embedded_phrase_rationale_54"
+    ],
+    "4": [
+      "response_api_openai_embedder",
+      "response_api_openai_embedder_openaiembedder",
+      "response_api_openai_embedder_openaiembedder_get_embedding",
+      "response_api_openai_embedder_openaiembedder_init",
+      "response_api_openai_embedder_openaiembedder_repr",
+      "text_generation_v2",
+      "text_generation_v2_debug_enabled",
+      "text_generation_v2_generatorv2",
+      "text_generation_v2_generatorv2_clear_model_response",
+      "text_generation_v2_generatorv2_extract_search_intent",
+      "text_generation_v2_generatorv2_get_embedding_filter_by_attributes",
+      "text_generation_v2_generatorv2_init"
+    ],
+    "5": [
+      "models_generic_postgresql",
+      "models_generic_postgresql_env",
+      "models_generic_postgresql_genericpostgresql",
+      "models_generic_postgresql_genericpostgresql_execute_select",
+      "models_generic_postgresql_genericpostgresql_get_connection",
+      "models_generic_postgresql_genericpostgresql_init",
+      "models_generic_postgresql_genericpostgresql_insert_single_row",
+      "models_generic_postgresql_load_project_env"
+    ],
+    "6": [
+      "postgresql_connector",
+      "postgresql_connector_env",
+      "postgresql_connector_load_project_env",
+      "postgresql_connector_postgresqlconnector",
+      "postgresql_connector_postgresqlconnector_close_connection",
+      "postgresql_connector_postgresqlconnector_get_connection",
+      "postgresql_connector_postgresqlconnector_init",
+      "postgresql_connector_postgresqlconnector_insert_single_row"
+    ],
+    "7": [
+      "routers_user_queries",
+      "routers_user_queries_empty_retrieval",
+      "routers_user_queries_get_response",
+      "routers_user_queries_load_attribute_min_similarity",
+      "routers_user_queries_normalize_filters",
+      "routers_user_queries_normalize_response_block",
+      "routers_user_queries_to_int",
+      "routers_user_queries_to_number_or_none"
+    ],
+    "8": [
+      "genericpostgresql",
+      "models_search_event",
+      "models_search_event_searcheventrepository",
+      "models_search_event_searcheventrepository_build_where",
+      "models_search_event_searcheventrepository_export_events_csv",
+      "models_search_event_searcheventrepository_export_metrics_summary",
+      "models_search_event_searcheventrepository_log_event"
+    ],
+    "9": [
+      "routers_corrections",
+      "routers_corrections_create_correction",
+      "routers_corrections_delete_correction",
+      "routers_corrections_list_corrections",
+      "routers_corrections_update_correction"
+    ],
+    "10": [
+      "routers_metrics",
+      "routers_metrics_export_csv",
+      "routers_metrics_log_event",
+      "routers_metrics_parse_iso_dt",
+      "routers_metrics_summary"
+    ],
+    "11": [
+      "routers_text_uploaders_copy_2",
+      "routers_text_uploaders_copy_2_get_response",
+      "routers_text_uploaders_copy_2_upload_csv",
+      "routers_text_uploaders_copy_2_upload_phrase"
+    ],
+    "12": [
+      "text_generation_v1",
+      "text_generation_v1_v1",
+      "text_generation_v1_v1_extract_search_intent",
+      "text_generation_v1_v1_init"
+    ],
+    "13": [
+      "routers_text_uploaders_copy",
+      "routers_text_uploaders_copy_get_response",
+      "routers_text_uploaders_copy_upload_phrase"
+    ],
+    "14": [
+      "routers_text_uploaders",
+      "routers_text_uploaders_get_response",
+      "routers_text_uploaders_upload_phrase"
+    ],
+    "15": [
+      "src_main",
+      "src_main_home"
+    ],
+    "16": [
+      "utils_auth",
+      "utils_auth_require_admin_api_key"
+    ],
+    "17": [
+      "utils_config",
+      "utils_config_get_openai_key"
+    ],
+    "18": [
+      "dbpersistence_init"
+    ],
+    "19": [
+      "models_init"
+    ],
+    "20": [
+      "postgresql_init"
+    ],
+    "21": [
+      "response_api_init"
+    ],
+    "22": [
+      "routers_init"
+    ],
+    "23": [
+      "utils_init"
+    ]
+  },
+  "cohesion": {
+    "0": 0.19607843137254902,
+    "1": 0.23809523809523808,
+    "2": 0.2948717948717949,
+    "3": 0.25757575757575757,
+    "4": 0.21212121212121213,
+    "5": 0.35714285714285715,
+    "6": 0.32142857142857145,
+    "7": 0.5,
+    "8": 0.38095238095238093,
+    "9": 0.4,
+    "10": 0.6,
+    "11": 0.5,
+    "12": 0.5,
+    "13": 0.6666666666666666,
+    "14": 0.6666666666666666,
+    "15": 1,
+    "16": 1,
+    "17": 1,
+    "18": 1,
+    "19": 1,
+    "20": 1,
+    "21": 1,
+    "22": 1,
+    "23": 1
+  },
+  "gods": [
+    {
+      "id": "models_contracts_strictbasemodel",
+      "label": "StrictBaseModel",
+      "edges": 15,
+      "degree": 15
+    },
+    {
+      "id": "models_embedded_phrase_embeddedphrase",
+      "label": "EmbeddedPhrase",
+      "edges": 13,
+      "degree": 13
+    },
+    {
+      "id": "models_corrections_correctionsrepository",
+      "label": "CorrectionsRepository",
+      "edges": 12,
+      "degree": 12
+    },
+    {
+      "id": "models_generic_postgresql_genericpostgresql",
+      "label": "GenericPostgresql",
+      "edges": 12,
+      "degree": 12
+    },
+    {
+      "id": "scripts_eval_topk_main",
+      "label": "main()",
+      "edges": 9,
+      "degree": 9
+    },
+    {
+      "id": "models_search_event_searcheventrepository",
+      "label": "SearchEventRepository",
+      "edges": 7,
+      "degree": 7
+    },
+    {
+      "id": "text_generation_v2_generatorv2",
+      "label": "GeneratorV2",
+      "edges": 7,
+      "degree": 7
+    },
+    {
+      "id": "postgresql_connector_postgresqlconnector",
+      "label": "PostgreSqlConnector",
+      "edges": 6,
+      "degree": 6
+    },
+    {
+      "id": "models_corrections_duplicateactivecorrectionerror",
+      "label": "DuplicateActiveCorrectionError",
+      "edges": 6,
+      "degree": 6
+    },
+    {
+      "id": "routers_user_queries_get_response",
+      "label": "get_response()",
+      "edges": 6,
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "AppliedCorrection",
+      "target": "GenericPostgresql",
+      "source_files": [
+        "src/models/corrections.py",
+        "src/models/generic_postgresql.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities; peripheral node `AppliedCorrection` unexpectedly reaches hub `GenericPostgresql`"
+    },
+    {
+      "source": "# TODO: this function may change, and use the class properties instead of receiv",
+      "target": "GenericPostgresql",
+      "source_files": [
+        "src/models/embedded_phrase.py",
+        "src/models/generic_postgresql.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities; peripheral node `# TODO: this function may change, and use the class properties instead of receiv` unexpectedly reaches hub `GenericPostgresql`"
+    },
+    {
+      "source": "CorrectionsRepository",
+      "target": "GenericPostgresql",
+      "source_files": [
+        "src/models/corrections.py",
+        "src/models/generic_postgresql.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "DuplicateActiveCorrectionError",
+      "target": "GenericPostgresql",
+      "source_files": [
+        "src/models/corrections.py",
+        "src/models/generic_postgresql.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "EmbeddedPhrase",
+      "target": "GenericPostgresql",
+      "source_files": [
+        "src/models/embedded_phrase.py",
+        "src/models/generic_postgresql.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `GenericPostgresql` connect `Community 5` to `Community 1`, `Community 3`, `Community 6`, `Community 8`?",
+      "why": "High betweenness centrality (0.153) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `EmbeddedPhrase` connect `Community 3` to `Community 8`, `Community 5`, `Community 4`?",
+      "why": "High betweenness centrality (0.109) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `GeneratorV2` connect `Community 4` to `Community 3`?",
+      "why": "High betweenness centrality (0.064) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `EmbeddedPhrase` (e.g. with `GenericPostgresql` and `GeneratorV2`) actually correct?",
+      "why": "`EmbeddedPhrase` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 7 inferred relationships involving `GenericPostgresql` (e.g. with `AppliedCorrection` and `CorrectionsRepository`) actually correct?",
+      "why": "`GenericPostgresql` has 7 INFERRED edges - model-reasoned connections that need verification."
+    }
+  ],
+  "labels": {
+    "0": "Community 0",
+    "1": "Community 1",
+    "2": "Community 2",
+    "3": "Community 3",
+    "4": "Community 4",
+    "5": "Community 5",
+    "6": "Community 6",
+    "7": "Community 7",
+    "8": "Community 8",
+    "9": "Community 9",
+    "10": "Community 10",
+    "11": "Community 11",
+    "12": "Community 12",
+    "13": "Community 13",
+    "14": "Community 14",
+    "15": "Community 15",
+    "16": "Community 16",
+    "17": "Community 17",
+    "18": "Community 18",
+    "19": "Community 19",
+    "20": "Community 20",
+    "21": "Community 21",
+    "22": "Community 22",
+    "23": "Community 23"
+  },
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

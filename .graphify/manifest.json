@@ -1,0 +1,142 @@
+{
+  "docs/sql/001_corrections_active_uniqueness.sql": {
+    "mtime": 1783368667066.3362,
+    "hash": "3b46aebfd379d69abd4972c0bd3fb9fc"
+  },
+  "docs/sql/002_embedded_phrase_multitenant.sql": {
+    "mtime": 1783701295608.3489,
+    "hash": "1bab801bde7d9acaa3ada0b32ea3e169"
+  },
+  "docs/sql/003_embedded_phrase_backfill_movistar_base.sql": {
+    "mtime": 1783702496316.4126,
+    "hash": "69178fdbb5b8e8aa75302f7515102d48"
+  },
+  "embedded_phrase.sql": {
+    "mtime": 1773635520000,
+    "hash": "748208910478daf0658917a08ab6df4b"
+  },
+  "scripts/eval_topk.py": {
+    "mtime": 1783830581445.3955,
+    "hash": "d80d700ffeb79cd5aa35f057af935f13"
+  },
+  "src/dbpersistence/__init__.py": {
+    "mtime": 1769811131000,
+    "hash": "06910f1e67562ea192824fd019241f60"
+  },
+  "src/dbpersistence/postgresql/__init__.py": {
+    "mtime": 1769811077000,
+    "hash": "3042be55ea16f595479f978ea766ee76"
+  },
+  "src/dbpersistence/postgresql/connector.py": {
+    "mtime": 1783814034327.898,
+    "hash": "b67a0d204d5050472b5071d93a2af680"
+  },
+  "src/main.py": {
+    "mtime": 1783366288522.1077,
+    "hash": "e821401036220e6d6f9223a4055000d1"
+  },
+  "src/models/__init__.py": {
+    "mtime": 1769817419000,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "src/models/contracts.py": {
+    "mtime": 1783809741196.274,
+    "hash": "cb9591632f359fe72becbd285e77624b"
+  },
+  "src/models/corrections.py": {
+    "mtime": 1783368667066.3362,
+    "hash": "aca42d55463168a79d6c82912c3818b6"
+  },
+  "src/models/embedded_phrase.py": {
+    "mtime": 1783816694875.643,
+    "hash": "f0641a9f3107f20a35b96525a8142f78"
+  },
+  "src/models/embedded_phrase_base.py": {
+    "mtime": 1783701295608.3489,
+    "hash": "4c45b3bd6925ca34dd0a2fe14dd008ea"
+  },
+  "src/models/generic_postgresql.py": {
+    "mtime": 1783814034327.898,
+    "hash": "db6cbbf051e7726bb3926cbf6f3e9ee7"
+  },
+  "src/models/search_event.py": {
+    "mtime": 1783366427908.0942,
+    "hash": "5238f30274cf1a3dd99d8705ac24148d"
+  },
+  "src/response_api/__init__.py": {
+    "mtime": 1769924839000,
+    "hash": "eb4e31a3bcabac7667d66d2b03a9af56"
+  },
+  "src/response_api/openai_embedder.py": {
+    "mtime": 1780943002511.9712,
+    "hash": "2898db193d4f87f1c8876adb9c690705"
+  },
+  "src/response_api/text_generation/v1.py": {
+    "mtime": 1770609512000,
+    "hash": "f0d0de8ae3b21a918cc847ffd55ade92"
+  },
+  "src/response_api/text_generation/v2.py": {
+    "mtime": 1783815412675.8176,
+    "hash": "6e11dd67b4bdf9084910b052cb9c60a6"
+  },
+  "src/routers/__init__.py": {
+    "mtime": 1769817419000,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "src/routers/corrections.py": {
+    "mtime": 1783706729127.1904,
+    "hash": "96361b4185d3b21c077f66fa0ab2221d"
+  },
+  "src/routers/metrics.py": {
+    "mtime": 1783706729127.1904,
+    "hash": "35e65509a5da05608539c46242fa4657"
+  },
+  "src/routers/text_uploaders copy 2.py": {
+    "mtime": 1780940346902.0354,
+    "hash": "ec496371b54b839091721df0314c3bf3"
+  },
+  "src/routers/text_uploaders copy.py": {
+    "mtime": 1780339799857.2617,
+    "hash": "43c253a83dc4afcc4205530fad017fa6"
+  },
+  "src/routers/text_uploaders.py": {
+    "mtime": 1783701295608.3489,
+    "hash": "fc8b7f7a90e9abfea88314af87fdfba5"
+  },
+  "src/routers/user_queries.py": {
+    "mtime": 1783815419455.8252,
+    "hash": "3fad4d7e4b89c4f4874de84f6b3ead10"
+  },
+  "src/utils/__init__.py": {
+    "mtime": 1769925184000,
+    "hash": "d7e7b5c962a19c6145e835a8c2cafa42"
+  },
+  "src/utils/auth.py": {
+    "mtime": 1783706729127.1904,
+    "hash": "d849eaaaa3bc772f0fed5b738d4f11a8"
+  },
+  "src/utils/config.py": {
+    "mtime": 1769925196000,
+    "hash": "db2c0df72300d18be5527849ebc35acd"
+  },
+  "README.md": {
+    "mtime": 1783830581445.3955,
+    "hash": "c631ee875ca8f9e41faf0062a8322d29"
+  },
+  "docs/ai-search-multicommerce.md": {
+    "mtime": 1783706729127.1904,
+    "hash": "d364f67d4ec2ed3d38e10515638ecf0b"
+  },
+  "docs/evaluation/offline-topk-eval.md": {
+    "mtime": 1783830581445.3955,
+    "hash": "91a0116ff78d17e815c3c1259be06a03"
+  },
+  "docs/schema/README.md": {
+    "mtime": 1783829910074.5393,
+    "hash": "3f295a503a15b797904a2e808f81fd8c"
+  },
+  "src/prompt.txt": {
+    "mtime": 1772953839000,
+    "hash": "d06b95fe3771b901225fc907643f4051"
+  }
+}
