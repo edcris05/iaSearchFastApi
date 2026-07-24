@@ -326,8 +326,13 @@ class EmbeddedPhrase(GenericPostgresql):
         }
 
     def _normalize_phrase_text(self, text: str) -> str:
-        tokens = self.normalizeTokens(text)
-        return ' '.join(tokens)
+        text = str(text).strip().lower()
+        if text == '':
+            return ''
+
+        text = ''.join(ch if ch.isalnum() else ' ' for ch in text)
+        text = ' '.join(text.split())
+        return text
 
     def _extract_client_suffix(self, text: str) -> str:
         normalized = text.strip().lower()
