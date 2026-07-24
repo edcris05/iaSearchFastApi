@@ -11,6 +11,7 @@ from fastapi.encoders import jsonable_encoder
 from src.models.contracts import SearchResponseOut
 from src.response_api.text_generation.v2 import GeneratorV2
 from src.models.corrections import CorrectionsRepository
+from src.models.query_rules import QueryRulesResolver
 from src.models.search_event import SearchEventRepository
 
 user_queries_router = APIRouter()
@@ -162,70 +163,36 @@ def get_response(
     started_at = time.time()
     source = "ia"
     fallback_reason = None
+    redirect_url = None
+    redirect_match = None
 
     top_k = max(1, min(5, int(top_k)))
     if min_similarity < 0.0 or min_similarity > 1.0:
         min_similarity = 0.30
     attribute_min_similarity = _load_attribute_min_similarity(min_similarity)
 
-    try:
-        consult_class = GeneratorV2()
-        raw_content = consult_class.extract_search_intent(user_query=user_query)
-        response_payload = _normalize_response_block(
-            raw_content.get('response', {}) if isinstance(raw_content, dict) else {}
-        )
-        attributes = response_payload.get('characteristics', [])
+    query_rules = QueryRulesResolver()
+    query_rules_result = query_rules.resolve(
+        query=user_query,
+        platform=platform,
+        tenant_id=tenant_id,
+        locale=locale,
+        store_code=store_code,
+    )
+    query_after_stopwords = str(query_rules_result.get("query_after_stopwords", user_query)).strip() or user_query
+    removed_stopwords = query_rules_result.get("removed_stopwords", [])
+    if not isinstance(removed_stopwords, list):
+        removed_stopwords = []
+    removed_stopwords = [str(item).strip() for item in removed_stopwords if str(item).strip() != ""]
 
-        retrieval_payload = consult_class.get_embedding_filter_by_attributes(
-            attributes=attributes,
-            platform=platform,
-            tenant_id=tenant_id,
-            locale=locale,
-            store_code=store_code,
-            min_similarity=min_similarity,
-            top_k=top_k,
-            attribute_min_similarity=attribute_min_similarity,
-        )
-        if isinstance(retrieval_payload, dict):
-            raw_filters = retrieval_payload.get("selected_filters", [])
-            retrieval = retrieval_payload.get("retrieval", _empty_retrieval(top_k=top_k, min_similarity=min_similarity))
-        else:
-            raw_filters = retrieval_payload
-            retrieval = _empty_retrieval(top_k=top_k, min_similarity=min_similarity)
+    redirect_info = query_rules_result.get("redirect_match")
+    if isinstance(redirect_info, dict):
+        redirect_url = str(redirect_info.get("url", "")).strip() or None
+        redirect_match = str(redirect_info.get("matched_phrase", "")).strip() or None
 
-        filters = _normalize_filters(raw_filters)
-
-        corrections_repo = CorrectionsRepository()
-        filters, applied_corrections = corrections_repo.apply_corrections(
-            filters=filters,
-            query_text=user_query,
-            platform=platform,
-            tenant_id=tenant_id,
-            locale=locale,
-        )
-
-        if filters:
-            source = "semantic"
-        elif attributes:
-            source = "fallback"
-            fallback_reason = "empty_embedding_matches"
-        else:
-            source = "ia"
-            fallback_reason = None
-
-        content = {
-            "response": response_payload,
-            "input_tokens": _to_int(raw_content.get("input_tokens", 0) if isinstance(raw_content, dict) else 0),
-            "output_tokens": _to_int(raw_content.get("output_tokens", 0) if isinstance(raw_content, dict) else 0),
-            "total_tokens": _to_int(raw_content.get("total_tokens", 0) if isinstance(raw_content, dict) else 0),
-            "filters": filters,
-            "retrieval": retrieval,
-            "applied_corrections": applied_corrections,
-        }
-    except Exception:
-        logger.exception("query processing failed request_id=%s", request_id)
-        source = "fallback"
-        fallback_reason = "query_processing_error"
+    if redirect_url:
+        source = "redirect"
+        fallback_reason = "redirect_rule_match"
         content = {
             "response": {
                 "price_min": None,
@@ -242,6 +209,81 @@ def get_response(
             "retrieval": _empty_retrieval(top_k=top_k, min_similarity=min_similarity),
             "applied_corrections": [],
         }
+    else:
+        try:
+            consult_class = GeneratorV2()
+            raw_content = consult_class.extract_search_intent(user_query=query_after_stopwords)
+            response_payload = _normalize_response_block(
+                raw_content.get('response', {}) if isinstance(raw_content, dict) else {}
+            )
+            attributes = response_payload.get('characteristics', [])
+
+            retrieval_payload = consult_class.get_embedding_filter_by_attributes(
+                attributes=attributes,
+                platform=platform,
+                tenant_id=tenant_id,
+                locale=locale,
+                store_code=store_code,
+                min_similarity=min_similarity,
+                top_k=top_k,
+                attribute_min_similarity=attribute_min_similarity,
+            )
+            if isinstance(retrieval_payload, dict):
+                raw_filters = retrieval_payload.get("selected_filters", [])
+                retrieval = retrieval_payload.get("retrieval", _empty_retrieval(top_k=top_k, min_similarity=min_similarity))
+            else:
+                raw_filters = retrieval_payload
+                retrieval = _empty_retrieval(top_k=top_k, min_similarity=min_similarity)
+
+            filters = _normalize_filters(raw_filters)
+
+            corrections_repo = CorrectionsRepository()
+            filters, applied_corrections = corrections_repo.apply_corrections(
+                filters=filters,
+                query_text=query_after_stopwords,
+                platform=platform,
+                tenant_id=tenant_id,
+                locale=locale,
+            )
+
+            if filters:
+                source = "semantic"
+            elif attributes:
+                source = "fallback"
+                fallback_reason = "empty_embedding_matches"
+            else:
+                source = "ia"
+                fallback_reason = None
+
+            content = {
+                "response": response_payload,
+                "input_tokens": _to_int(raw_content.get("input_tokens", 0) if isinstance(raw_content, dict) else 0),
+                "output_tokens": _to_int(raw_content.get("output_tokens", 0) if isinstance(raw_content, dict) else 0),
+                "total_tokens": _to_int(raw_content.get("total_tokens", 0) if isinstance(raw_content, dict) else 0),
+                "filters": filters,
+                "retrieval": retrieval,
+                "applied_corrections": applied_corrections,
+            }
+        except Exception:
+            logger.exception("query processing failed request_id=%s", request_id)
+            source = "fallback"
+            fallback_reason = "query_processing_error"
+            content = {
+                "response": {
+                    "price_min": None,
+                    "price_max": None,
+                    "min_battery_mah": None,
+                    "min_ram_gb": None,
+                    "min_storage_gb": None,
+                    "characteristics": []
+                },
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "total_tokens": 0,
+                "filters": [],
+                "retrieval": _empty_retrieval(top_k=top_k, min_similarity=min_similarity),
+                "applied_corrections": [],
+            }
 
     latency_ms = int((time.time() - started_at) * 1000)
     content["meta"] = {
@@ -249,11 +291,15 @@ def get_response(
         "request_id": request_id,
         "source": source,
         "fallback_reason": fallback_reason,
+        "redirect_url": redirect_url,
+        "redirect_match": redirect_match,
         "latency_ms": latency_ms,
         "platform": platform,
         "tenant_id": tenant_id,
         "locale": locale,
         "store_code": store_code,
+        "query_after_stopwords": query_after_stopwords,
+        "removed_stopwords": removed_stopwords,
     }
 
     try:

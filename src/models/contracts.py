@@ -119,11 +119,15 @@ class SearchResponseMeta(StrictBaseModel):
     request_id: str
     source: str
     fallback_reason: str | None = None
+    redirect_url: str | None = None
+    redirect_match: str | None = None
     latency_ms: int
     platform: str
     tenant_id: str
     locale: str
     store_code: str
+    query_after_stopwords: str | None = None
+    removed_stopwords: list[str] = []
 
 
 class SearchResponseOut(StrictBaseModel):

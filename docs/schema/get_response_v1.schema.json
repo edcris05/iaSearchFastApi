@@ -167,11 +167,18 @@
         "request_id": { "type": "string" },
         "source": { "type": "string" },
         "fallback_reason": { "type": ["string", "null"] },
+        "redirect_url": { "type": ["string", "null"] },
+        "redirect_match": { "type": ["string", "null"] },
         "latency_ms": { "type": "integer" },
         "platform": { "type": "string" },
         "tenant_id": { "type": "string" },
         "locale": { "type": "string" },
-        "store_code": { "type": "string" }
+        "store_code": { "type": "string" },
+        "query_after_stopwords": { "type": ["string", "null"] },
+        "removed_stopwords": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
       }
     }
   },

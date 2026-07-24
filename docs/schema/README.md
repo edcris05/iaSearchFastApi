@@ -28,6 +28,16 @@ Rerank tuning (retrieval):
 	- Broad to specific fallback is applied: `PLATFORM` -> `PLATFORM+TENANT` -> `PLATFORM+TENANT+LOCALE` -> full scope.
 	- Example: `RETRIEVAL_RERANK_WEIGHTS__MAGENTO__BASE__ES_AR__DEFAULT={"semantic":0.82,"margin":0.08,"business":0.10}`
 
+Query rules (stopwords + redirects):
+- `QUERY_RULES_JSON` as JSON with optional keys: `stopwords`, `redirects`.
+- Scoped overrides are supported with the same pattern:
+	- `QUERY_RULES_JSON__<PLATFORM>__<TENANT>__<LOCALE>__<STORE>`
+- Redirect rule format:
+	- `{"phrases":["linea nueva"],"match":"contains","url":"https://...","priority":3}`
+- Supported `match`: `contains`, `equals`, `regex`.
+- Response meta now includes:
+	- `redirect_url`, `redirect_match`, `query_after_stopwords`, `removed_stopwords`.
+
 Operational runbook (multi-clone env hygiene):
 - Keep real secrets only in local `.env` files, never in git-tracked files.
 - Use `.env.example` as the canonical template and copy it per runtime clone.
