@@ -220,6 +220,7 @@ def get_response(
 
             retrieval_payload = consult_class.get_embedding_filter_by_attributes(
                 attributes=attributes,
+                query_text=query_after_stopwords,
                 platform=platform,
                 tenant_id=tenant_id,
                 locale=locale,

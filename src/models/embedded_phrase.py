@@ -106,6 +106,7 @@ class EmbeddedPhrase(GenericPostgresql):
         min_similarity: float = 0.30,
         top_k: int = 2,
         attribute_min_similarity: dict[str, float] | None = None,
+        query_text: str = '',
     ) -> dict:
         return self._select_row_for_scope(
             embeddings=embeddings,
@@ -116,6 +117,7 @@ class EmbeddedPhrase(GenericPostgresql):
             min_similarity=min_similarity,
             top_k=top_k,
             attribute_min_similarity=attribute_min_similarity,
+            query_text=query_text,
         )
 
     def _select_row_for_scope(
@@ -128,6 +130,7 @@ class EmbeddedPhrase(GenericPostgresql):
         min_similarity: float,
         top_k: int,
         attribute_min_similarity: dict[str, float] | None,
+        query_text: str = '',
     ) -> dict:
         best_by_key = {}
         top_k = max(1, min(5, int(top_k)))
@@ -137,6 +140,8 @@ class EmbeddedPhrase(GenericPostgresql):
             locale=locale,
             store_code=store_code,
         )
+        query_norm = self._normalize_phrase_text(query_text)
+        query_client_suffix = self._extract_client_suffix(query_norm)
 
         dynamic_query = sql.SQL("""
             SELECT attribute_code, attribute_value_string, attribute_value_number, phrase, 1 - (embedding <=> %s::vector) AS similitud
@@ -195,6 +200,21 @@ class EmbeddedPhrase(GenericPostgresql):
             rows = attr_rows
             if has_numeric:
                 rows = [r for r in attr_rows if r[2] is not None and str(r[2]) != ""]
+
+            if query_norm != '':
+                exact_phrase_rows = [
+                    r for r in rows
+                    if self._normalize_phrase_text(str(r[3] if r[3] is not None else '')) == query_norm
+                ]
+                if exact_phrase_rows:
+                    rows = exact_phrase_rows
+                elif query_client_suffix in ('b2c', 'b2b'):
+                    client_rows = [
+                        r for r in rows
+                        if self._extract_client_suffix(self._normalize_phrase_text(str(r[3] if r[3] is not None else ''))) == query_client_suffix
+                    ]
+                    if client_rows:
+                        rows = client_rows
 
             rows.sort(key=lambda r: float(r[4]), reverse=True)
             top_rows = rows[:top_k]
@@ -304,6 +324,18 @@ class EmbeddedPhrase(GenericPostgresql):
                 "attributes": retrieval_attributes,
             },
         }
+
+    def _normalize_phrase_text(self, text: str) -> str:
+        tokens = self.normalizeTokens(text)
+        return ' '.join(tokens)
+
+    def _extract_client_suffix(self, text: str) -> str:
+        normalized = text.strip().lower()
+        if normalized.endswith(' b2c'):
+            return 'b2c'
+        if normalized.endswith(' b2b'):
+            return 'b2b'
+        return ''
 
     def _scope_part(self, value: str | None) -> str:
         text = "" if value is None else str(value).strip().lower()

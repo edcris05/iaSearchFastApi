@@ -145,6 +145,7 @@ class GeneratorV2:
     def get_embedding_filter_by_attributes(
         self,
         attributes: List,
+        query_text: str,
         platform: str,
         tenant_id: str,
         locale: str,
@@ -175,6 +176,7 @@ class GeneratorV2:
         try:
             results = embedded_phrase.select_row_with_diagnostics(
                 embeddings=embedded_texts,
+                query_text=query_text,
                 platform=platform,
                 tenant_id=tenant_id,
                 locale=locale,
