@@ -1,6 +1,11 @@
 {
   "files": {
     "code": [
+      ".graphify/studio/assets/index-CU5cXRnL.js",
+      "docs/sql/001_corrections_active_uniqueness.sql",
+      "docs/sql/002_embedded_phrase_multitenant.sql",
+      "docs/sql/003_embedded_phrase_backfill_movistar_base.sql",
+      "embedded_phrase.sql",
       "scripts/eval_topk.py",
       "src/dbpersistence/__init__.py",
       "src/dbpersistence/postgresql/__init__.py",
@@ -12,6 +17,7 @@
       "src/models/embedded_phrase.py",
       "src/models/embedded_phrase_base.py",
       "src/models/generic_postgresql.py",
+      "src/models/query_rules.py",
       "src/models/search_event.py",
       "src/response_api/__init__.py",
       "src/response_api/openai_embedder.py",
@@ -28,20 +34,30 @@
       "src/utils/auth.py",
       "src/utils/config.py"
     ],
-    "document": [],
+    "document": [
+      ".graphify/GRAPH_REPORT.md",
+      ".graphify/studio/index.html",
+      ".graphify/studio/studio-template.html",
+      ".graphify/studio/studio.html",
+      "README.md",
+      "docs/ai-search-multicommerce.md",
+      "docs/evaluation/offline-topk-eval.md",
+      "docs/schema/README.md",
+      "src/prompt.txt"
+    ],
     "paper": [],
     "image": [],
     "video": []
   },
-  "total_files": 26,
-  "total_words": 9407,
+  "total_files": 41,
+  "total_words": 35095,
   "needs_graph": false,
-  "warning": "Corpus is ~9,407 words - fits in a single context window. You may not need a graph.",
+  "warning": "Corpus is ~35,095 words - fits in a single context window. You may not need a graph.",
   "skipped_sensitive": [],
-  "graphifyignore_patterns": 26,
+  "graphifyignore_patterns": 16,
   "git": {
     "source_owner": "git",
-    "source_hash": "ac8404a18ccec5125ce23ecddf3a6a5ee8d511e5",
+    "source_hash": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
     "branches": [
       "main"
     ],
@@ -49,19 +65,19 @@
     "active_within_days": 30
   },
   "scope": {
-    "requested_mode": "all",
-    "resolved_mode": "all",
-    "source": "configured-default",
+    "requested_mode": "auto",
+    "resolved_mode": "committed",
+    "source": "default-auto",
     "root": ".",
     "git_root": ".",
-    "head": "ac8404a18ccec5125ce23ecddf3a6a5ee8d511e5",
-    "candidate_count": null,
-    "included_count": 26,
-    "excluded_untracked_count": 0,
-    "excluded_ignored_count": 0,
+    "head": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
+    "candidate_count": 94,
+    "included_count": 41,
+    "excluded_untracked_count": 14,
+    "excluded_ignored_count": 5902,
     "excluded_sensitive_count": 0,
     "missing_committed_count": 0,
     "warnings": [],
-    "recommendation": null
+    "recommendation": "Use --scope all or graphify.yaml inputs.corpus for a knowledge-base folder."
   }
 }

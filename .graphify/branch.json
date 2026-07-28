@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "branchName": "main",
+  "worktreePath": "/home/edgar/projects/pythonProjects/fastApi1",
+  "upstream": "origin/main",
+  "mergeBase": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
+  "firstSeenHead": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
+  "lastSeenHead": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
+  "lastAnalyzedHead": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
+  "stale": false,
+  "staleReason": null,
+  "staleSince": null,
+  "lifecycleEvent": null,
+  "createdAt": "2026-07-28T14:41:40.543Z",
+  "updatedAt": "2026-07-28T14:42:38.687Z"
+}
