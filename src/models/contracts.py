@@ -139,3 +139,29 @@ class SearchResponseOut(StrictBaseModel):
     retrieval: RetrievalOut
     applied_corrections: list[AppliedCorrectionOut] = []
     meta: SearchResponseMeta
+
+
+class ChatTurnIn(StrictBaseModel):
+    message: str = Field(..., min_length=1)
+    platform: str = Field(default="magento", min_length=1)
+    tenant_id: str = Field(default="default", min_length=1)
+    locale: str = Field(default="es_AR", min_length=2)
+    store_code: str = Field(default="default", min_length=1)
+    chat_session_id: str = Field(..., min_length=3)
+    operation: str | None = Field(default=None, pattern="^(add|replace|remove|reset)$")
+    min_similarity: float = 0.30
+    top_k: int = 3
+
+
+class ChatContextOut(StrictBaseModel):
+    active_filters: list[list[tuple[str, str, int | float | None, str, float]]] = []
+    active_fields: list[str] = []
+    search_text: str
+
+
+class ChatTurnOut(StrictBaseModel):
+    chat_session_id: str
+    operation: str
+    detected_intent: str
+    explanation: str
+    context: ChatContextOut
