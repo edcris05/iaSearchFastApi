@@ -248,8 +248,7 @@ def _build_explanation(operation: str, merged_filters: list[list[list[Any]]], de
     return "Perfecto, actualicé la búsqueda."
 
 
-@chat_turn_router.post("/", tags=["Chat"])
-def chat_turn(payload: ChatTurnIn):
+def _handle_chat_turn(payload: ChatTurnIn):
     operation = _detect_operation(payload.message, payload.operation)
 
     repo = ChatSessionContextRepository()
@@ -358,3 +357,13 @@ def chat_turn(payload: ChatTurnIn):
     )
 
     return JSONResponse(content=jsonable_encoder(response_payload.model_dump()))
+
+
+@chat_turn_router.post("/", tags=["Chat"])
+def chat_turn(payload: ChatTurnIn):
+    return _handle_chat_turn(payload)
+
+
+@chat_turn_router.post("", tags=["Chat"])
+def chat_turn_no_trailing_slash(payload: ChatTurnIn):
+    return _handle_chat_turn(payload)
