@@ -23,4 +23,4 @@ venv/
 
 # Local certs
 certs/
-.graphify/*
+.graphify/
