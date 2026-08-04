@@ -256,8 +256,21 @@ def get_response(
                 locale=locale,
             )
 
+            has_structured_intent = any([
+                response_payload.get("price_min") is not None,
+                response_payload.get("price_max") is not None,
+                response_payload.get("min_battery_mah") is not None,
+                response_payload.get("min_ram_gb") is not None,
+                response_payload.get("min_storage_gb") is not None,
+            ])
+
             if filters:
                 source = "semantic"
+            elif has_structured_intent:
+                # IA extrajo intención estructurada válida (ej. price_max) aunque
+                # embeddings no haya aportado filtros adicionales.
+                source = "ia"
+                fallback_reason = None
             elif attributes:
                 source = "fallback"
                 fallback_reason = "empty_embedding_matches"
