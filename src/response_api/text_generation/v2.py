@@ -33,12 +33,15 @@ class GeneratorV2:
         # usa el bundle corporativo versionado en el repo.
         repo_root = Path(__file__).resolve().parents[3]
         bundle_candidates = [
+            # 1) Overrides por entorno (si tu infra ya setea alguno, se respeta)
             os.getenv("CUSTOM_CA_BUNDLE", "").strip(),
             os.getenv("SSL_CERT_FILE", "").strip(),
             os.getenv("REQUESTS_CA_BUNDLE", "").strip(),
-            str(repo_root / "certs" / "zscaler_chain.pem"),
+            # 2) Bundles versionados en el repo (priorizar Root CA)
             str(repo_root / "certs" / "Zscaler_Root_CA.pem"),
             str(repo_root / "certs" / "zscaler_certs_only.pem"),
+            # NOTA: no usar zscaler_chain.pem como CA porque suele incluir texto extra
+            # (salida completa de openssl s_client) y rompe la verificación.
         ]
         verify: str | bool = True
         for candidate in bundle_candidates:
@@ -46,6 +49,7 @@ class GeneratorV2:
                 verify = candidate
                 break
 
+        logger.info("OpenAI TLS verify=%s", verify)
         http_client = httpx.Client(verify=verify)
         self.client = OpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
