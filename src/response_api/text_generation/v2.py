@@ -138,6 +138,10 @@ class GeneratorV2:
             return "Eres un extractor de intención de búsqueda para catálogos de electrónica. Responde solo JSON válido."
         return "Eres un extractor de intención de búsqueda. Responde solo JSON válido."
 
+    def _render_prompt(self, prompt_template: str, user_query: str) -> str:
+        # Avoid str.format on JSON templates, because literal braces can trigger KeyError.
+        return prompt_template.replace("{user_query}", user_query)
+
     def extract_search_intent(
         self,
         user_query: str,
@@ -207,7 +211,7 @@ class GeneratorV2:
                     "role": "user",
                     "content": [{
                         "type": "input_text",
-                        "text": prompt_template.format(user_query=user_query)
+                        "text": self._render_prompt(prompt_template, user_query)
                     }]
                 }
             ],

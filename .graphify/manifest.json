@@ -76,8 +76,8 @@
     "hash": "f0d0de8ae3b21a918cc847ffd55ade92"
   },
   "src/response_api/text_generation/v2.py": {
-    "mtime": 1785853334555.8362,
-    "hash": "eb057b0579b3e0eee10e23544a563327"
+    "mtime": 1785853734694.3684,
+    "hash": "316d2c978dac36d96278eef4ac3ae7e9"
   },
   "src/routers/__init__.py": {
     "mtime": 1769817419000,
