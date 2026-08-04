@@ -267,17 +267,59 @@ def _build_search_text(previous_search_text: str, message: str, operation: str) 
     return message
 
 
-def _build_explanation(operation: str, merged_filters: list[list[list[Any]]], detected_intent: str) -> str:
+def _build_explanation(
+    operation: str,
+    merged_filters: list[list[list[Any]]],
+    detected_intent: str,
+    response_payload: dict[str, Any] | None = None,
+) -> str:
     summary = _filters_to_human_text(merged_filters)
+    response_payload = response_payload if isinstance(response_payload, dict) else {}
+
+    def _format_money(value: Any) -> str:
+        numeric = _to_number_or_none(value)
+        if numeric is None:
+            return ""
+        try:
+            return f"{int(float(numeric)):,}".replace(",", ".")
+        except Exception:
+            return str(numeric)
+
+    price_min = response_payload.get("price_min")
+    price_max = response_payload.get("price_max")
+    min_battery = response_payload.get("min_battery_mah")
+    min_ram = response_payload.get("min_ram_gb")
+    min_storage = response_payload.get("min_storage_gb")
+
+    intent_parts: list[str] = []
+    if price_min is not None and price_max is not None:
+        intent_parts.append(f"precio entre ${_format_money(price_min)} y ${_format_money(price_max)}")
+    elif price_max is not None:
+        intent_parts.append(f"precio hasta ${_format_money(price_max)}")
+    elif price_min is not None:
+        intent_parts.append(f"precio desde ${_format_money(price_min)}")
+
+    if min_ram is not None:
+        intent_parts.append(f"RAM desde {str(min_ram).strip()} GB")
+    if min_storage is not None:
+        intent_parts.append(f"almacenamiento desde {str(min_storage).strip()} GB")
+    if min_battery is not None:
+        intent_parts.append(f"batería desde {str(min_battery).strip()} mAh")
+
+    intent_summary = ", ".join([p for p in intent_parts if p])
 
     if operation == "reset":
         if summary:
             return f"Perfecto, reinicié la conversación y ahora busco por: {summary}."
+        if intent_summary:
+            return f"Perfecto, reinicié la conversación y ahora busco por {intent_summary}."
         return "Listo, reinicié la conversación. Contame qué querés buscar ahora."
 
     if operation == "remove":
         if summary:
             return f"Hecho, quité ese criterio y ahora quedaron activos: {summary}."
+        if intent_summary:
+            return f"Hecho, quité ese criterio. Mantengo búsqueda por {intent_summary}."
         return "Hecho, quité esos criterios. Decime qué querés agregar ahora."
 
     if detected_intent == "open_question":
@@ -285,6 +327,9 @@ def _build_explanation(operation: str, merged_filters: list[list[list[Any]]], de
 
     if summary:
         return f"Perfecto, actualicé tu búsqueda. Filtros activos: {summary}."
+
+    if intent_summary:
+        return f"Perfecto, actualicé tu búsqueda. Criterios detectados: {intent_summary}."
 
     return "Perfecto, actualicé la búsqueda."
 
@@ -314,6 +359,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
         operation = "replace"
 
     incoming_filters: list[list[list[Any]]] = []
+    response_payload: dict[str, Any] = {}
     if payload.message.strip() != "":
         try:
             generator = GeneratorV2()
@@ -325,6 +371,8 @@ def _handle_chat_turn(payload: ChatTurnIn):
                 store_code=payload.store_code,
             )
             response = intent.get("response", {}) if isinstance(intent, dict) else {}
+            if isinstance(response, dict):
+                response_payload = response
             attrs = response.get("characteristics", []) if isinstance(response, dict) else []
             retrieval_payload = generator.get_embedding_filter_by_attributes(
                 attributes=attrs,
@@ -372,7 +420,12 @@ def _handle_chat_turn(payload: ChatTurnIn):
         operation=operation,
     )
 
-    explanation = _build_explanation(operation, merged_filters, detected_intent)
+    explanation = _build_explanation(
+        operation,
+        merged_filters,
+        detected_intent,
+        response_payload=response_payload,
+    )
 
     new_context = {
         "filters": merged_filters,
