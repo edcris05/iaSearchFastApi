@@ -10,6 +10,14 @@ from openai import OpenAI
 
 from src.models.embedded_phrase import EmbeddedPhrase
 from src.response_api.openai_embedder import OpenAIEmbedder
+from src.utils.domain_profile import resolve_domain_profile
+from src.utils.scope_config import (
+    DEFAULT_LOCALE,
+    DEFAULT_PLATFORM,
+    DEFAULT_STORE_CODE,
+    DEFAULT_TENANT_ID,
+    resolve_scoped_env,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -20,20 +28,124 @@ def _debug_enabled() -> bool:
 
 class GeneratorV2:
     def __init__(self):
-        # En este entorno el TLS está siendo interceptado por Zscaler (MITM),
-        # así que debemos confiar explícitamente en su CA/cadena.
-        #
-        # Nota: este archivo se genera con openssl s_client en certs/zscaler_chain.pem
-        # y debe contener la CA que firma los certificados emitidos por Zscaler.
-        ca_bundle_path = os.getenv("CUSTOM_CA_BUNDLE", "certs/Zscaler_Root_CA.pem")
+        # Permite CA custom por entorno (corporativo/proxy), pero por defecto
+        # usa el trust store estándar del sistema para mayor portabilidad.
+        ca_bundle_path = os.getenv("CUSTOM_CA_BUNDLE", "").strip()
+        verify = ca_bundle_path if ca_bundle_path != "" else True
 
-        http_client = httpx.Client(verify=ca_bundle_path)
+        http_client = httpx.Client(verify=verify)
         self.client = OpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
             http_client=http_client,
         )
 
-    def extract_search_intent(self, user_query: str) -> dict:
+        def _default_prompt_template(self, domain_profile: str) -> str:
+                if domain_profile == "electronics":
+                        return dedent('''
+                                Extrae intención de búsqueda de productos electrónicos desde una frase del usuario.
+
+                                Devuelve SOLO JSON válido con este formato:
+                                {
+                                    "price_min": number|null,
+                                    "price_max": number|null,
+                                    "min_battery_mah": number|null,
+                                    "min_ram_gb": number|null,
+                                    "min_storage_gb": number|null,
+                                    "characteristics": [string],
+                                    "domain_filters": {}
+                                }
+
+                                Reglas generales:
+                                - No inventar datos.
+                                - Si no hay un valor claro, usar null.
+                                - Guardar en "characteristics" todo lo no cuantificable.
+                                - Reconocer expresiones de precio: "menos de", "hasta", "más de", "desde", "entre X y Y".
+                                - Para RAM/STORAGE/BATERIA completar los campos numéricos solo cuando haya evidencia explícita.
+                                - En electronics, mantener "domain_filters" vacío salvo que se indique un filtro numérico adicional no mapeado.
+
+                                Texto del usuario:
+                                """
+                                {user_query}
+                                """
+                                ''').strip()
+
+        return dedent('''
+            Extrae intención de búsqueda de productos desde una frase del usuario.
+
+            Devuelve SOLO JSON válido con este formato:
+            {
+              "price_min": number|null,
+              "price_max": number|null,
+              "min_battery_mah": number|null,
+              "min_ram_gb": number|null,
+              "min_storage_gb": number|null,
+                            "characteristics": [string],
+                            "domain_filters": {"constraint_name": number}
+            }
+
+            Reglas generales:
+            - No inventar datos.
+            - Si no hay un valor claro, usar null.
+            - Guardar en "characteristics" todo lo no cuantificable.
+            - Reconocer expresiones de precio: "menos de", "hasta", "más de", "desde", "entre X y Y".
+                        - En perfil generic NO dependas de campos específicos de celulares.
+                        - Usa min_battery_mah/min_ram_gb/min_storage_gb solo si el usuario explícitamente habla de batería/RAM/almacenamiento.
+                        - Para restricciones numéricas de otros dominios, usar domain_filters con claves cortas en snake_case.
+
+            Texto del usuario:
+            """
+            {user_query}
+            """
+            ''').strip()
+
+    def _resolve_prompt_template(
+        self,
+        domain_profile: str,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+    ) -> str:
+        configured = resolve_scoped_env(
+            base="INTENT_PROMPT_TEMPLATE",
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+            default="",
+        )
+        return configured if configured != "" else self._default_prompt_template(domain_profile)
+
+    def _resolve_system_prompt(
+        self,
+        domain_profile: str,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+    ) -> str:
+        configured = resolve_scoped_env(
+            base="INTENT_SYSTEM_PROMPT",
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+            default="",
+        )
+        if configured != "":
+            return configured
+        if domain_profile == "electronics":
+            return "Eres un extractor de intención de búsqueda para catálogos de electrónica. Responde solo JSON válido."
+        return "Eres un extractor de intención de búsqueda. Responde solo JSON válido."
+
+    def extract_search_intent(
+        self,
+        user_query: str,
+        platform: str = DEFAULT_PLATFORM,
+        tenant_id: str = DEFAULT_TENANT_ID,
+        locale: str = DEFAULT_LOCALE,
+        store_code: str = DEFAULT_STORE_CODE,
+    ) -> dict:
         # return {
         #     "response": {
         #         "price_min": None,
@@ -52,57 +164,34 @@ class GeneratorV2:
         #     "total_tokens": 500
         # }
 
-        PROMPT_TEMPLATE = dedent("""
-            Extrae características de celulares desde una frase en español.
-
-            1. Primero identifica cada característica mencionada.
-            2. Luego intenta convertirlas a filtros cuantificables.
-            3. Si no es cuantificable, colócala en "characteristics".
-
-            Devuelve SOLO JSON válido con este formato:
-
-            {{
-            "price_min":number|null,
-            "price_max":number|null,
-            "min_battery_mah":number|null,
-            "min_ram_gb":number|null,
-            "min_storage_gb":number|null,
-            "characteristics":[string]
-            }}
-
-            Reglas:
-
-            PRECIO
-            - "menos de", "máx", "max", "hasta" → price_max
-            - "más de", "mín", "min", "desde", "al menos" → price_min
-            - "entre X y Y" → price_min=X, price_max=Y
-
-            RAM / STORAGE
-            - reconoce: gb, giga, gigas, tb, tera, terabyte
-            - TB → convertir a GB (1TB=1024GB)
-            - si hay rango → usar el menor
-            - si dice "mín", "al menos", etc → usar ese valor
-            - para "máx" también devolver ese valor como mínimo requerido
-
-            BATERÍA
-            - detectar valores en mAh → min_battery_mah
-
-            COLORES
-            - dividir listas: "rojo o negro", "rojo, negro o azul"
-            - devolver como: "color rojo"
-
-            GENERAL
-            - ignorar texto irrelevante
-            - números sin unidad cerca de "ram" o "disco/almacenamiento" deben interpretarse como GB
-            - si no hay valor → null
-            - no inventar datos
-            - no explicar nada
-
-            Texto del usuario:
-            \"\"\"
-            {user_query}
-            \"\"\"
-            """).strip()
+        domain_profile = resolve_domain_profile(
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+        prompt_template = self._resolve_prompt_template(
+            domain_profile=domain_profile,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+        system_prompt = self._resolve_system_prompt(
+            domain_profile=domain_profile,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+        logger.info(
+            "extract_search_intent scope platform=%s tenant_id=%s locale=%s store_code=%s domain_profile=%s",
+            platform,
+            tenant_id,
+            locale,
+            store_code,
+            domain_profile,
+        )
 
         response = self.client.responses.create(
             model="gpt-4o-mini",
@@ -111,14 +200,14 @@ class GeneratorV2:
                     "role": "system",
                     "content": [{
                         "type": "input_text",
-                        "text": "Eres un extractor de filtros y características. Devuelves solo JSON."
+                        "text": system_prompt
                     }]
                 },
                 {
                     "role": "user",
                     "content": [{
                         "type": "input_text",
-                        "text": PROMPT_TEMPLATE.format(user_query=user_query)
+                        "text": prompt_template.format(user_query=user_query)
                     }]
                 }
             ],

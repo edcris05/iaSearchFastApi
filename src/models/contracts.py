@@ -1,6 +1,13 @@
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any
 
+from src.utils.scope_config import (
+    DEFAULT_LOCALE,
+    DEFAULT_PLATFORM,
+    DEFAULT_STORE_CODE,
+    DEFAULT_TENANT_ID,
+)
+
 
 class StrictBaseModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -9,7 +16,7 @@ class StrictBaseModel(BaseModel):
 class CorrectionCreate(StrictBaseModel):
     platform: str = Field(..., min_length=1)
     tenant_id: str = Field(..., min_length=1)
-    locale: str = Field(default="es_AR", min_length=2)
+    locale: str = Field(default=DEFAULT_LOCALE, min_length=2)
     attribute_code: str = Field(..., min_length=1)
     raw_phrase: str = Field(..., min_length=1)
     corrected_value_string: str = ""
@@ -55,6 +62,7 @@ class SearchIntentResponse(StrictBaseModel):
     min_ram_gb: int | float | None = None
     min_storage_gb: int | float | None = None
     characteristics: list[str] = []
+    domain_filters: dict[str, int | float] = {}
 
 
 class RetrievalCandidateOut(StrictBaseModel):
@@ -126,6 +134,7 @@ class SearchResponseMeta(StrictBaseModel):
     tenant_id: str
     locale: str
     store_code: str
+    domain_profile: str
     query_after_stopwords: str | None = None
     removed_stopwords: list[str] = []
 
@@ -142,11 +151,11 @@ class SearchResponseOut(StrictBaseModel):
 
 
 class ChatTurnIn(StrictBaseModel):
-    message: str = Field(..., min_length=1)
-    platform: str = Field(default="magento", min_length=1)
-    tenant_id: str = Field(default="default", min_length=1)
-    locale: str = Field(default="es_AR", min_length=2)
-    store_code: str = Field(default="default", min_length=1)
+    message: str = Field(default="", min_length=0)
+    platform: str = Field(default=DEFAULT_PLATFORM, min_length=1)
+    tenant_id: str = Field(default=DEFAULT_TENANT_ID, min_length=1)
+    locale: str = Field(default=DEFAULT_LOCALE, min_length=2)
+    store_code: str = Field(default=DEFAULT_STORE_CODE, min_length=1)
     chat_session_id: str = Field(..., min_length=3)
     operation: str | None = Field(default=None, pattern="^(add|replace|remove|reset)$")
     min_similarity: float = 0.30

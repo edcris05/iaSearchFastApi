@@ -13,6 +13,14 @@ from src.response_api.text_generation.v2 import GeneratorV2
 from src.models.corrections import CorrectionsRepository
 from src.models.query_rules import QueryRulesResolver
 from src.models.search_event import SearchEventRepository
+from src.utils.domain_profile import resolve_domain_profile, resolve_numeric_aliases
+from src.utils.intent_normalization import normalize_response_block
+from src.utils.scope_config import (
+    DEFAULT_LOCALE,
+    DEFAULT_PLATFORM,
+    DEFAULT_STORE_CODE,
+    DEFAULT_TENANT_ID,
+)
 
 user_queries_router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -21,9 +29,7 @@ SUPPORTED_API_VERSION = "v1"
 # Baseline global defaults should remain provider-agnostic.
 # Project/tenant-specific attribute codes must be configured via env var
 # EMBEDDING_MIN_SIMILARITY_BY_ATTRIBUTE in each deployment.
-DEFAULT_ATTRIBUTE_MIN_SIMILARITY = {
-    "color": 0.45,
-}
+DEFAULT_ATTRIBUTE_MIN_SIMILARITY: dict[str, float] = {}
 
 
 def _to_number_or_none(value: Any):
@@ -37,22 +43,6 @@ def _to_number_or_none(value: Any):
         return int(value)
     except Exception:
         return None
-
-
-def _normalize_response_block(response_payload: Any) -> dict:
-    payload = response_payload if isinstance(response_payload, dict) else {}
-    characteristics = payload.get("characteristics", [])
-    if not isinstance(characteristics, list):
-        characteristics = []
-
-    return {
-        "price_min": _to_number_or_none(payload.get("price_min")),
-        "price_max": _to_number_or_none(payload.get("price_max")),
-        "min_battery_mah": _to_number_or_none(payload.get("min_battery_mah")),
-        "min_ram_gb": _to_number_or_none(payload.get("min_ram_gb")),
-        "min_storage_gb": _to_number_or_none(payload.get("min_storage_gb")),
-        "characteristics": [str(c).strip() for c in characteristics if str(c).strip() != ""],
-    }
 
 
 def _normalize_filters(filters: Any) -> list:
@@ -151,10 +141,10 @@ def _load_attribute_min_similarity(global_min_similarity: float) -> dict[str, fl
 @user_queries_router.get('/v1', tags=['User Queries'])
 def get_response(
     user_query: str,
-    platform: str = "magento",
-    tenant_id: str = "default",
-    locale: str = "es_AR",
-    store_code: str = "default",
+    platform: str = DEFAULT_PLATFORM,
+    tenant_id: str = DEFAULT_TENANT_ID,
+    locale: str = DEFAULT_LOCALE,
+    store_code: str = DEFAULT_STORE_CODE,
     session_id: str | None = None,
     min_similarity: float = 0.30,
     top_k: int = 3,
@@ -170,6 +160,18 @@ def get_response(
     if min_similarity < 0.0 or min_similarity > 1.0:
         min_similarity = 0.30
     attribute_min_similarity = _load_attribute_min_similarity(min_similarity)
+    domain_profile = resolve_domain_profile(
+        platform=platform,
+        tenant_id=tenant_id,
+        locale=locale,
+        store_code=store_code,
+    )
+    numeric_aliases = resolve_numeric_aliases(
+        platform=platform,
+        tenant_id=tenant_id,
+        locale=locale,
+        store_code=store_code,
+    )
 
     query_rules = QueryRulesResolver()
     query_rules_result = query_rules.resolve(
@@ -212,9 +214,16 @@ def get_response(
     else:
         try:
             consult_class = GeneratorV2()
-            raw_content = consult_class.extract_search_intent(user_query=query_after_stopwords)
-            response_payload = _normalize_response_block(
-                raw_content.get('response', {}) if isinstance(raw_content, dict) else {}
+            raw_content = consult_class.extract_search_intent(
+                user_query=query_after_stopwords,
+                platform=platform,
+                tenant_id=tenant_id,
+                locale=locale,
+                store_code=store_code,
+            )
+            response_payload = normalize_response_block(
+                raw_content.get('response', {}) if isinstance(raw_content, dict) else {},
+                numeric_aliases=numeric_aliases,
             )
             attributes = response_payload.get('characteristics', [])
 
@@ -301,6 +310,7 @@ def get_response(
         "store_code": store_code,
         "query_after_stopwords": query_after_stopwords,
         "removed_stopwords": removed_stopwords,
+        "domain_profile": domain_profile,
     }
 
     try:

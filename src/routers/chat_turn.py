@@ -179,6 +179,9 @@ def _detect_intent(message: str, merged_filters: list[list[list[Any]]], operatio
 
 
 def _filters_to_human_text(filters: list[list[list[Any]]]) -> str:
+    def _humanize_field(field: str) -> str:
+        return field.replace("_", " ").strip()
+
     parts: list[str] = []
     for item in _flatten_filters(filters):
         field = str(item[0]).strip()
@@ -193,14 +196,8 @@ def _filters_to_human_text(filters: list[list[list[Any]]]) -> str:
         if value_text == "":
             continue
 
-        if field == "manufacturer":
-            parts.append(f"marca {value_text}")
-        elif field == "price":
-            parts.append(f"precio {value_text}")
-        elif field == "color":
-            parts.append(f"color {value_text}")
-        else:
-            parts.append(f"{field} {value_text}")
+        human_field = _humanize_field(field)
+        parts.append(f"{human_field}: {value_text}")
 
     return ", ".join(parts)
 
@@ -217,10 +214,22 @@ def _build_search_text(previous_search_text: str, message: str, operation: str) 
     if operation == "reset":
         return message
 
+    if operation == "replace":
+        return message
+
+    if operation == "remove":
+        return previous_search_text
+
     if previous_search_text == "":
         return message
 
-    if operation in ("add", "replace", "remove"):
+    if operation == "add":
+        if message == "":
+            return previous_search_text
+        if message in previous_search_text:
+            return previous_search_text
+        if previous_search_text in message:
+            return message
         return _normalize_search_text(previous_search_text + " " + message)
 
     return message
@@ -271,7 +280,13 @@ def _handle_chat_turn(payload: ChatTurnIn):
     if payload.message.strip() != "":
         try:
             generator = GeneratorV2()
-            intent = generator.extract_search_intent(user_query=payload.message)
+            intent = generator.extract_search_intent(
+                user_query=payload.message,
+                platform=payload.platform,
+                tenant_id=payload.tenant_id,
+                locale=payload.locale,
+                store_code=payload.store_code,
+            )
             response = intent.get("response", {}) if isinstance(intent, dict) else {}
             attrs = response.get("characteristics", []) if isinstance(response, dict) else []
             retrieval_payload = generator.get_embedding_filter_by_attributes(

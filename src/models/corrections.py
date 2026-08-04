@@ -6,6 +6,7 @@ from typing import Any
 import psycopg
 
 from src.models.generic_postgresql import GenericPostgresql
+from src.utils.scope_config import DEFAULT_LOCALE
 
 
 @dataclass
@@ -158,7 +159,7 @@ class CorrectionsRepository(GenericPostgresql):
             with conn.cursor() as cursor:
                 platform = payload["platform"]
                 tenant_id = payload["tenant_id"]
-                locale = payload.get("locale", "es_AR")
+                locale = payload.get("locale", DEFAULT_LOCALE)
                 attribute_code = payload["attribute_code"]
                 raw_phrase = payload["raw_phrase"]
                 is_active = payload.get("is_active", True)
@@ -394,7 +395,7 @@ class CorrectionsRepository(GenericPostgresql):
         query_text: str,
         platform: str,
         tenant_id: str,
-        locale: str = "es_AR",
+        locale: str = DEFAULT_LOCALE,
     ) -> tuple[list, list[dict[str, Any]]]:
         if not isinstance(filters, list) or not filters:
             return filters, []

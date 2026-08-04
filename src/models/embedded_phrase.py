@@ -5,6 +5,12 @@ from typing import List
 from psycopg import sql
 
 from src.models.generic_postgresql import GenericPostgresql
+from src.utils.scope_config import (
+    DEFAULT_LOCALE,
+    DEFAULT_PLATFORM,
+    DEFAULT_STORE_CODE,
+    DEFAULT_TENANT_ID,
+)
 
 
 class EmbeddedPhrase(GenericPostgresql):
@@ -30,10 +36,10 @@ class EmbeddedPhrase(GenericPostgresql):
     def __init__(
         self,
         id: int = 0,
-        platform: str = 'magento',
-        tenant_id: str = 'default',
-        locale: str = 'es_AR',
-        store_code: str = 'default',
+        platform: str = DEFAULT_PLATFORM,
+        tenant_id: str = DEFAULT_TENANT_ID,
+        locale: str = DEFAULT_LOCALE,
+        store_code: str = DEFAULT_STORE_CODE,
         attribute_code: str = '',
         attribute_value_string: str = '',
         attribute_value_number: int | float | None = None,

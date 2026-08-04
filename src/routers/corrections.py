@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from src.models.contracts import CorrectionCreate, CorrectionUpdate
 from src.models.corrections import CorrectionsRepository, DuplicateActiveCorrectionError
 from src.utils.auth import require_admin_api_key
+from src.utils.scope_config import DEFAULT_LOCALE
 
 
 corrections_router = APIRouter(dependencies=[Depends(require_admin_api_key)])
@@ -12,7 +13,7 @@ corrections_router = APIRouter(dependencies=[Depends(require_admin_api_key)])
 def list_corrections(
     platform: str = Query(...),
     tenant_id: str = Query(...),
-    locale: str = Query("es_AR"),
+    locale: str = Query(DEFAULT_LOCALE),
     attribute_code: str | None = Query(default=None),
     include_inactive: bool = Query(default=False),
 ):
