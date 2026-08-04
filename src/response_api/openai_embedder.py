@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import httpx
 import numpy as np
@@ -28,10 +29,22 @@ class OpenAIEmbedder:
 
         api_key = get_openai_key()
 
-        # En este entorno el TLS está interceptado por Zscaler (MITM).
-        # Usamos el Root CA exportado, o uno custom si se define CUSTOM_CA_BUNDLE.
-        ca_bundle_path = os.getenv("CUSTOM_CA_BUNDLE", "certs/Zscaler_Root_CA.pem")
-        http_client = httpx.Client(verify=ca_bundle_path)
+        # Permite CA custom por entorno y, si no existe, usa bundles versionados.
+        repo_root = Path(__file__).resolve().parents[2]
+        bundle_candidates = [
+            os.getenv("CUSTOM_CA_BUNDLE", "").strip(),
+            os.getenv("SSL_CERT_FILE", "").strip(),
+            os.getenv("REQUESTS_CA_BUNDLE", "").strip(),
+            str(repo_root / "certs" / "Zscaler_Root_CA.pem"),
+            str(repo_root / "certs" / "zscaler_certs_only.pem"),
+        ]
+        verify: str | bool = True
+        for candidate in bundle_candidates:
+            if candidate and Path(candidate).is_file():
+                verify = candidate
+                break
+
+        http_client = httpx.Client(verify=verify)
 
         self.client = OpenAI(api_key=api_key, http_client=http_client)
         self.model = model
