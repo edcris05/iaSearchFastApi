@@ -31,14 +31,20 @@ class GeneratorV2:
     def __init__(self):
         # Permite CA custom por entorno (corporativo/proxy), y si no existe
         # usa el bundle corporativo versionado en el repo.
-        ca_bundle_path = os.getenv("CUSTOM_CA_BUNDLE", "").strip()
-        default_bundle = Path(__file__).resolve().parents[3] / "certs" / "Zscaler_Root_CA.pem"
-        if ca_bundle_path != "":
-            verify: str | bool = ca_bundle_path
-        elif default_bundle.is_file():
-            verify = str(default_bundle)
-        else:
-            verify = True
+        repo_root = Path(__file__).resolve().parents[3]
+        bundle_candidates = [
+            os.getenv("CUSTOM_CA_BUNDLE", "").strip(),
+            os.getenv("SSL_CERT_FILE", "").strip(),
+            os.getenv("REQUESTS_CA_BUNDLE", "").strip(),
+            str(repo_root / "certs" / "zscaler_chain.pem"),
+            str(repo_root / "certs" / "Zscaler_Root_CA.pem"),
+            str(repo_root / "certs" / "zscaler_certs_only.pem"),
+        ]
+        verify: str | bool = True
+        for candidate in bundle_candidates:
+            if candidate and Path(candidate).is_file():
+                verify = candidate
+                break
 
         http_client = httpx.Client(verify=verify)
         self.client = OpenAI(
