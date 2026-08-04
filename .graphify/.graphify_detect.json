@@ -52,14 +52,14 @@
     "video": []
   },
   "total_files": 43,
-  "total_words": 15923,
+  "total_words": 16079,
   "needs_graph": false,
-  "warning": "Corpus is ~15,923 words - fits in a single context window. You may not need a graph.",
+  "warning": "Corpus is ~16,079 words - fits in a single context window. You may not need a graph.",
   "skipped_sensitive": [],
   "graphifyignore_patterns": 17,
   "git": {
     "source_owner": "git",
-    "source_hash": "fa52d2776ff55843d7d7d9686713f314f1c52497",
+    "source_hash": "4aa3dd25091fd1c239b8c4f1e752cabc29a7d5ba",
     "branches": [
       "main"
     ],
@@ -72,11 +72,11 @@
     "source": "default-auto",
     "root": ".",
     "git_root": ".",
-    "head": "fa52d2776ff55843d7d7d9686713f314f1c52497",
+    "head": "4aa3dd25091fd1c239b8c4f1e752cabc29a7d5ba",
     "candidate_count": 115,
     "included_count": 43,
     "excluded_untracked_count": 0,
-    "excluded_ignored_count": 5988,
+    "excluded_ignored_count": 5989,
     "excluded_sensitive_count": 0,
     "missing_committed_count": 0,
     "warnings": [],

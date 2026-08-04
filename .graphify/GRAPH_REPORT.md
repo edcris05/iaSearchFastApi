@@ -1,24 +1,24 @@
 # Graph Report - .  (2026-08-04)
 
 ## Corpus Check
-- Corpus is ~15,923 words - fits in a single context window. You may not need a graph.
+- Corpus is ~16,079 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 242 nodes · 439 edges · 17 communities detected
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.5)
+- 245 nodes · 447 edges · 16 communities detected
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
-- Edge kinds: contains: 100 · MODIFIES: 90 · calls: 88 · method: 69 · ON_BRANCH: 28 · PARENT_OF: 27 · inherits: 23 · uses: 11 · rationale_for: 3
+- Edge kinds: contains: 101 · MODIFIES: 92 · calls: 89 · method: 69 · ON_BRANCH: 30 · PARENT_OF: 29 · inherits: 23 · uses: 11 · rationale_for: 3
 
 
 ## Input Scope
 - Requested: auto
 - Resolved: committed (source: default-auto)
 - Included files: 43 · Candidates: 115
-- Excluded: 0 untracked · 5988 ignored · 0 sensitive · 0 missing committed
+- Excluded: 0 untracked · 5989 ignored · 0 sensitive · 0 missing committed
 - Recommendation: Use --scope all or graphify.yaml inputs.corpus for a knowledge-base folder.
 
 ## Graph Freshness
-- Built from Git commit: `fa52d27`
+- Built from Git commit: `4aa3dd2`
 - Compare this hash to `git rev-parse HEAD` before trusting freshness-sensitive graph output.
 ## God Nodes (most connected - your core abstractions)
 1. `StrictBaseModel` - 18 edges
@@ -27,7 +27,7 @@
 4. `CorrectionsRepository` - 12 edges
 5. `QueryRulesResolver` - 11 edges
 6. `GeneratorV2` - 11 edges
-7. `_handle_chat_turn()` - 10 edges
+7. `_handle_chat_turn()` - 11 edges
 8. `main()` - 9 edges
 9. `ChatSessionContextRepository` - 7 edges
 10. `SearchEventRepository` - 7 edges
@@ -47,32 +47,32 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.11
-Nodes (23): main, 050dc6f feat: generic scope/domain profile for intent extraction + scope contract tests, 3786eb2 fix: safe prompt rendering without str.format for JSON templates, 3b16823 Fallback to legacy default embedding scope, 5417f49 fix after updates of generic stuffs, 5d1fb21 add rerank config, 5d6519d Enforce active correction uniqueness in API and DB docs, 7be5620 feat: add top-k retrieval diagnostics and configurable attribute thresholds (+15 more)
+Cohesion: 0.12
+Nodes (32): main, 050dc6f feat: generic scope/domain profile for intent extraction + scope contract tests, 3786eb2 fix: safe prompt rendering without str.format for JSON templates, 3b16823 Fallback to legacy default embedding scope, 4aa3dd2 fix ssl problem v3, 5417f49 fix after updates of generic stuffs, 5d1fb21 add rerank config, 5d6519d Enforce active correction uniqueness in API and DB docs (+24 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
+Cohesion: 0.05
 Nodes (7): a7c7838 Initial commit: FastAPI AI search backend docs and source, public.embedded_phrase, OpenAIEmbedder, export_csv(), _parse_iso_dt(), summary(), V1
 
 ### Community 2 - "Community 2"
-Cohesion: 0.14
-Nodes (9): 26dec16 fix to get correct credencials, 97b6afa fix to get correct credencials v2, e630bec fix to get correct credencials v3, # TODO: this function may change, and use the class properties instead of receiv, # TODO: this function may change, and use the class properties instead of receiv, _env(), GenericPostgresql, _env() (+1 more)
+Cohesion: 0.17
+Nodes (19): BaseModel, AppliedCorrectionOut, ChatContextOut, ChatTurnIn, ChatTurnOut, CorrectionCreate, CorrectionUpdate, RetrievalAttributeOut (+11 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.18
-Nodes (19): BaseModel, AppliedCorrectionOut, ChatContextOut, ChatTurnIn, ChatTurnOut, CorrectionCreate, CorrectionUpdate, RetrievalAttributeOut (+11 more)
+Cohesion: 0.14
+Nodes (9): 26dec16 fix to get correct credencials, 97b6afa fix to get correct credencials v2, e630bec fix to get correct credencials v3, # TODO: this function may change, and use the class properties instead of receiv, # TODO: this function may change, and use the class properties instead of receiv, _env(), GenericPostgresql, _env() (+1 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.16
 Nodes (3): GenericPostgresql, EmbeddedPhrase, SearchEventRepository
 
 ### Community 5 - "Community 5"
-Cohesion: 0.24
-Nodes (4): Exception, AppliedCorrection, CorrectionsRepository, DuplicateActiveCorrectionError
+Cohesion: 0.27
+Nodes (15): _build_explanation(), _build_search_text(), chat_turn(), chat_turn_no_trailing_slash(), _detect_intent(), _detect_operation(), _filters_to_human_text(), _flatten_filters() (+7 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.29
-Nodes (14): _build_explanation(), _build_search_text(), chat_turn(), chat_turn_no_trailing_slash(), _detect_intent(), _detect_operation(), _filters_to_human_text(), _flatten_filters() (+6 more)
+Cohesion: 0.24
+Nodes (4): Exception, AppliedCorrection, CorrectionsRepository, DuplicateActiveCorrectionError
 
 ### Community 7 - "Community 7"
 Cohesion: 0.29
@@ -91,26 +91,22 @@ Cohesion: 0.33
 Nodes (2): _debug_enabled(), GeneratorV2
 
 ### Community 11 - "Community 11"
-Cohesion: 0.50
-Nodes (7): _empty_retrieval(), get_response(), _load_attribute_min_similarity(), _normalize_filters(), _normalize_response_block(), _to_int(), _to_number_or_none()
-
-### Community 12 - "Community 12"
 Cohesion: 0.29
 Nodes (1): DomainProfileContractTests
 
-### Community 13 - "Community 13"
+### Community 12 - "Community 12"
 Cohesion: 0.33
 Nodes (1): ScopeConfigTests
 
-### Community 14 - "Community 14"
+### Community 13 - "Community 13"
 Cohesion: 0.67
 Nodes (2): normalize_domain_profile(), resolve_domain_profile()
 
-### Community 15 - "Community 15"
+### Community 14 - "Community 14"
 Cohesion: 1.00
 Nodes (3): _first_numeric(), normalize_response_block(), to_number_or_none()
 
-### Community 16 - "Community 16"
+### Community 15 - "Community 15"
 Cohesion: 0.83
 Nodes (3): resolve_scoped_env(), _scope_part(), scoped_env_names()
 
@@ -119,20 +115,20 @@ Nodes (3): resolve_scoped_env(), _scope_part(), scoped_env_names()
   These have ≤1 connection - possible missing edges or undocumented components.
 - **Thin community `Community 10`** (2 nodes): `_debug_enabled()`, `GeneratorV2`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 12`** (1 nodes): `DomainProfileContractTests`
+- **Thin community `Community 11`** (1 nodes): `DomainProfileContractTests`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 13`** (1 nodes): `ScopeConfigTests`
+- **Thin community `Community 12`** (1 nodes): `ScopeConfigTests`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 14`** (2 nodes): `normalize_domain_profile()`, `resolve_domain_profile()`
+- **Thin community `Community 13`** (2 nodes): `normalize_domain_profile()`, `resolve_domain_profile()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `EmbeddedPhrase` connect `Community 4` to `Community 0`, `Community 2`, `Community 10`?**
-  _High betweenness centrality (0.130) - this node is a cross-community bridge._
-- **Why does `GenericPostgresql` connect `Community 2` to `Community 9`, `Community 5`, `Community 4`?**
-  _High betweenness centrality (0.129) - this node is a cross-community bridge._
+- **Why does `EmbeddedPhrase` connect `Community 4` to `Community 0`, `Community 3`, `Community 10`?**
+  _High betweenness centrality (0.128) - this node is a cross-community bridge._
+- **Why does `GenericPostgresql` connect `Community 3` to `Community 9`, `Community 6`, `Community 4`?**
+  _High betweenness centrality (0.126) - this node is a cross-community bridge._
 - **Why does `GeneratorV2` connect `Community 10` to `Community 0`, `Community 4`, `Community 1`?**
   _High betweenness centrality (0.083) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `EmbeddedPhrase` (e.g. with `GenericPostgresql` and `GeneratorV2`) actually correct?**
@@ -140,6 +136,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `public.embedded_phrase`, `Resuelve stopwords y redirects por scope multi-commerce.      Env vars soportada` to the rest of the system?**
   _2 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.11428571428571428 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11666666666666667 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.06050420168067227 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.052564102564102565 - nodes in this community are weakly interconnected._

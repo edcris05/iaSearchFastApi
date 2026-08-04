@@ -99,6 +99,38 @@ def _detect_operation(message: str, explicit_operation: str | None) -> str:
     return "add"
 
 
+def _looks_like_new_search(message: str) -> bool:
+    msg = message.strip().lower()
+    if msg == "":
+        return False
+
+    additive_tokens = [
+        "ademas",
+        "además",
+        "tambien",
+        "también",
+        "suma",
+        "sumale",
+        "agrega",
+        "agregar",
+        "agregá",
+        "y tambien",
+        "y también",
+    ]
+    if any(token in msg for token in additive_tokens):
+        return False
+
+    words = re.findall(r"\w+", msg, flags=re.UNICODE)
+    if len(words) >= 4:
+        return True
+
+    comparison_tokens = ["menor", "mayor", "hasta", "menos", "mas", "más", "entre", "desde", "precio"]
+    if any(token in msg for token in comparison_tokens) and len(words) >= 3:
+        return True
+
+    return False
+
+
 def _merge_filters(
     previous_filters: list[list[list[Any]]],
     incoming_filters: list[list[list[Any]]],
@@ -275,6 +307,11 @@ def _handle_chat_turn(payload: ChatTurnIn):
     }
 
     previous_filters = _normalize_filters(previous.get("filters", []))
+
+    # Si hay contexto previo y el mensaje parece una búsqueda nueva completa,
+    # preferimos replace para evitar acumular filtros no intencionales.
+    if operation == "add" and previous_filters and _looks_like_new_search(payload.message):
+        operation = "replace"
 
     incoming_filters: list[list[list[Any]]] = []
     if payload.message.strip() != "":
