@@ -201,6 +201,19 @@ class EmbeddedPhrase(GenericPostgresql):
         selected_filters = []
         retrieval_attributes = []
 
+        min_margin_by_attr = self._load_attr_min_margin(
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+        min_similarity_delta_by_attr = self._load_attr_min_similarity_delta(
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+
         for attr, attr_rows in by_attr.items():
             has_numeric = any(r[2] is not None and str(r[2]) != "" for r in attr_rows)
             rows = attr_rows
@@ -266,6 +279,16 @@ class EmbeddedPhrase(GenericPostgresql):
             selected_filters.append([[selected[0], selected[1], selected[2], selected[3], selected[4]]])
 
             margin = (top_similarity - second_similarity) if second_similarity is not None else None
+
+            # Extra gating for "noisy" attributes (e.g. color) where a mediocre top match
+            # can create false-positive filters. This is opt-in via env vars.
+            attr_key = str(attr).strip().lower()
+            required_margin = float(min_margin_by_attr.get(attr_key, 0.0))
+            required_delta = float(min_similarity_delta_by_attr.get(attr_key, 0.0))
+            if required_margin > 0.0 and margin is not None and margin < required_margin:
+                continue
+            if required_delta > 0.0 and second_similarity is not None and (top_similarity - second_similarity) < required_delta:
+                continue
 
             if top_similarity >= 0.85 and (margin is None or margin >= 0.08):
                 confidence_band = "high"
@@ -378,6 +401,79 @@ class EmbeddedPhrase(GenericPostgresql):
             f"{base}__{p}__{t}__{l}",
             f"{base}__{p}__{t}__{l}__{s}",
         ]
+
+    def _parse_scoped_json_env(self, base: str, platform: str, tenant_id: str, locale: str, store_code: str) -> dict:
+        raw = os.getenv(base, "").strip()
+        for env_name in self._scoped_env_names(
+            base=base,
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        ):
+            scoped_raw = os.getenv(env_name, "").strip()
+            if scoped_raw != "":
+                raw = scoped_raw
+
+        if raw == "":
+            return {}
+
+        try:
+            parsed = json.loads(raw)
+        except Exception:
+            return {}
+
+        return parsed if isinstance(parsed, dict) else {}
+
+    def _load_attr_min_margin(
+        self,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+    ) -> dict[str, float]:
+        parsed = self._parse_scoped_json_env(
+            base="RETRIEVAL_ATTR_MIN_MARGIN",
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+        out: dict[str, float] = {}
+        for key, value in parsed.items():
+            attr = str(key).strip().lower()
+            if attr == "":
+                continue
+            try:
+                out[attr] = max(0.0, float(value))
+            except Exception:
+                continue
+        return out
+
+    def _load_attr_min_similarity_delta(
+        self,
+        platform: str,
+        tenant_id: str,
+        locale: str,
+        store_code: str,
+    ) -> dict[str, float]:
+        parsed = self._parse_scoped_json_env(
+            base="RETRIEVAL_ATTR_MIN_SIMILARITY_DELTA",
+            platform=platform,
+            tenant_id=tenant_id,
+            locale=locale,
+            store_code=store_code,
+        )
+        out: dict[str, float] = {}
+        for key, value in parsed.items():
+            attr = str(key).strip().lower()
+            if attr == "":
+                continue
+            try:
+                out[attr] = max(0.0, float(value))
+            except Exception:
+                continue
+        return out
 
     def _load_rerank_config(
         self,

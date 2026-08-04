@@ -106,9 +106,9 @@ def _load_attribute_min_similarity(global_min_similarity: float) -> dict[str, fl
     }
 
     def enforce_global_min(values: dict[str, float]) -> dict[str, float]:
-        for key, value in list(values.items()):
-            if value < global_min_similarity:
-                values[key] = global_min_similarity
+        # Allow per-attribute overrides to be lower than the request/global min.
+        # This is needed to keep strict globals (e.g. 0.90) while relaxing only
+        # noisy/specific attributes explicitly configured in env.
         return values
 
     raw = os.getenv("EMBEDDING_MIN_SIMILARITY_BY_ATTRIBUTE", "").strip()

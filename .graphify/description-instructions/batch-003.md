@@ -1,4 +1,4 @@
-# Node Description Batch 4 of 5
+# Node Description Batch 4 of 7
 
 Graphify is running in assistant/skill mode (no API key). You are the host
 assistant (Claude Code / Codex / Gemini CLI). Read the prompt below and write
@@ -19,51 +19,51 @@ relations (neighbors) and the provided citations/evidence — e.g.
 Ground entity descriptions in the citations/evidence when present; do not
 speculate beyond the context, so a node with no supporting context may be
 left out of the reply.
-Write every description in Spanish (es). Do not switch languages.
+Write every description in English (en). Do not switch languages.
 No marketing language.
 Respond ONLY with a JSON object mapping each node id (as a string) to its
 one-sentence description — no prose, no markdown fences.
 
-- "routers_metrics_summary": "summary()" | kind=code-symbol | source=src/routers/metrics.py:L29 | neighbors=[metrics.py, _parse_iso_dt()]
-- "routers_user_queries_empty_retrieval": "_empty_retrieval()" | kind=code-symbol | source=src/routers/user_queries.py:L103 | neighbors=[user_queries.py, get_response()]
-- "routers_user_queries_load_attribute_min_similarity": "_load_attribute_min_similarity()" | kind=code-symbol | source=src/routers/user_queries.py:L112 | neighbors=[user_queries.py, get_response()]
-- "routers_user_queries_to_int": "_to_int()" | kind=code-symbol | source=src/routers/user_queries.py:L96 | neighbors=[user_queries.py, get_response()]
-- "scripts_eval_topk_as_number_or_none": "_as_number_or_none()" | kind=code-symbol | source=scripts/eval_topk.py:L63 | neighbors=[eval_topk.py, parse_eval_row()]
-- "scripts_eval_topk_build_call_url": "build_call_url()" | kind=code-symbol | source=scripts/eval_topk.py:L163 | neighbors=[eval_topk.py, main()]
-- "scripts_eval_topk_compare_to_baseline": "compare_to_baseline()" | kind=code-symbol | source=scripts/eval_topk.py:L227 | neighbors=[eval_topk.py, main()]
-- "scripts_eval_topk_evalrow": "EvalRow" | kind=code-symbol | source=scripts/eval_topk.py:L28 | neighbors=[eval_topk.py, parse_eval_row()]
-- "scripts_eval_topk_fetch_json": "fetch_json()" | kind=code-symbol | source=scripts/eval_topk.py:L92 | neighbors=[eval_topk.py, main()]
-- "scripts_eval_topk_load_queries": "load_queries()" | kind=code-symbol | source=scripts/eval_topk.py:L77 | neighbors=[eval_topk.py, main()]
-- "scripts_eval_topk_parse_args": "parse_args()" | kind=code-symbol | source=scripts/eval_topk.py:L46 | neighbors=[eval_topk.py, main()]
-- "scripts_eval_topk_percentile": "percentile()" | kind=code-symbol | source=scripts/eval_topk.py:L214 | neighbors=[eval_topk.py, aggregate()]
-- "scripts_eval_topk_write_raw_csv": "write_raw_csv()" | kind=code-symbol | source=scripts/eval_topk.py:L277 | neighbors=[eval_topk.py, main()]
-- "src_main": "main.py" | kind=code-symbol | source=src/main.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…, home()]
-- "text_generation_v1": "v1.py" | kind=code-symbol | source=src/response_api/text_generation/v1.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…, V1]
-- "text_generation_v2_generatorv2_clear_model_response": ".clear_model_response()" | kind=code-symbol | source=src/response_api/text_generation/v2.py:L140 | neighbors=[GeneratorV2, .extract_search_intent()]
-- "text_generation_v2_generatorv2_get_embedding_filter_by_attributes": ".get_embedding_filter_by_attributes()" | kind=code-symbol | source=src/response_api/text_generation/v2.py:L145 | neighbors=[GeneratorV2, _debug_enabled()]
-- "utils_auth": "auth.py" | kind=code-symbol | source=src/utils/auth.py:L1 | neighbors=[ffd8c5f Protect admin endpoints and for…, require_admin_api_key()]
-- "utils_config": "config.py" | kind=code-symbol | source=src/utils/config.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…, get_openai_key()]
-- "dbpersistence_init": "__init__.py" | kind=code-symbol | source=src/dbpersistence/__init__.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…]
-- "embedded_phrase_public_embedded_phrase": "public.embedded_phrase" | kind=code-symbol | source=embedded_phrase.sql:L29 | neighbors=[embedded_phrase.sql]
-- "exception": "Exception" | kind=code-symbol | neighbors=[DuplicateActiveCorrectionError]
-- "models_corrections_duplicateactivecorrectionerror_init": ".__init__()" | kind=code-symbol | source=src/models/corrections.py:L25 | neighbors=[DuplicateActiveCorrectionError]
-- "models_embedded_phrase_embeddedphrase_init": ".__init__()" | kind=code-symbol | source=src/models/embedded_phrase.py:L30 | neighbors=[EmbeddedPhrase]
-- "models_embedded_phrase_embeddedphrase_insert_row": ".insert_row()" | kind=code-symbol | source=src/models/embedded_phrase.py:L55 | neighbors=[EmbeddedPhrase]
-- "models_generic_postgresql_load_project_env": "_load_project_env()" | kind=code-symbol | source=src/models/generic_postgresql.py:L8 | neighbors=[generic_postgresql.py]
-- "models_init": "__init__.py" | kind=code-symbol | source=src/models/__init__.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…]
-- "models_query_rules_rationale_28": "Resuelve stopwords y redirects por scope multi-commerce.      Env vars soportada" | kind=entity | source=src/models/query_rules.py:L28 | neighbors=[QueryRulesResolver]
-- "models_search_event_searcheventrepository_log_event": ".log_event()" | kind=code-symbol | source=src/models/search_event.py:L11 | neighbors=[SearchEventRepository]
-- "postgresql_connector_load_project_env": "_load_project_env()" | kind=code-symbol | source=src/dbpersistence/postgresql/connector.py:L8 | neighbors=[connector.py]
-- "postgresql_connector_postgresqlconnector_close_connection": ".close_connection()" | kind=code-symbol | source=src/dbpersistence/postgresql/connector.py:L50 | neighbors=[PostgreSqlConnector]
-- "postgresql_init": "__init__.py" | kind=code-symbol | source=src/dbpersistence/postgresql/__init__.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…]
-- "response_api_init": "__init__.py" | kind=code-symbol | source=src/response_api/__init__.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…]
-- "response_api_openai_embedder_openaiembedder_get_embedding": ".get_embedding()" | kind=code-symbol | source=src/response_api/openai_embedder.py:L39 | neighbors=[OpenAIEmbedder]
-- "response_api_openai_embedder_openaiembedder_init": ".__init__()" | kind=code-symbol | source=src/response_api/openai_embedder.py:L26 | neighbors=[OpenAIEmbedder]
-- "response_api_openai_embedder_openaiembedder_repr": ".__repr__()" | kind=code-symbol | source=src/response_api/openai_embedder.py:L56 | neighbors=[OpenAIEmbedder]
-- "routers_corrections_create_correction": "create_correction()" | kind=code-symbol | source=src/routers/corrections.py:L30 | neighbors=[corrections.py]
-- "routers_corrections_delete_correction": "delete_correction()" | kind=code-symbol | source=src/routers/corrections.py:L66 | neighbors=[corrections.py]
-- "routers_corrections_list_corrections": "list_corrections()" | kind=code-symbol | source=src/routers/corrections.py:L12 | neighbors=[corrections.py]
-- "routers_corrections_update_correction": "update_correction()" | kind=code-symbol | source=src/routers/corrections.py:L46 | neighbors=[corrections.py]
+- "models_contracts_chatturnin": "ChatTurnIn" | kind=code-symbol | source=src/models/contracts.py:L153 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_chatturnout": "ChatTurnOut" | kind=code-symbol | source=src/models/contracts.py:L171 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_correctioncreate": "CorrectionCreate" | kind=code-symbol | source=src/models/contracts.py:L16 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_correctionupdate": "CorrectionUpdate" | kind=code-symbol | source=src/models/contracts.py:L30 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_retrievalattributeout": "RetrievalAttributeOut" | kind=code-symbol | source=src/models/contracts.py:L98 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_retrievalcandidateout": "RetrievalCandidateOut" | kind=code-symbol | source=src/models/contracts.py:L68 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_retrievalconfidenceout": "RetrievalConfidenceOut" | kind=code-symbol | source=src/models/contracts.py:L78 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_retrievalout": "RetrievalOut" | kind=code-symbol | source=src/models/contracts.py:L106 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_retrievalrerankout": "RetrievalRerankOut" | kind=code-symbol | source=src/models/contracts.py:L91 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_retrievalrerankweightsout": "RetrievalRerankWeightsOut" | kind=code-symbol | source=src/models/contracts.py:L85 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_searcheventin": "SearchEventIn" | kind=code-symbol | source=src/models/contracts.py:L42 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_searchintentresponse": "SearchIntentResponse" | kind=code-symbol | source=src/models/contracts.py:L58 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_searchresponsemeta": "SearchResponseMeta" | kind=code-symbol | source=src/models/contracts.py:L125 | neighbors=[contracts.py, StrictBaseModel]
+- "models_contracts_searchresponseout": "SearchResponseOut" | kind=code-symbol | source=src/models/contracts.py:L142 | neighbors=[contracts.py, StrictBaseModel]
+- "models_corrections_appliedcorrection": "AppliedCorrection" | kind=code-symbol | source=src/models/corrections.py:L13 | neighbors=[corrections.py, GenericPostgresql]
+- "models_corrections_correctionsrepository_list_corrections": ".list_corrections()" | kind=code-symbol | source=src/models/corrections.py:L37 | neighbors=[CorrectionsRepository, .apply_corrections()]
+- "models_corrections_correctionsrepository_normalize": "._normalize()" | kind=code-symbol | source=src/models/corrections.py:L32 | neighbors=[CorrectionsRepository, ._matches()]
+- "models_embedded_phrase_base_embeddedphraseuploadbase": "EmbeddedPhraseUploadBase" | kind=code-symbol | source=src/models/embedded_phrase_base.py:L11 | neighbors=[embedded_phrase_base.py, BaseModel]
+- "models_embedded_phrase_embeddedphrase_extract_client_suffix": "._extract_client_suffix()" | kind=code-symbol | source=src/models/embedded_phrase.py:L366 | neighbors=[EmbeddedPhrase, ._select_row_for_scope()]
+- "models_embedded_phrase_embeddedphrase_normalize_phrase_text": "._normalize_phrase_text()" | kind=code-symbol | source=src/models/embedded_phrase.py:L357 | neighbors=[EmbeddedPhrase, ._select_row_for_scope()]
+- "models_embedded_phrase_embeddedphrase_resolve_business_boost": "._resolve_business_boost()" | kind=code-symbol | source=src/models/embedded_phrase.py:L569 | neighbors=[EmbeddedPhrase, ._select_row_for_scope()]
+- "models_embedded_phrase_embeddedphrase_scope_part": "._scope_part()" | kind=code-symbol | source=src/models/embedded_phrase.py:L374 | neighbors=[EmbeddedPhrase, ._scoped_env_names()]
+- "models_embedded_phrase_embeddedphrase_select_row": ".select_row()" | kind=code-symbol | source=src/models/embedded_phrase.py:L82 | neighbors=[EmbeddedPhrase, .select_row_with_diagnostics()]
+- "models_embedded_phrase_rationale_54": "# TODO: this function may change, and use the class properties instead of receiv" | kind=entity | source=src/models/embedded_phrase.py:L54 | neighbors=[embedded_phrase.py, GenericPostgresql]
+- "models_embedded_phrase_rationale_60": "# TODO: this function may change, and use the class properties instead of receiv" | kind=entity | source=src/models/embedded_phrase.py:L60 | neighbors=[embedded_phrase.py, GenericPostgresql]
+- "models_generic_postgresql_env": "_env()" | kind=code-symbol | source=src/models/generic_postgresql.py:L14 | neighbors=[generic_postgresql.py, .__init__()]
+- "models_generic_postgresql_genericpostgresql_execute_select": ".execute_select()" | kind=code-symbol | source=src/models/generic_postgresql.py:L65 | neighbors=[GenericPostgresql, .get_connection()]
+- "models_generic_postgresql_genericpostgresql_init": ".__init__()" | kind=code-symbol | source=src/models/generic_postgresql.py:L25 | neighbors=[GenericPostgresql, _env()]
+- "models_generic_postgresql_genericpostgresql_insert_single_row": ".insert_single_row()" | kind=code-symbol | source=src/models/generic_postgresql.py:L50 | neighbors=[GenericPostgresql, .get_connection()]
+- "models_query_rules_queryrulesresolver_scope_part": "._scope_part()" | kind=code-symbol | source=src/models/query_rules.py:L39 | neighbors=[QueryRulesResolver, ._scoped_env_names()]
+- "models_query_rules_redirectmatch_to_dict": ".to_dict()" | kind=code-symbol | source=src/models/query_rules.py:L17 | neighbors=[.resolve(), RedirectMatch]
+- "models_search_event": "search_event.py" | kind=code-symbol | source=src/models/search_event.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…, SearchEventRepository]
+- "models_search_event_searcheventrepository_export_events_csv": ".export_events_csv()" | kind=code-symbol | source=src/models/search_event.py:L128 | neighbors=[SearchEventRepository, ._build_where()]
+- "models_search_event_searcheventrepository_export_metrics_summary": ".export_metrics_summary()" | kind=code-symbol | source=src/models/search_event.py:L54 | neighbors=[SearchEventRepository, ._build_where()]
+- "postgresql_connector_env": "_env()" | kind=code-symbol | source=src/dbpersistence/postgresql/connector.py:L15 | neighbors=[connector.py, .__init__()]
+- "postgresql_connector_postgresqlconnector_get_connection": ".get_connection()" | kind=code-symbol | source=src/dbpersistence/postgresql/connector.py:L46 | neighbors=[PostgreSqlConnector, .insert_single_row()]
+- "postgresql_connector_postgresqlconnector_init": ".__init__()" | kind=code-symbol | source=src/dbpersistence/postgresql/connector.py:L26 | neighbors=[PostgreSqlConnector, _env()]
+- "postgresql_connector_postgresqlconnector_insert_single_row": ".insert_single_row()" | kind=code-symbol | source=src/dbpersistence/postgresql/connector.py:L54 | neighbors=[PostgreSqlConnector, .get_connection()]
+- "response_api_openai_embedder": "openai_embedder.py" | kind=code-symbol | source=src/response_api/openai_embedder.py:L1 | neighbors=[a7c7838 Initial commit: FastAPI AI sear…, OpenAIEmbedder]
+- "routers_chat_turn_chat_turn": "chat_turn()" | kind=code-symbol | source=src/routers/chat_turn.py:L415 | neighbors=[chat_turn.py, _handle_chat_turn()]
 
 ## Instructions
 
