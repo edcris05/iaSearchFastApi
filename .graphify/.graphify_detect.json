@@ -1,7 +1,6 @@
 {
   "files": {
     "code": [
-      ".graphify/studio/assets/index-CU5cXRnL.js",
       "docs/sql/001_corrections_active_uniqueness.sql",
       "docs/sql/002_embedded_phrase_multitenant.sql",
       "docs/sql/003_embedded_phrase_backfill_movistar_base.sql",
@@ -12,6 +11,7 @@
       "src/dbpersistence/postgresql/connector.py",
       "src/main.py",
       "src/models/__init__.py",
+      "src/models/chat_session_context.py",
       "src/models/contracts.py",
       "src/models/corrections.py",
       "src/models/embedded_phrase.py",
@@ -24,6 +24,7 @@
       "src/response_api/text_generation/v1.py",
       "src/response_api/text_generation/v2.py",
       "src/routers/__init__.py",
+      "src/routers/chat_turn.py",
       "src/routers/corrections.py",
       "src/routers/metrics.py",
       "src/routers/text_uploaders copy 2.py",
@@ -32,13 +33,14 @@
       "src/routers/user_queries.py",
       "src/utils/__init__.py",
       "src/utils/auth.py",
-      "src/utils/config.py"
+      "src/utils/config.py",
+      "src/utils/domain_profile.py",
+      "src/utils/intent_normalization.py",
+      "src/utils/scope_config.py",
+      "tests/test_domain_profile_contract.py",
+      "tests/test_scope_config.py"
     ],
     "document": [
-      ".graphify/GRAPH_REPORT.md",
-      ".graphify/studio/index.html",
-      ".graphify/studio/studio-template.html",
-      ".graphify/studio/studio.html",
       "README.md",
       "docs/ai-search-multicommerce.md",
       "docs/evaluation/offline-topk-eval.md",
@@ -49,15 +51,15 @@
     "image": [],
     "video": []
   },
-  "total_files": 41,
-  "total_words": 35095,
+  "total_files": 43,
+  "total_words": 15863,
   "needs_graph": false,
-  "warning": "Corpus is ~35,095 words - fits in a single context window. You may not need a graph.",
+  "warning": "Corpus is ~15,863 words - fits in a single context window. You may not need a graph.",
   "skipped_sensitive": [],
-  "graphifyignore_patterns": 16,
+  "graphifyignore_patterns": 17,
   "git": {
     "source_owner": "git",
-    "source_hash": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
+    "source_hash": "dc0aeeb400c6a38968a2e036491761fd30dbfee0",
     "branches": [
       "main"
     ],
@@ -70,11 +72,11 @@
     "source": "default-auto",
     "root": ".",
     "git_root": ".",
-    "head": "7c5f9cedc985dbef96f3a4b6bf87daf210c604eb",
-    "candidate_count": 94,
-    "included_count": 41,
-    "excluded_untracked_count": 14,
-    "excluded_ignored_count": 5902,
+    "head": "dc0aeeb400c6a38968a2e036491761fd30dbfee0",
+    "candidate_count": 115,
+    "included_count": 43,
+    "excluded_untracked_count": 0,
+    "excluded_ignored_count": 5980,
     "excluded_sensitive_count": 0,
     "missing_committed_count": 0,
     "warnings": [],

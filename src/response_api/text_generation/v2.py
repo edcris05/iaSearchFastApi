@@ -39,35 +39,35 @@ class GeneratorV2:
             http_client=http_client,
         )
 
-        def _default_prompt_template(self, domain_profile: str) -> str:
-                if domain_profile == "electronics":
-                        return dedent('''
-                                Extrae intención de búsqueda de productos electrónicos desde una frase del usuario.
+    def _default_prompt_template(self, domain_profile: str) -> str:
+        if domain_profile == "electronics":
+            return dedent('''
+                Extrae intención de búsqueda de productos electrónicos desde una frase del usuario.
 
-                                Devuelve SOLO JSON válido con este formato:
-                                {
-                                    "price_min": number|null,
-                                    "price_max": number|null,
-                                    "min_battery_mah": number|null,
-                                    "min_ram_gb": number|null,
-                                    "min_storage_gb": number|null,
-                                    "characteristics": [string],
-                                    "domain_filters": {}
-                                }
+                Devuelve SOLO JSON válido con este formato:
+                {
+                  "price_min": number|null,
+                  "price_max": number|null,
+                  "min_battery_mah": number|null,
+                  "min_ram_gb": number|null,
+                  "min_storage_gb": number|null,
+                  "characteristics": [string],
+                  "domain_filters": {}
+                }
 
-                                Reglas generales:
-                                - No inventar datos.
-                                - Si no hay un valor claro, usar null.
-                                - Guardar en "characteristics" todo lo no cuantificable.
-                                - Reconocer expresiones de precio: "menos de", "hasta", "más de", "desde", "entre X y Y".
-                                - Para RAM/STORAGE/BATERIA completar los campos numéricos solo cuando haya evidencia explícita.
-                                - En electronics, mantener "domain_filters" vacío salvo que se indique un filtro numérico adicional no mapeado.
+                Reglas generales:
+                - No inventar datos.
+                - Si no hay un valor claro, usar null.
+                - Guardar en "characteristics" todo lo no cuantificable.
+                - Reconocer expresiones de precio: "menos de", "hasta", "más de", "desde", "entre X y Y".
+                - Para RAM/STORAGE/BATERIA completar los campos numéricos solo cuando haya evidencia explícita.
+                - En electronics, mantener "domain_filters" vacío salvo que se indique un filtro numérico adicional no mapeado.
 
-                                Texto del usuario:
-                                """
-                                {user_query}
-                                """
-                                ''').strip()
+                Texto del usuario:
+                """
+                {user_query}
+                """
+                ''').strip()
 
         return dedent('''
             Extrae intención de búsqueda de productos desde una frase del usuario.
@@ -79,8 +79,8 @@ class GeneratorV2:
               "min_battery_mah": number|null,
               "min_ram_gb": number|null,
               "min_storage_gb": number|null,
-                            "characteristics": [string],
-                            "domain_filters": {"constraint_name": number}
+              "characteristics": [string],
+              "domain_filters": {"constraint_name": number}
             }
 
             Reglas generales:
@@ -88,9 +88,9 @@ class GeneratorV2:
             - Si no hay un valor claro, usar null.
             - Guardar en "characteristics" todo lo no cuantificable.
             - Reconocer expresiones de precio: "menos de", "hasta", "más de", "desde", "entre X y Y".
-                        - En perfil generic NO dependas de campos específicos de celulares.
-                        - Usa min_battery_mah/min_ram_gb/min_storage_gb solo si el usuario explícitamente habla de batería/RAM/almacenamiento.
-                        - Para restricciones numéricas de otros dominios, usar domain_filters con claves cortas en snake_case.
+            - En perfil generic NO dependas de campos específicos de celulares.
+            - Usa min_battery_mah/min_ram_gb/min_storage_gb solo si el usuario explícitamente habla de batería/RAM/almacenamiento.
+            - Para restricciones numéricas de otros dominios, usar domain_filters con claves cortas en snake_case.
 
             Texto del usuario:
             """

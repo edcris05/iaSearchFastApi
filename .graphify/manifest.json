@@ -32,28 +32,28 @@
     "hash": "b67a0d204d5050472b5071d93a2af680"
   },
   "src/main.py": {
-    "mtime": 1783366288522.1077,
-    "hash": "e821401036220e6d6f9223a4055000d1"
+    "mtime": 1785787331302.9058,
+    "hash": "f4d2a8db94bb5d21801b287eab6336aa"
   },
   "src/models/__init__.py": {
     "mtime": 1769817419000,
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "src/models/contracts.py": {
-    "mtime": 1784902127273.7166,
-    "hash": "4bfeb492375723c3f12b53eb4e74d1ac"
+    "mtime": 1785849617976.7073,
+    "hash": "f91299483ebb16b9277a5be52da2f3d7"
   },
   "src/models/corrections.py": {
-    "mtime": 1783368667066.3362,
-    "hash": "aca42d55463168a79d6c82912c3818b6"
+    "mtime": 1785848541410.1035,
+    "hash": "046072e9cbeec949c17d3c686660b637"
   },
   "src/models/embedded_phrase.py": {
-    "mtime": 1784916168391.1045,
-    "hash": "e89486ebfff9b3465d41e0a22fb1738a"
+    "mtime": 1785848541410.1035,
+    "hash": "bf27e3cd4255e14a128308c5553ec432"
   },
   "src/models/embedded_phrase_base.py": {
-    "mtime": 1783701295608.3489,
-    "hash": "4c45b3bd6925ca34dd0a2fe14dd008ea"
+    "mtime": 1785848541410.1035,
+    "hash": "9854f37d258bfeecc9d8f053416d62d3"
   },
   "src/models/generic_postgresql.py": {
     "mtime": 1783814034327.898,
@@ -76,16 +76,16 @@
     "hash": "f0d0de8ae3b21a918cc847ffd55ade92"
   },
   "src/response_api/text_generation/v2.py": {
-    "mtime": 1784913797353.0754,
-    "hash": "2d15d19ba5193d271147133118909ebe"
+    "mtime": 1785853334555.8362,
+    "hash": "eb057b0579b3e0eee10e23544a563327"
   },
   "src/routers/__init__.py": {
     "mtime": 1769817419000,
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "src/routers/corrections.py": {
-    "mtime": 1783706729127.1904,
-    "hash": "96361b4185d3b21c077f66fa0ab2221d"
+    "mtime": 1785848541410.1035,
+    "hash": "bb7f26d5d98f766d1008c2fd390a14ba"
   },
   "src/routers/metrics.py": {
     "mtime": 1783706729127.1904,
@@ -104,8 +104,8 @@
     "hash": "fc8b7f7a90e9abfea88314af87fdfba5"
   },
   "src/routers/user_queries.py": {
-    "mtime": 1784913797353.0754,
-    "hash": "78cd41ae5fe3e6f1f83194bd7adbf487"
+    "mtime": 1785849617976.7073,
+    "hash": "07aca2fbc8d83d40c0188d13a0f2763f"
   },
   "src/utils/__init__.py": {
     "mtime": 1769925184000,
@@ -148,8 +148,8 @@
     "hash": "455538f6965f76e19b1073e3c1e4b548"
   },
   ".graphify/GRAPH_REPORT.md": {
-    "mtime": 1785249700514.7495,
-    "hash": "84b86f3ca84a6353f86e6945ec9dceec"
+    "mtime": 1785249758665.3723,
+    "hash": "397a7b528e3fc8d03351e2eb51016fde"
   },
   ".graphify/studio/index.html": {
     "mtime": 1784733522450.694,
@@ -162,5 +162,57 @@
   ".graphify/studio/studio.html": {
     "mtime": 1784733522504.8171,
     "hash": "b5da2969eaaeb7c65c0163d8fda48ab3"
+  },
+  "src/models/chat_session_context.py": {
+    "mtime": 1785331190255.7314,
+    "hash": "3afcb173298fd8e6edc3c517bab3eea6"
+  },
+  "src/routers/chat_turn.py": {
+    "mtime": 1785848541410.1035,
+    "hash": "c17e5c738193f13015b52f8b4e2d1f20"
+  },
+  ".graphify/description-instructions/batch-000.md": {
+    "mtime": 1785249700494.7495,
+    "hash": "271c1ff327c2787f9c12a38335e5b390"
+  },
+  ".graphify/description-instructions/batch-001.md": {
+    "mtime": 1785249700494.7495,
+    "hash": "e6acd25095cba386577c7c46c7d1b287"
+  },
+  ".graphify/description-instructions/batch-002.md": {
+    "mtime": 1785249700498.7495,
+    "hash": "13a421fec124a464e8bab895e018393c"
+  },
+  ".graphify/description-instructions/batch-003.md": {
+    "mtime": 1785249700498.7495,
+    "hash": "4bfc9c1671f248522edfa2d10264b012"
+  },
+  ".graphify/description-instructions/batch-004.md": {
+    "mtime": 1785249700498.7495,
+    "hash": "0ed68724648e63b35dbdb88256e33a11"
+  },
+  ".graphify/label-instructions/communities.md": {
+    "mtime": 1785249700438.7493,
+    "hash": "98765bc8c724ab1fe2b765c3879e5954"
+  },
+  "src/utils/domain_profile.py": {
+    "mtime": 1785849617976.7073,
+    "hash": "9b9e1b04bc365b74f82c03b3ab77b141"
+  },
+  "src/utils/intent_normalization.py": {
+    "mtime": 1785849617980.8755,
+    "hash": "a6ae5791afde44d373ceba37dc84f5a7"
+  },
+  "src/utils/scope_config.py": {
+    "mtime": 1785848541410.1035,
+    "hash": "1c57eccfc6020077a4b405e263f65e37"
+  },
+  "tests/test_domain_profile_contract.py": {
+    "mtime": 1785849617976.7073,
+    "hash": "784a273e7caaa8dee2560c341e9571c5"
+  },
+  "tests/test_scope_config.py": {
+    "mtime": 1785849617976.7073,
+    "hash": "934a9f54c5e16674648d345a76ea5b0c"
   }
 }
