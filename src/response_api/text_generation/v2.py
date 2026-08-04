@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import re
+from pathlib import Path
 from textwrap import dedent
 from typing import List
 
@@ -28,10 +29,16 @@ def _debug_enabled() -> bool:
 
 class GeneratorV2:
     def __init__(self):
-        # Permite CA custom por entorno (corporativo/proxy), pero por defecto
-        # usa el trust store estándar del sistema para mayor portabilidad.
+        # Permite CA custom por entorno (corporativo/proxy), y si no existe
+        # usa el bundle corporativo versionado en el repo.
         ca_bundle_path = os.getenv("CUSTOM_CA_BUNDLE", "").strip()
-        verify = ca_bundle_path if ca_bundle_path != "" else True
+        default_bundle = Path(__file__).resolve().parents[3] / "certs" / "Zscaler_Root_CA.pem"
+        if ca_bundle_path != "":
+            verify: str | bool = ca_bundle_path
+        elif default_bundle.is_file():
+            verify = str(default_bundle)
+        else:
+            verify = True
 
         http_client = httpx.Client(verify=verify)
         self.client = OpenAI(
