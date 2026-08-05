@@ -1,0 +1,49 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  default:
+    format: "%(levelname)s:%(name)s:%(message)s"
+  access:
+    format: "%(levelname)s:%(name)s:%(client_addr)s - \"%(request_line)s\" %(status_code)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: default
+    stream: ext://sys.stdout
+  console_err:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: default
+    stream: ext://sys.stderr
+  access_console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: access
+    stream: ext://sys.stdout
+
+root:
+  level: INFO
+  handlers: [console]
+
+loggers:
+  uvicorn:
+    level: INFO
+    handlers: [console_err]
+    propagate: false
+  uvicorn.error:
+    level: INFO
+    handlers: [console_err]
+    propagate: false
+  uvicorn.access:
+    level: INFO
+    handlers: [access_console]
+    propagate: false
+
+  # Tu app / módulos (opcional, con root bastaría, pero lo dejamos explícito)
+  src:
+    level: INFO
+    handlers: [console]
+    propagate: true
