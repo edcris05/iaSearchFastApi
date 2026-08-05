@@ -12,6 +12,7 @@ from src.models.contracts import ChatTurnIn, ChatTurnOut
 from src.response_api.text_generation.v2 import GeneratorV2
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 chat_turn_router = APIRouter()
 
