@@ -498,6 +498,26 @@ def _handle_chat_turn(payload: ChatTurnIn):
             )
             if isinstance(retrieval_payload, dict):
                 incoming_filters = _normalize_filters(retrieval_payload.get("selected_filters", []))
+
+                # Fallback semántico compuesto en chat_turn:
+                # si por characteristics no sale marca/color en frases largas,
+                # reintentamos retrieval con la oración completa.
+                if not incoming_filters and message_for_intent.strip() != "":
+                    fallback_retrieval_payload = generator.get_embedding_filter_by_attributes(
+                        attributes=[message_for_intent],
+                        query_text=message_for_intent,
+                        platform=payload.platform,
+                        tenant_id=payload.tenant_id,
+                        locale=payload.locale,
+                        store_code=payload.store_code,
+                        min_similarity=payload.min_similarity,
+                        top_k=payload.top_k,
+                        attribute_min_similarity=None,
+                    )
+                    if isinstance(fallback_retrieval_payload, dict):
+                        incoming_filters = _normalize_filters(
+                            fallback_retrieval_payload.get("selected_filters", [])
+                        )
         except Exception:
             incoming_filters = []
 
