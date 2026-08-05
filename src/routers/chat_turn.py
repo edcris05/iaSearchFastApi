@@ -325,11 +325,16 @@ def _build_explanation(
     if detected_intent == "open_question":
         return "Entendido. Contame más detalles del producto y voy refinando la búsqueda con vos."
 
-    if summary:
-        return f"Perfecto, actualicé tu búsqueda. Filtros activos: {summary}."
+    if summary and not intent_summary:
+        return f"Perfecto, este es el resultado de tu búsqueda. Filtros activos: {summary}."
 
     if intent_summary:
-        return f"Perfecto, actualicé tu búsqueda. Criterios detectados: {intent_summary}."
+        if summary:
+            return (
+                "Perfecto, este es el resultado de tu búsqueda. "
+                f"Criterios detectados: {intent_summary}."
+            )
+        return f"Perfecto, este es el resultado de tu búsqueda. Criterios detectados: {intent_summary}."
 
     return "Perfecto, actualicé la búsqueda."
 
