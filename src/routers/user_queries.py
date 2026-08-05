@@ -99,6 +99,31 @@ def _empty_retrieval(top_k: int, min_similarity: float) -> dict:
     }
 
 
+def _flatten_filters(filters: list) -> list[list[Any]]:
+    flat: list[list[Any]] = []
+    for group in filters:
+        if not isinstance(group, list):
+            continue
+        for item in group:
+            if isinstance(item, list) and len(item) >= 5:
+                flat.append(item)
+    return flat
+
+
+def _group_filters_by_attribute(flat_filters: list[list[Any]]) -> list:
+    by_attr: dict[str, list[list[Any]]] = {}
+    for item in flat_filters:
+        attr = str(item[0]).strip()
+        if attr == "":
+            continue
+        by_attr.setdefault(attr, []).append(item)
+
+    grouped: list = []
+    for _, items in by_attr.items():
+        grouped.append(items)
+    return grouped
+
+
 def _load_attribute_min_similarity(global_min_similarity: float) -> dict[str, float]:
     thresholds = {
         key: float(max(0.0, min(1.0, value)))
@@ -246,6 +271,31 @@ def get_response(
                 retrieval = _empty_retrieval(top_k=top_k, min_similarity=min_similarity)
 
             filters = _normalize_filters(raw_filters)
+
+            # Fallback semántico multi-tenant/multi-plataforma:
+            # si embeddings no devuelve matches pero hay characteristics,
+            # hacemos una segunda recuperación con la query completa para
+            # rescatar atributos compuestos (ej: color + manufacturer).
+            if not filters and attributes:
+                fallback_retrieval_payload = consult_class.get_embedding_filter_by_attributes(
+                    attributes=[query_after_stopwords],
+                    query_text=query_after_stopwords,
+                    platform=platform,
+                    tenant_id=tenant_id,
+                    locale=locale,
+                    store_code=store_code,
+                    min_similarity=min_similarity,
+                    top_k=top_k,
+                    attribute_min_similarity=attribute_min_similarity,
+                )
+
+                if isinstance(fallback_retrieval_payload, dict):
+                    fallback_raw_filters = fallback_retrieval_payload.get("selected_filters", [])
+                    fallback_filters = _normalize_filters(fallback_raw_filters)
+                    if fallback_filters:
+                        merged_flat = _flatten_filters(filters) + _flatten_filters(fallback_filters)
+                        filters = _group_filters_by_attribute(merged_flat)
+                        retrieval = fallback_retrieval_payload.get("retrieval", retrieval)
 
             corrections_repo = CorrectionsRepository()
             filters, applied_corrections = corrections_repo.apply_corrections(
