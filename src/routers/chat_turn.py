@@ -505,27 +505,28 @@ def _handle_chat_turn(payload: ChatTurnIn):
             if isinstance(retrieval_payload, dict):
                 incoming_filters = _normalize_filters(retrieval_payload.get("selected_filters", []))
 
-                # Fallback semántico compuesto en chat_turn:
-                # si por characteristics no sale marca/color en frases largas,
-                # reintentamos retrieval con la oración completa.
-                if message_for_intent.strip() != "":
-                    fallback_retrieval_payload = generator.get_embedding_filter_by_attributes(
-                        attributes=[message_for_intent],
-                        query_text=message_for_intent,
-                        platform=payload.platform,
-                        tenant_id=payload.tenant_id,
-                        locale=payload.locale,
-                        store_code=payload.store_code,
-                        min_similarity=payload.min_similarity,
-                        top_k=payload.top_k,
-                        attribute_min_similarity=None,
+            # Fallback semántico compuesto en chat_turn:
+            # hacemos una segunda recuperación con la query completa como "atributo",
+            # y mergeamos resultados para cubrir misses del extractor de intent.
+            if message_for_intent.strip() != "":
+                fallback_retrieval_payload = generator.get_embedding_filter_by_attributes(
+                    attributes=[message_for_intent],
+                    query_text=message_for_intent,
+                    platform=payload.platform,
+                    tenant_id=payload.tenant_id,
+                    locale=payload.locale,
+                    store_code=payload.store_code,
+                    # Más permisivo en fallback para captar marca cuando el intent no la pone en characteristics.
+                    min_similarity=min(payload.min_similarity, 0.65),
+                    top_k=max(payload.top_k, 8),
+                    attribute_min_similarity=None,
+                )
+                if isinstance(fallback_retrieval_payload, dict):
+                    fallback_filters = _normalize_filters(
+                        fallback_retrieval_payload.get("selected_filters", [])
                     )
-                    if isinstance(fallback_retrieval_payload, dict):
-                        fallback_filters = _normalize_filters(
-                            fallback_retrieval_payload.get("selected_filters", [])
-                        )
-                        if fallback_filters:
-                            incoming_filters = _merge_filters(incoming_filters, fallback_filters, "add")
+                    if fallback_filters:
+                        incoming_filters = _merge_filters(incoming_filters, fallback_filters, "add")
         except Exception:
             incoming_filters = []
 
