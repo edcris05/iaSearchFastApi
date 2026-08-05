@@ -1,3 +1,5 @@
+import json
+import logging
 import re
 from typing import Any
 
@@ -8,6 +10,8 @@ from fastapi.responses import JSONResponse
 from src.models.chat_session_context import ChatSessionContextRepository
 from src.models.contracts import ChatTurnIn, ChatTurnOut
 from src.response_api.text_generation.v2 import GeneratorV2
+
+logger = logging.getLogger(__name__)
 
 chat_turn_router = APIRouter()
 
@@ -278,6 +282,8 @@ def _filters_to_human_text(filters: list[list[list[Any]]]) -> str:
     def _humanize_field(field: str) -> str:
         return field.replace("_", " ").strip()
 
+    # Deduplicar por (field, value_string, value_number) para evitar repetir "color: 133, color: 133"
+    seen: set[tuple[str, str, str]] = set()
     parts: list[str] = []
     for item in _flatten_filters(filters):
         field = str(item[0]).strip()
@@ -291,6 +297,11 @@ def _filters_to_human_text(filters: list[list[list[Any]]]) -> str:
 
         if value_text == "":
             continue
+
+        key = (field, value_string, "" if value_number is None else str(value_number))
+        if key in seen:
+            continue
+        seen.add(key)
 
         human_field = _humanize_field(field)
         parts.append(f"{human_field}: {value_text}")
@@ -440,6 +451,8 @@ def _build_explanation(
 def _handle_chat_turn(payload: ChatTurnIn):
     operation = _detect_operation(payload.message, payload.operation)
     is_compound = _is_compound_replace_after_remove(payload.message, payload.operation)
+    trace_id = f"{payload.chat_session_id}:{int(__import__('time').time() * 1000)}"
+    logger.info("[chat_turn:%s] message=%r explicit_operation=%r detected_operation=%r", trace_id, payload.message, payload.operation, operation)
 
     repo = ChatSessionContextRepository()
     repo.ensure_table()
@@ -456,6 +469,12 @@ def _handle_chat_turn(payload: ChatTurnIn):
     }
 
     previous_filters = _normalize_filters(previous.get("filters", []))
+    logger.info(
+        "[chat_turn:%s] previous search_text=%r prev_filters=%s",
+        trace_id,
+        str(previous.get("search_text", "")),
+        json.dumps(_flatten_filters(previous_filters), ensure_ascii=False),
+    )
 
     # Soporte para instrucciones compuestas en un único turno:
     # "quita todo ... y busca ...", "deja solo ...", "quita todo menos ...", etc.
@@ -469,7 +488,10 @@ def _handle_chat_turn(payload: ChatTurnIn):
     # Si hay contexto previo y el mensaje parece una búsqueda nueva completa,
     # preferimos replace para evitar acumular filtros no intencionales.
     if operation == "add" and previous_filters and _looks_like_new_search(payload.message):
+        logger.info("[chat_turn:%s] looks_like_new_search=True -> forcing replace", trace_id)
         operation = "replace"
+    else:
+        logger.info("[chat_turn:%s] looks_like_new_search=%s", trace_id, _looks_like_new_search(payload.message))
 
     incoming_filters: list[list[list[Any]]] = []
     response_payload: dict[str, Any] = {}
@@ -480,6 +502,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
     if payload.message.strip() != "":
         try:
             generator = GeneratorV2()
+            logger.info("[chat_turn:%s] message_for_intent=%r compound_keep_segment=%r", trace_id, message_for_intent, compound_keep_segment)
             intent = generator.extract_search_intent(
                 user_query=message_for_intent,
                 platform=payload.platform,
@@ -491,6 +514,8 @@ def _handle_chat_turn(payload: ChatTurnIn):
             if isinstance(response, dict):
                 response_payload = response
             attrs = response.get("characteristics", []) if isinstance(response, dict) else []
+            logger.info("[chat_turn:%s] intent.characteristics=%s response_payload=%s", trace_id, json.dumps(attrs, ensure_ascii=False), json.dumps(response_payload, ensure_ascii=False))
+            logger.info("[chat_turn:%s] retrieval pass1 attrs=%s min_similarity=%s top_k=%s", trace_id, json.dumps(attrs, ensure_ascii=False), payload.min_similarity, payload.top_k)
             retrieval_payload = generator.get_embedding_filter_by_attributes(
                 attributes=attrs,
                 query_text=message_for_intent,
@@ -504,11 +529,15 @@ def _handle_chat_turn(payload: ChatTurnIn):
             )
             if isinstance(retrieval_payload, dict):
                 incoming_filters = _normalize_filters(retrieval_payload.get("selected_filters", []))
+            logger.info("[chat_turn:%s] incoming_filters pass1=%s", trace_id, json.dumps(_flatten_filters(incoming_filters), ensure_ascii=False))
 
             # Fallback semántico compuesto en chat_turn:
             # hacemos una segunda recuperación con la query completa como "atributo",
             # y mergeamos resultados para cubrir misses del extractor de intent.
             if message_for_intent.strip() != "":
+                fb_min_sim = min(payload.min_similarity, 0.65)
+                fb_top_k = max(payload.top_k, 8)
+                logger.info("[chat_turn:%s] retrieval fallback attrs=[full_query] min_similarity=%s top_k=%s", trace_id, fb_min_sim, fb_top_k)
                 fallback_retrieval_payload = generator.get_embedding_filter_by_attributes(
                     attributes=[message_for_intent],
                     query_text=message_for_intent,
@@ -517,16 +546,22 @@ def _handle_chat_turn(payload: ChatTurnIn):
                     locale=payload.locale,
                     store_code=payload.store_code,
                     # Más permisivo en fallback para captar marca cuando el intent no la pone en characteristics.
-                    min_similarity=min(payload.min_similarity, 0.65),
-                    top_k=max(payload.top_k, 8),
+                    min_similarity=fb_min_sim,
+                    top_k=fb_top_k,
                     attribute_min_similarity=None,
                 )
                 if isinstance(fallback_retrieval_payload, dict):
                     fallback_filters = _normalize_filters(
                         fallback_retrieval_payload.get("selected_filters", [])
                     )
+                    logger.info("[chat_turn:%s] fallback_filters=%s", trace_id, json.dumps(_flatten_filters(fallback_filters), ensure_ascii=False))
                     if fallback_filters:
                         incoming_filters = _merge_filters(incoming_filters, fallback_filters, "add")
+                        logger.info(
+                            "[chat_turn:%s] incoming_filters merged_with_fallback=%s",
+                            trace_id,
+                            json.dumps(_flatten_filters(incoming_filters), ensure_ascii=False),
+                        )
         except Exception:
             incoming_filters = []
 
@@ -552,6 +587,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
         return JSONResponse(content=jsonable_encoder(content.model_dump()))
 
     merged_filters = _merge_filters(previous_filters, incoming_filters, operation)
+    logger.info("[chat_turn:%s] merged_filters=%s", trace_id, json.dumps(_flatten_filters(merged_filters), ensure_ascii=False))
     detected_intent = _detect_intent(payload.message, merged_filters, operation)
 
     search_text_message = message_for_intent if compound_keep_segment != "" else payload.message
@@ -560,6 +596,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
         message=search_text_message,
         operation=operation,
     )
+    logger.info("[chat_turn:%s] search_text_message=%r -> search_text=%r", trace_id, search_text_message, search_text)
 
     explanation = _build_explanation(
         operation,
