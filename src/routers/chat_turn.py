@@ -80,6 +80,10 @@ def _group_flat_filters(flat_filters: list[list[Any]]) -> list[list[list[Any]]]:
 
 
 def _detect_operation(message: str, explicit_operation: str | None) -> str:
+    keep_segment = _extract_compound_keep_segment(message)
+    if keep_segment != "":
+        return "replace"
+
     if explicit_operation in ("add", "replace", "remove", "reset"):
         return explicit_operation
 
@@ -132,28 +136,33 @@ def _looks_like_new_search(message: str) -> bool:
 
 
 def _extract_compound_keep_segment(message: str) -> str:
-    msg = (message or "").strip()
+    msg = _normalize_search_text(message)
     if msg == "":
         return ""
 
+    msg_l = msg.lower()
+
     patterns = [
-        r"(?:quita(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+y\s+(?:busca(?:r)?|dej[aá]|deja)\s+)(.+)$",
-        r"(?:quita(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+pero\s+(?:dej[aá]|deja|busca(?:r)?)\s+)(.+)$",
-        r"(?:saca(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+y\s+(?:busca(?:r)?|dej[aá]|deja)\s+)(.+)$",
-        r"(?:saca(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+pero\s+(?:dej[aá]|deja|busca(?:r)?)\s+)(.+)$",
-        r"(?:quita(?:r)?\s+todo\s+menos\s+)(.+)$",
-        r"(?:saca(?:r)?\s+todo\s+menos\s+)(.+)$",
-        r"(?:deja(?:r)?\s+solo\s+)(.+)$",
-        r"(?:deja(?:r)?\s+únicamente\s+)(.+)$",
-        r"(?:deja(?:r)?\s+solamente\s+)(.+)$",
+        r"(?:bien,?\s*)?(?:ahora,?\s*)?(?:tambi[eé]n\s+quiero\s+)?quita(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+y\s+(?:busca(?:r)?|dej[aá]|dejame)\s+(.+)$",
+        r"(?:bien,?\s*)?(?:ahora,?\s*)?(?:tambi[eé]n\s+quiero\s+)?quita(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+pero\s+(?:dej[aá]|dejame|busca(?:r)?)\s+(.+)$",
+        r"(?:bien,?\s*)?(?:ahora,?\s*)?(?:tambi[eé]n\s+quiero\s+)?saca(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+y\s+(?:busca(?:r)?|dej[aá]|dejame)\s+(.+)$",
+        r"(?:bien,?\s*)?(?:ahora,?\s*)?(?:tambi[eé]n\s+quiero\s+)?saca(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+pero\s+(?:dej[aá]|dejame|busca(?:r)?)\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+todo(?:\s+lo)?\s+dem[aá]s\s+(?:y|pero)\s+(?:dej[aá]|dejame|deja)\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+todo(?:\s+lo)?\s+dem[aá]s\s+y\s+agreg[aá]\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+todo\s+menos\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+todo\s+excepto\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+todo\s+salvo\s+(.+)$",
+        r"(?:deja(?:r)?|dej[aá]me)\s+solo\s+(.+)$",
+        r"(?:deja(?:r)?|dej[aá]me)\s+únicamente\s+(.+)$",
+        r"(?:deja(?:r)?|dej[aá]me)\s+solamente\s+(.+)$",
+        r"(?:en\s+realidad\s+)?dej[aá]\s+solo\s+(.+)$",
     ]
 
-    msg_l = msg.lower()
     for pattern in patterns:
         m = re.search(pattern, msg_l, flags=re.IGNORECASE)
         if not m:
             continue
-        keep = (m.group(1) or "").strip(" .,:;")
+        keep = _normalize_search_text((m.group(1) or "").strip(" .,:;"))
         if keep != "":
             return keep
 
@@ -290,6 +299,27 @@ def _normalize_search_text(text: str) -> str:
     return text
 
 
+def _extract_explicit_addition_segment(message: str) -> str:
+    msg = _normalize_search_text(message).lower()
+    if msg == "":
+        return ""
+
+    patterns = [
+        r"^(?:bien,?\s*)?(?:ahora,?\s*)?(?:tambien|también|ademas|además)\s+(.+)$",
+        r"^(?:bien,?\s*)?(?:ahora,?\s*)?(?:y|e)\s+(.+)$",
+        r"^(?:sumale|súmale|agrega|agregá|agregar)\s+(.+)$",
+    ]
+    for pattern in patterns:
+        m = re.search(pattern, msg, flags=re.IGNORECASE)
+        if not m:
+            continue
+        seg = _normalize_search_text(m.group(1) or "")
+        if seg != "":
+            return seg
+
+    return ""
+
+
 def _build_search_text(previous_search_text: str, message: str, operation: str) -> str:
     message = _normalize_search_text(message)
     previous_search_text = _normalize_search_text(previous_search_text)
@@ -309,6 +339,13 @@ def _build_search_text(previous_search_text: str, message: str, operation: str) 
     if operation == "add":
         if message == "":
             return previous_search_text
+
+        addition = _extract_explicit_addition_segment(message)
+        if addition != "":
+            if addition in previous_search_text:
+                return previous_search_text
+            return _normalize_search_text(previous_search_text + " " + addition)
+
         if message in previous_search_text:
             return previous_search_text
         if previous_search_text in message:
