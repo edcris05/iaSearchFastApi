@@ -120,6 +120,10 @@ def _looks_like_new_search(message: str) -> bool:
         "agregá",
         "y tambien",
         "y también",
+        "bien, ahora",
+        "bien ahora",
+        "ahora ",
+        "quiero que",
     ]
     if any(token in msg for token in additive_tokens):
         return False
@@ -308,6 +312,8 @@ def _extract_explicit_addition_segment(message: str) -> str:
         r"^(?:bien,?\s*)?(?:ahora,?\s*)?(?:tambien|también|ademas|además)\s+(.+)$",
         r"^(?:bien,?\s*)?(?:ahora,?\s*)?(?:y|e)\s+(.+)$",
         r"^(?:sumale|súmale|agrega|agregá|agregar)\s+(.+)$",
+        r"^(?:bien,?\s*)?(?:ahora,?\s*)?quiero\s+que\s+(?:sea[n]?|me\s+muestres)\s+(.+)$",
+        r"^(?:bien,?\s*)?(?:ahora,?\s*)?(?:que\s+)?sea[n]?\s+(.+)$",
     ]
     for pattern in patterns:
         m = re.search(pattern, msg, flags=re.IGNORECASE)
