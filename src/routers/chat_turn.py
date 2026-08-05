@@ -131,6 +131,57 @@ def _looks_like_new_search(message: str) -> bool:
     return False
 
 
+def _extract_compound_keep_segment(message: str) -> str:
+    msg = (message or "").strip()
+    if msg == "":
+        return ""
+
+    patterns = [
+        r"(?:quita(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+y\s+(?:busca(?:r)?|dej[aá]|deja)\s+)(.+)$",
+        r"(?:quita(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+pero\s+(?:dej[aá]|deja|busca(?:r)?)\s+)(.+)$",
+        r"(?:saca(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+y\s+(?:busca(?:r)?|dej[aá]|deja)\s+)(.+)$",
+        r"(?:saca(?:r)?\s+todo(?:s)?\s+los?\s+filtros?\s+pero\s+(?:dej[aá]|deja|busca(?:r)?)\s+)(.+)$",
+        r"(?:quita(?:r)?\s+todo\s+menos\s+)(.+)$",
+        r"(?:saca(?:r)?\s+todo\s+menos\s+)(.+)$",
+        r"(?:deja(?:r)?\s+solo\s+)(.+)$",
+        r"(?:deja(?:r)?\s+únicamente\s+)(.+)$",
+        r"(?:deja(?:r)?\s+solamente\s+)(.+)$",
+    ]
+
+    msg_l = msg.lower()
+    for pattern in patterns:
+        m = re.search(pattern, msg_l, flags=re.IGNORECASE)
+        if not m:
+            continue
+        keep = (m.group(1) or "").strip(" .,:;")
+        if keep != "":
+            return keep
+
+    return ""
+
+
+def _is_compound_replace_after_remove(message: str, explicit_operation: str | None) -> bool:
+    if explicit_operation in ("replace", "add"):
+        return False
+
+    msg = (message or "").strip().lower()
+    if msg == "":
+        return False
+
+    has_remove = any(token in msg for token in [
+        "quita",
+        "quitar",
+        "saca",
+        "sacar",
+        "remove",
+    ])
+    if not has_remove and "deja solo" not in msg and "todo menos" not in msg:
+        return False
+
+    keep_segment = _extract_compound_keep_segment(msg)
+    return keep_segment != ""
+
+
 def _merge_filters(
     previous_filters: list[list[list[Any]]],
     incoming_filters: list[list[list[Any]]],
@@ -272,6 +323,7 @@ def _build_explanation(
     merged_filters: list[list[list[Any]]],
     detected_intent: str,
     response_payload: dict[str, Any] | None = None,
+    is_compound_replace_after_remove: bool = False,
 ) -> str:
     summary = _filters_to_human_text(merged_filters)
     response_payload = response_payload if isinstance(response_payload, dict) else {}
@@ -315,6 +367,9 @@ def _build_explanation(
             return f"Perfecto, reinicié la conversación y ahora busco por {intent_summary}."
         return "Listo, reinicié la conversación. Contame qué querés buscar ahora."
 
+    if is_compound_replace_after_remove and summary:
+        return f"Hecho, limpié los filtros anteriores y dejé solo: {summary}."
+
     if operation == "remove":
         if summary:
             return f"Hecho, quité ese criterio y ahora quedaron activos: {summary}."
@@ -341,6 +396,7 @@ def _build_explanation(
 
 def _handle_chat_turn(payload: ChatTurnIn):
     operation = _detect_operation(payload.message, payload.operation)
+    is_compound = _is_compound_replace_after_remove(payload.message, payload.operation)
 
     repo = ChatSessionContextRepository()
     repo.ensure_table()
@@ -358,6 +414,15 @@ def _handle_chat_turn(payload: ChatTurnIn):
 
     previous_filters = _normalize_filters(previous.get("filters", []))
 
+    # Soporte para instrucciones compuestas en un único turno:
+    # "quita todo ... y busca ...", "deja solo ...", "quita todo menos ...", etc.
+    # Se interpreta como replace del nuevo criterio en el mismo mensaje.
+    compound_keep_segment = ""
+    if is_compound:
+        compound_keep_segment = _extract_compound_keep_segment(payload.message)
+        if compound_keep_segment != "":
+            operation = "replace"
+
     # Si hay contexto previo y el mensaje parece una búsqueda nueva completa,
     # preferimos replace para evitar acumular filtros no intencionales.
     if operation == "add" and previous_filters and _looks_like_new_search(payload.message):
@@ -365,11 +430,15 @@ def _handle_chat_turn(payload: ChatTurnIn):
 
     incoming_filters: list[list[list[Any]]] = []
     response_payload: dict[str, Any] = {}
+    message_for_intent = payload.message
+    if compound_keep_segment != "":
+        message_for_intent = compound_keep_segment
+
     if payload.message.strip() != "":
         try:
             generator = GeneratorV2()
             intent = generator.extract_search_intent(
-                user_query=payload.message,
+                user_query=message_for_intent,
                 platform=payload.platform,
                 tenant_id=payload.tenant_id,
                 locale=payload.locale,
@@ -381,7 +450,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
             attrs = response.get("characteristics", []) if isinstance(response, dict) else []
             retrieval_payload = generator.get_embedding_filter_by_attributes(
                 attributes=attrs,
-                query_text=payload.message,
+                query_text=message_for_intent,
                 platform=payload.platform,
                 tenant_id=payload.tenant_id,
                 locale=payload.locale,
@@ -419,9 +488,10 @@ def _handle_chat_turn(payload: ChatTurnIn):
     merged_filters = _merge_filters(previous_filters, incoming_filters, operation)
     detected_intent = _detect_intent(payload.message, merged_filters, operation)
 
+    search_text_message = message_for_intent if compound_keep_segment != "" else payload.message
     search_text = _build_search_text(
         previous_search_text=str(previous.get("search_text", "")),
-        message=payload.message,
+        message=search_text_message,
         operation=operation,
     )
 
@@ -430,6 +500,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
         merged_filters,
         detected_intent,
         response_payload=response_payload,
+        is_compound_replace_after_remove=(is_compound and operation == "replace"),
     )
 
     new_context = {
