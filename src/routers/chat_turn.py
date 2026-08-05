@@ -508,7 +508,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
                 # Fallback semántico compuesto en chat_turn:
                 # si por characteristics no sale marca/color en frases largas,
                 # reintentamos retrieval con la oración completa.
-                if not incoming_filters and message_for_intent.strip() != "":
+                if message_for_intent.strip() != "":
                     fallback_retrieval_payload = generator.get_embedding_filter_by_attributes(
                         attributes=[message_for_intent],
                         query_text=message_for_intent,
@@ -521,9 +521,11 @@ def _handle_chat_turn(payload: ChatTurnIn):
                         attribute_min_similarity=None,
                     )
                     if isinstance(fallback_retrieval_payload, dict):
-                        incoming_filters = _normalize_filters(
+                        fallback_filters = _normalize_filters(
                             fallback_retrieval_payload.get("selected_filters", [])
                         )
+                        if fallback_filters:
+                            incoming_filters = _merge_filters(incoming_filters, fallback_filters, "add")
         except Exception:
             incoming_filters = []
 
