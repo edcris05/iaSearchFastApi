@@ -348,13 +348,17 @@ def _strip_removed_tokens_from_search_text(previous_search_text: str, message: s
     if prev == "" or msg == "":
         return prev
 
-    # caso explícito: quitar color => borrar segmentos típicos "color <algo>" y también solo "color"
-    if re.search(r"\\bquita(?:r)?\\s+el\\s+color\\b", msg) or re.search(r"\\bquitar\\s+color\\b", msg) or re.search(r"\\bquita\\s+color\\b", msg):
-        # elimina "color ..." hasta delimitador suave, y luego limpia tokens sueltos
-        prev = re.sub(r"\\bcolor\\s+[a-záéíóúñ0-9]+\\b", "", prev, flags=re.IGNORECASE)
+    wants_remove_color = bool(re.search(r"\\bquita(?:r)?\\s+(?:el\\s+)?color\\b", msg))
+
+    if wants_remove_color:
+        # soporta:
+        # - "color negro" / "de color negro"
+        # - "color: negro" / "de color: negro"
+        # - token suelto "color"
+        prev = re.sub(r"\\bde\\s+color\\s+[a-záéíóúñ0-9]+\\b", "", prev, flags=re.IGNORECASE)
+        prev = re.sub(r"\\bcolor\\s*[=:]?\\s*[a-záéíóúñ0-9]+\\b", "", prev, flags=re.IGNORECASE)
         prev = re.sub(r"\\bcolor\\b", "", prev, flags=re.IGNORECASE)
 
-    # normalización final
     prev = re.sub(r"\\s+", " ", prev).strip()
     return prev
 
@@ -521,7 +525,11 @@ def _handle_chat_turn(payload: ChatTurnIn):
     if compound_keep_segment != "":
         message_for_intent = compound_keep_segment
 
-    if payload.message.strip() != "":
+    # IMPORTANTE:
+    # En operación "remove" NO debemos consultar intent/embeddings, porque:
+    # - el usuario solo está pidiendo eliminar un filtro
+    # - llamar embeddings agrega ruido (ej: NFC) y puede reintroducir atributos que se quieren quitar (color)
+    if payload.message.strip() != "" and operation != "remove":
         try:
             generator = GeneratorV2()
             logger.info("[chat_turn:%s] message_for_intent=%r compound_keep_segment=%r", trace_id, message_for_intent, compound_keep_segment)
