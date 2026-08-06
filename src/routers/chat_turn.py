@@ -338,6 +338,27 @@ def _extract_explicit_addition_segment(message: str) -> str:
     return ""
 
 
+def _strip_removed_tokens_from_search_text(previous_search_text: str, message: str) -> str:
+    """
+    Cuando el usuario pide 'quita X', debemos evitar que el search_text siga conteniendo X,
+    porque eso vuelve a disparar embeddings/intent y reintroduce el filtro removido.
+    """
+    prev = _normalize_search_text(previous_search_text)
+    msg = _normalize_search_text(message).lower()
+    if prev == "" or msg == "":
+        return prev
+
+    # caso explícito: quitar color => borrar segmentos típicos "color <algo>" y también solo "color"
+    if re.search(r"\\bquita(?:r)?\\s+el\\s+color\\b", msg) or re.search(r"\\bquitar\\s+color\\b", msg) or re.search(r"\\bquita\\s+color\\b", msg):
+        # elimina "color ..." hasta delimitador suave, y luego limpia tokens sueltos
+        prev = re.sub(r"\\bcolor\\s+[a-záéíóúñ0-9]+\\b", "", prev, flags=re.IGNORECASE)
+        prev = re.sub(r"\\bcolor\\b", "", prev, flags=re.IGNORECASE)
+
+    # normalización final
+    prev = re.sub(r"\\s+", " ", prev).strip()
+    return prev
+
+
 def _build_search_text(previous_search_text: str, message: str, operation: str) -> str:
     message = _normalize_search_text(message)
     previous_search_text = _normalize_search_text(previous_search_text)
@@ -349,7 +370,7 @@ def _build_search_text(previous_search_text: str, message: str, operation: str) 
         return message
 
     if operation == "remove":
-        return previous_search_text
+        return _strip_removed_tokens_from_search_text(previous_search_text, message)
 
     if previous_search_text == "":
         return message
