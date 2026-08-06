@@ -204,6 +204,7 @@ def _merge_filters(
     previous_filters: list[list[list[Any]]],
     incoming_filters: list[list[list[Any]]],
     operation: str,
+    message: str = "",
 ) -> list[list[list[Any]]]:
     prev_flat = _flatten_filters(previous_filters)
     in_flat = _flatten_filters(incoming_filters)
@@ -212,6 +213,22 @@ def _merge_filters(
         return _group_flat_filters(in_flat)
 
     if operation == "remove":
+        # En "remove" NO queremos depender de embeddings (incoming_filters) para saber qué sacar,
+        # porque a veces embeddings devuelve otro color/nfc y no refleja la intención real del usuario.
+        #
+        # Estrategia:
+        # - Si el texto del mensaje menciona explícitamente "color", eliminamos TODOS los filtros con field="color".
+        # - Caso contrario, caemos al comportamiento previo: si incoming_filters trae fields, sacamos esos fields.
+        msg_l = str(message or "").lower()
+
+        explicit_remove_fields: set[str] = set()
+        if re.search(r"\\b(saca|sacar|quita|quitar|sin|remove)\\b", msg_l) and re.search(r"\\bcolor\\b", msg_l):
+            explicit_remove_fields.add("color")
+
+        if explicit_remove_fields:
+            kept = [item for item in prev_flat if str(item[0]).strip() not in explicit_remove_fields]
+            return _group_flat_filters(kept)
+
         if not in_flat:
             return previous_filters
 
@@ -348,7 +365,9 @@ def _strip_removed_tokens_from_search_text(previous_search_text: str, message: s
     if prev == "" or msg == "":
         return prev
 
-    wants_remove_color = bool(re.search(r"\\bquita(?:r)?\\s+(?:el\\s+)?color\\b", msg))
+    wants_remove_color = bool(
+        re.search(r"\\b(quita(?:r)?|saca(?:r)?)\\s+(?:el\\s+)?color\\b", msg)
+    )
 
     if wants_remove_color:
         # soporta:
@@ -623,7 +642,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
                     )
                     logger.info("[chat_turn:%s] fallback_filters=%s", trace_id, json.dumps(_flatten_filters(fallback_filters), ensure_ascii=False))
                     if fallback_filters:
-                        incoming_filters = _merge_filters(incoming_filters, fallback_filters, "add")
+                        incoming_filters = _merge_filters(incoming_filters, fallback_filters, "add", message=payload.message)
                         logger.info(
                             "[chat_turn:%s] incoming_filters merged_with_fallback=%s",
                             trace_id,
@@ -653,7 +672,7 @@ def _handle_chat_turn(payload: ChatTurnIn):
         )
         return JSONResponse(content=jsonable_encoder(content.model_dump()))
 
-    merged_filters = _merge_filters(previous_filters, incoming_filters, operation)
+    merged_filters = _merge_filters(previous_filters, incoming_filters, operation, message=payload.message)
     logger.info("[chat_turn:%s] merged_filters=%s", trace_id, json.dumps(_flatten_filters(merged_filters), ensure_ascii=False))
     detected_intent = _detect_intent(payload.message, merged_filters, operation)
 
