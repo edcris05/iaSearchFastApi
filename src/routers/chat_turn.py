@@ -515,8 +515,33 @@ def _handle_chat_turn(payload: ChatTurnIn):
             if isinstance(response, dict):
                 response_payload = response
             attrs = response.get("characteristics", []) if isinstance(response, dict) else []
-            logger.info("[chat_turn:%s] intent.characteristics=%s response_payload=%s", trace_id, json.dumps(attrs, ensure_ascii=False), json.dumps(response_payload, ensure_ascii=False))
-            logger.info("[chat_turn:%s] retrieval pass1 attrs=%s min_similarity=%s top_k=%s", trace_id, json.dumps(attrs, ensure_ascii=False), payload.min_similarity, payload.top_k)
+            logger.info(
+                "[chat_turn:%s] intent.characteristics=%s response_payload=%s",
+                trace_id,
+                json.dumps(attrs, ensure_ascii=False),
+                json.dumps(response_payload, ensure_ascii=False),
+            )
+
+            # Guardrail: si el intent trae "marca X", NO queremos que embeddings agregue colores random
+            # o features accesorias (ej: NFC) que terminan sobre-restringiendo o contaminando la búsqueda.
+            # En ese caso, restringimos por similarity más alto y top_k más bajo.
+            msg_l = message_for_intent.lower()
+            is_brand_phrase = bool(re.search(r"\\bmarca\\s+\\w+", msg_l, flags=re.IGNORECASE))
+            if is_brand_phrase:
+                pass1_min_sim = max(payload.min_similarity, 0.75)
+                pass1_top_k = min(payload.top_k, 2)
+            else:
+                pass1_min_sim = payload.min_similarity
+                pass1_top_k = payload.top_k
+
+            logger.info(
+                "[chat_turn:%s] retrieval pass1 attrs=%s min_similarity=%s top_k=%s is_brand_phrase=%s",
+                trace_id,
+                json.dumps(attrs, ensure_ascii=False),
+                pass1_min_sim,
+                pass1_top_k,
+                is_brand_phrase,
+            )
             retrieval_payload = generator.get_embedding_filter_by_attributes(
                 attributes=attrs,
                 query_text=message_for_intent,
@@ -524,8 +549,8 @@ def _handle_chat_turn(payload: ChatTurnIn):
                 tenant_id=payload.tenant_id,
                 locale=payload.locale,
                 store_code=payload.store_code,
-                min_similarity=payload.min_similarity,
-                top_k=payload.top_k,
+                min_similarity=pass1_min_sim,
+                top_k=pass1_top_k,
                 attribute_min_similarity=None,
             )
             if isinstance(retrieval_payload, dict):
@@ -536,9 +561,22 @@ def _handle_chat_turn(payload: ChatTurnIn):
             # hacemos una segunda recuperación con la query completa como "atributo",
             # y mergeamos resultados para cubrir misses del extractor de intent.
             if message_for_intent.strip() != "":
-                fb_min_sim = min(payload.min_similarity, 0.65)
-                fb_top_k = max(payload.top_k, 8)
-                logger.info("[chat_turn:%s] retrieval fallback attrs=[full_query] min_similarity=%s top_k=%s", trace_id, fb_min_sim, fb_top_k)
+                # En fallback con query completa, evitamos "ruido" subiendo min_similarity y
+                # limitando top_k para no traer filtros irrelevantes.
+                if is_brand_phrase:
+                    fb_min_sim = max(payload.min_similarity, 0.75)
+                    fb_top_k = 3
+                else:
+                    fb_min_sim = min(payload.min_similarity, 0.65)
+                    fb_top_k = max(payload.top_k, 8)
+
+                logger.info(
+                    "[chat_turn:%s] retrieval fallback attrs=[full_query] min_similarity=%s top_k=%s is_brand_phrase=%s",
+                    trace_id,
+                    fb_min_sim,
+                    fb_top_k,
+                    is_brand_phrase,
+                )
                 fallback_retrieval_payload = generator.get_embedding_filter_by_attributes(
                     attributes=[message_for_intent],
                     query_text=message_for_intent,
@@ -546,7 +584,6 @@ def _handle_chat_turn(payload: ChatTurnIn):
                     tenant_id=payload.tenant_id,
                     locale=payload.locale,
                     store_code=payload.store_code,
-                    # Más permisivo en fallback para captar marca cuando el intent no la pone en characteristics.
                     min_similarity=fb_min_sim,
                     top_k=fb_top_k,
                     attribute_min_similarity=None,
