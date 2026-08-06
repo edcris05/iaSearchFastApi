@@ -221,9 +221,22 @@ def _merge_filters(
         # - Caso contrario, caemos al comportamiento previo: si incoming_filters trae fields, sacamos esos fields.
         msg_l = str(message or "").lower()
 
+        # Mapeo de "conceptos" del usuario -> fields del catálogo
+        # (acá solo se listan los que hoy importan; se puede extender)
+        concept_to_fields: dict[str, set[str]] = {
+            "color": {"color"},
+            "marca": {"manufacturer"},
+            "manufacturer": {"manufacturer"},
+            "precio": {"price"},
+        }
+
         explicit_remove_fields: set[str] = set()
-        if re.search(r"\\b(saca|sacar|quita|quitar|sin|remove)\\b", msg_l) and re.search(r"\\bcolor\\b", msg_l):
-            explicit_remove_fields.add("color")
+
+        # Si el mensaje contiene verbo de remover + concepto, lo removemos aunque no haya embeddings.
+        if re.search(r"\\b(saca|sacar|quita|quitar|sin|remove)\\b", msg_l):
+            for concept, fields in concept_to_fields.items():
+                if re.search(rf"\\b{re.escape(concept)}\\b", msg_l):
+                    explicit_remove_fields.update(fields)
 
         if explicit_remove_fields:
             kept = [item for item in prev_flat if str(item[0]).strip() not in explicit_remove_fields]
