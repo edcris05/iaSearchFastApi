@@ -217,9 +217,11 @@ def _merge_filters(
         # porque a veces embeddings devuelve otro color/nfc y no refleja la intención real del usuario.
         #
         # Estrategia:
-        # - Si el texto del mensaje menciona explícitamente "color", eliminamos TODOS los filtros con field="color".
+        # - Si el texto del mensaje menciona explícitamente un concepto (color/marca/precio),
+        #   eliminamos TODOS los filtros cuyo field pertenezca a ese concepto.
         # - Caso contrario, caemos al comportamiento previo: si incoming_filters trae fields, sacamos esos fields.
         msg_l = str(message or "").lower()
+        logger.info("[merge_filters] operation=remove message=%r", message)
 
         # Mapeo de "conceptos" del usuario -> fields del catálogo
         # (acá solo se listan los que hoy importan; se puede extender)
@@ -233,13 +235,23 @@ def _merge_filters(
         explicit_remove_fields: set[str] = set()
 
         # Si el mensaje contiene verbo de remover + concepto, lo removemos aunque no haya embeddings.
-        if re.search(r"\\b(saca|sacar|quita|quitar|sin|remove)\\b", msg_l):
+        if re.search(r"\b(saca|sacar|quita|quitar|sin|remove)\b", msg_l):
             for concept, fields in concept_to_fields.items():
-                if re.search(rf"\\b{re.escape(concept)}\\b", msg_l):
+                if re.search(rf"\b{re.escape(concept)}\b", msg_l):
                     explicit_remove_fields.update(fields)
+
+        logger.info(
+            "[merge_filters] explicit_remove_fields=%s prev_fields=%s",
+            sorted(explicit_remove_fields),
+            sorted({str(i[0]).strip() for i in prev_flat}),
+        )
 
         if explicit_remove_fields:
             kept = [item for item in prev_flat if str(item[0]).strip() not in explicit_remove_fields]
+            logger.info(
+                "[merge_filters] kept_fields=%s",
+                sorted({str(i[0]).strip() for i in kept}),
+            )
             return _group_flat_filters(kept)
 
         if not in_flat:
