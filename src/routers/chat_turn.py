@@ -86,6 +86,9 @@ def _group_flat_filters(flat_filters: list[list[Any]]) -> list[list[list[Any]]]:
 
 def _detect_operation(message: str, explicit_operation: str | None) -> str:
     keep_segment = _extract_compound_keep_segment(message)
+    # Solo forzamos replace si realmente se detectó un "keep" específico.
+    # Si el usuario dijo "deja solo la marca" sin especificar cuál, devolvemos ""
+    # y NO queremos convertir el turno en replace con search_text="la marca".
     if keep_segment != "":
         return "replace"
 
@@ -102,7 +105,16 @@ def _detect_operation(message: str, explicit_operation: str | None) -> str:
     if any(token in msg for token in ["saca", "sacar", "quita", "quitar", "remove", "sin "]):
         return "remove"
 
+    # "deja solo ..." suele venir en pedidos de "limpiar" filtros (remove).
+    # Además, cuando aparece junto a "quita/saca", casi siempre es una remoción, no un replace.
     if any(token in msg for token in ["solo ", "solamente", "cambiar", "cambia", "en lugar de"]):
+        if (
+            "deja solo" in msg
+            or "dejame solo" in msg
+            or "dejar solo" in msg
+            or (re.search(r"\b(quita|quitar|saca|sacar)\b", msg) and "solo" in msg)
+        ):
+            return "remove"
         return "replace"
 
     return "add"
@@ -111,6 +123,10 @@ def _detect_operation(message: str, explicit_operation: str | None) -> str:
 def _looks_like_new_search(message: str) -> bool:
     msg = message.strip().lower()
     if msg == "":
+        return False
+
+    # Frases tipo "quita X y deja solo Y" NO son búsquedas nuevas, son refinamientos/remociones.
+    if re.search(r"\b(quita|quitar|saca|sacar)\b", msg) and "deja" in msg and "solo" in msg:
         return False
 
     additive_tokens = [
@@ -161,6 +177,10 @@ def _extract_compound_keep_segment(message: str) -> str:
         r"(?:quita(?:r)?|saca(?:r)?)\s+todo\s+menos\s+(.+)$",
         r"(?:quita(?:r)?|saca(?:r)?)\s+todo\s+excepto\s+(.+)$",
         r"(?:quita(?:r)?|saca(?:r)?)\s+todo\s+salvo\s+(.+)$",
+        # Soporte a "quita X y deja solo Y" (mantener lo que el usuario pide dejar)
+        r"(?:quita(?:r)?|saca(?:r)?)\s+.+?\s+y\s+(?:dej[aá]|dejame)\s+solo\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+.+?\s+y\s+(?:dej[aá]|dejame)\s+únicamente\s+(.+)$",
+        r"(?:quita(?:r)?|saca(?:r)?)\s+.+?\s+y\s+(?:dej[aá]|dejame)\s+solamente\s+(.+)$",
         r"(?:deja(?:r)?|dej[aá]me)\s+solo\s+(.+)$",
         r"(?:deja(?:r)?|dej[aá]me)\s+únicamente\s+(.+)$",
         r"(?:deja(?:r)?|dej[aá]me)\s+solamente\s+(.+)$",
@@ -172,6 +192,12 @@ def _extract_compound_keep_segment(message: str) -> str:
         if not m:
             continue
         keep = _normalize_search_text((m.group(1) or "").strip(" .,:;"))
+
+        # Evitar degradar la query a conceptos genéricos tipo "la marca" / "marca".
+        # Si el usuario pidió "dejar solo la marca", y no especificó cuál, devolvemos vacío para no forzar replace.
+        if keep.lower() in ("la marca", "marca", "el precio", "precio", "el color", "color"):
+            return ""
+
         if keep != "":
             return keep
 
@@ -558,6 +584,9 @@ def _handle_chat_turn(payload: ChatTurnIn):
         compound_keep_segment = _extract_compound_keep_segment(payload.message)
         if compound_keep_segment != "":
             operation = "replace"
+        else:
+            # Si no hay "keep" específico (ej: "deja solo la marca"), no forzar replace.
+            is_compound = False
 
     # Si hay contexto previo y el mensaje parece una búsqueda nueva completa,
     # preferimos replace para evitar acumular filtros no intencionales.
