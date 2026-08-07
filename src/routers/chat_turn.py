@@ -262,9 +262,18 @@ def _merge_filters(
 
         # Si el mensaje contiene verbo de remover + concepto, lo removemos aunque no haya embeddings.
         if re.search(r"\b(saca|sacar|quita|quitar|sin|remove)\b", msg_l):
-            for concept, fields in concept_to_fields.items():
-                if re.search(rf"\b{re.escape(concept)}\b", msg_l):
-                    explicit_remove_fields.update(fields)
+            # Excepción: "quita el precio y deja solo la marca" => NO remover manufacturer.
+            # La intención es remover el precio y mantener la marca (aunque no especifique cuál).
+            if (
+                re.search(r"\bprecio\b", msg_l)
+                and re.search(r"\bmarca\b", msg_l)
+                and re.search(r"\bdeja(?:me)?\s+solo\b", msg_l)
+            ):
+                explicit_remove_fields.update({"price"})
+            else:
+                for concept, fields in concept_to_fields.items():
+                    if re.search(rf"\b{re.escape(concept)}\b", msg_l):
+                        explicit_remove_fields.update(fields)
 
         logger.info(
             "[merge_filters] explicit_remove_fields=%s prev_fields=%s",
