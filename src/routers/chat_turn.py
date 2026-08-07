@@ -390,20 +390,24 @@ def _strip_removed_tokens_from_search_text(previous_search_text: str, message: s
     if prev == "" or msg == "":
         return prev
 
-    wants_remove_color = bool(
-        re.search(r"\\b(quita(?:r)?|saca(?:r)?)\\s+(?:el\\s+)?color\\b", msg)
-    )
+    # Solo limpiamos si el mensaje realmente indica "remover" algo.
+    if not re.search(r"\b(saca|sacar|quita|quitar|sin|remove)\b", msg, flags=re.IGNORECASE):
+        return prev
+
+    wants_remove_color = bool(re.search(r"\bcolor\b", msg, flags=re.IGNORECASE))
 
     if wants_remove_color:
         # soporta:
         # - "color negro" / "de color negro"
         # - "color: negro" / "de color: negro"
         # - token suelto "color"
-        prev = re.sub(r"\\bde\\s+color\\s+[a-záéíóúñ0-9]+\\b", "", prev, flags=re.IGNORECASE)
-        prev = re.sub(r"\\bcolor\\s*[=:]?\\s*[a-záéíóúñ0-9]+\\b", "", prev, flags=re.IGNORECASE)
-        prev = re.sub(r"\\bcolor\\b", "", prev, flags=re.IGNORECASE)
+        prev_before = prev
+        prev = re.sub(r"\bde\s+color\s+[a-záéíóúñ0-9]+\b", "", prev, flags=re.IGNORECASE)
+        prev = re.sub(r"\bcolor\s*[=:]?\s*[a-záéíóúñ0-9]+\b", "", prev, flags=re.IGNORECASE)
+        prev = re.sub(r"\bcolor\b", "", prev, flags=re.IGNORECASE)
+        logger.info("[strip_removed] wants_remove_color=True before=%r after=%r", prev_before, prev)
 
-    prev = re.sub(r"\\s+", " ", prev).strip()
+    prev = re.sub(r"\s+", " ", prev).strip()
     return prev
 
 
